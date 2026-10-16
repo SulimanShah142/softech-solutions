@@ -5,6 +5,13 @@ const brandPalette = [
   { css: "#edf3fa", rgb: "237,243,250" },
 ] as const;
 
+export const BrandGradient = [
+  brandPalette[0].css,
+  brandPalette[1].css,
+  brandPalette[2].css,
+  brandPalette[3].css,
+] as const;
+
 export const BrandColors = {
   primary: brandPalette[0],
   secondary: brandPalette[1],

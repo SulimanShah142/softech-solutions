@@ -1,8 +1,8 @@
-'use client';
+﻿'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useLayoutEffect } from 'react';
 import {
   Wallet,
   Shield,
@@ -22,13 +22,39 @@ import {
   Star,
   CreditCard as CreditCardIcon,
   Activity,
-  Mail,
-  GitBranch,
-  Briefcase,
   Heart,
   ChevronDown,
   ShieldCheck,
+  Globe2,
+  Cpu,
+  ArrowUpRight,
+  Code2,
+  Sparkles,
+  Layers3,
+  Network,
+  BrainCircuit,
+  Blocks,
+  CloudCog,
+  Workflow,
+  ArrowDownRight,
 } from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
+import SiteNavbar from "@/components/site-navbar";
+import ComputerScene from "@/components/ComputerScene";
+import SplitText from "@/components/SplitText";
+import LaserFlow from "@/components/LaserFlow";
+import EngineeringSection from '@/components/EngineeringSection';
+import CursorGrid from '@/components/CursorGrid';
+import { BrandGradient } from '@/theme/colors';
+import CapabilitiesSection from '@/components/capabilities/CapabilitiesSection';
+import ContactSection from '@/components/contact/ContactSection';
+import {
+  SITE_LANGUAGE_CHANGE_EVENT,
+  SITE_LANGUAGE_STORAGE_KEY,
+  isSiteLanguage,
+  type SiteLanguage,
+} from '@/lib/site-language';
+
 
 const DEFAULT_PALETTE = [
   { css: '#eab308', rgb: '234,179,8' },
@@ -206,6 +232,226 @@ const process = [
       'We build, refine, and support the solution with transparent communication and practical delivery.',
   },
 ];
+
+const heroTranslations: Record<
+  SiteLanguage,
+  {
+    eyebrow: string;
+    headline: [string, string];
+    description: string;
+    startProject: string;
+    exploreServices: string;
+    buildHeading: string;
+    capabilities: [string, string, string];
+    signature: string;
+    engineering: string;
+    engineeringTagline: string;
+    systemsOnline: string;
+    workflowSummary: string;
+    workflow: [string, string, string];
+  }
+> = {
+  en: {
+    eyebrow: 'Independent software engineering studio',
+    headline: ['Ideas into', 'digital reality.'],
+    description:
+      'We turn ambitious ideas into dependable software, modern digital products, and intelligent solutions built around real business needs.',
+    startProject: 'Start a project',
+    exploreServices: 'Explore our services',
+    buildHeading: 'What we build',
+    capabilities: ['Software', 'Web & Mobile', 'AI & Automation'],
+    signature: 'Thoughtful engineering. Practical results.',
+    engineering: 'Engineering',
+    engineeringTagline: 'Built with purpose',
+    systemsOnline: 'Systems online',
+    workflowSummary: 'Design · Build · Deploy',
+    workflow: ['Design', 'Build', 'Evolve'],
+  },
+  'fa-AF': {
+    eyebrow: 'استودیوی مستقل انجنیری نرم‌افزار',
+    headline: ['ایده‌ها را به', 'واقعیت دیجیتال تبدیل می‌کنیم'],
+    description:
+      'ایده‌های بزرگ را به نرم‌افزار قابل اعتماد، محصولات دیجیتال نوین و راهکارهای هوشمند متناسب با نیازهای واقعی کسب‌وکار تبدیل می‌کنیم.',
+    startProject: 'آغاز یک پروژه',
+    exploreServices: 'دیدن خدمات ما',
+    buildHeading: 'ما چه می‌سازیم',
+    capabilities: ['نرم‌افزار', 'وب و موبایل', 'هوش مصنوعی و خودکارسازی'],
+    signature: 'انجنیری سنجیده. نتیجه‌های عملی.',
+    engineering: 'انجنیری',
+    engineeringTagline: 'با هدف ساخته شده',
+    systemsOnline: 'سیستم‌ها فعال‌اند',
+    workflowSummary: 'طراحی · ساخت · راه‌اندازی',
+    workflow: ['طراحی', 'ساخت', 'پیشرفت'],
+  },
+  ps: {
+    eyebrow: 'د سافټویر خپلواک انجینري سټوډیو',
+    headline: ['نظرونه په', 'ډیجیټلي واقعیت بدلوو'],
+    description:
+      'لوی نظرونه په باوري سافټویر، عصري ډیجیټلي محصولاتو او هوښیار حللارو بدلوو چې د سوداګرۍ له واقعي اړتیاوو سره برابر وي.',
+    startProject: 'یوه پروژه پیل کړئ',
+    exploreServices: 'زموږ خدمتونه وګورئ',
+    buildHeading: 'موږ څه جوړوو',
+    capabilities: ['سافټویر', 'وېب او موبایل', 'مصنوعي ځیرکتیا او اتومات'],
+    signature: 'دقیق انجینري. عملي پایلې.',
+    engineering: 'انجینري',
+    engineeringTagline: 'په موخه جوړه شوې',
+    systemsOnline: 'سیسټمونه فعال دي',
+    workflowSummary: 'ډیزاین · جوړول · خپرول',
+    workflow: ['ډیزاین', 'جوړول', 'پرمختګ'],
+  },
+};
+
+const technologyTranslations: Record<
+  SiteLanguage,
+  {
+    eyebrow: string;
+    heading: [string, string, string];
+    description: string;
+    cards: {
+      label: string;
+      title: string;
+      description: string;
+      tags: string[];
+      footer: string;
+    }[];
+    footerHeading: string;
+    footerDescription: string;
+    footerCta: string;
+  }
+> = {
+  en: {
+    eyebrow: 'The Technology Studio',
+    heading: ['Beyond', 'conventional', 'software.'],
+    description:
+      'We engineer intelligent systems, digital products, and next-generation experiences for businesses ready to move forward.',
+    cards: [
+      {
+        label: 'Intelligence',
+        title: 'AI, ML & Intelligent Systems',
+        description:
+          'Turn complex workflows and valuable data into smarter, more capable business systems.',
+        tags: ['Applied AI', 'Automation', 'AI Integration'],
+        footer: 'Intelligent by design',
+      },
+      {
+        label: 'Digital experiences',
+        title: 'Web, Mobile & 3D Experiences',
+        description:
+          'Build polished digital products, from business platforms and mobile apps to immersive interactive websites.',
+        tags: ['Web Platforms', 'Mobile Apps', 'UI / UX', '3D Web'],
+        footer: 'Built for people',
+      },
+      {
+        label: 'Connected systems',
+        title: 'Blockchain & Financial Technology',
+        description:
+          'Engineer transaction workflows, connected financial software, and applications built around distributed systems.',
+        tags: ['Blockchain', 'Smart Contracts', 'FinTech'],
+        footer: 'Systems that connect',
+      },
+      {
+        label: 'Digital foundations',
+        title: 'Cloud, Infrastructure & Digital Systems',
+        description:
+          'Connect services, streamline operations, and build reliable software foundations that can grow with your business.',
+        tags: ['Backend & APIs', 'Cloud Systems', 'Business Software'],
+        footer: 'Designed to scale',
+      },
+    ],
+    footerHeading: 'Different disciplines. One engineering mindset.',
+    footerDescription:
+      'Practical solutions shaped around your business, not the other way around.',
+    footerCta: 'Discuss your project',
+  },
+  'fa-AF': {
+    eyebrow: 'استودیوی فناوری',
+    heading: ['فراتر از', 'نرم‌افزارهای', 'معمول'],
+    description:
+      'برای کسب‌وکارهایی که آماده پیشرفت‌اند، سیستم‌های هوشمند، محصولات دیجیتال و تجربه‌های نسل نو می‌سازیم.',
+    cards: [
+      {
+        label: 'هوشمندی',
+        title: 'هوش مصنوعی، یادگیری ماشین و سیستم‌های هوشمند',
+        description:
+          'فرایندهای پیچیده و داده‌های ارزشمند را به سیستم‌های تجاری هوشمندتر و توانمندتر تبدیل می‌کنیم.',
+        tags: ['هوش مصنوعی کاربردی', 'خودکارسازی', 'یکپارچه‌سازی هوش مصنوعی'],
+        footer: 'هوشمندی در طراحی',
+      },
+      {
+        label: 'تجربه‌های دیجیتال',
+        title: 'تجربه‌های وب، موبایل و سه‌بعدی',
+        description:
+          'محصولات دیجیتال سنجیده می‌سازیم؛ از پلتفرم‌های تجاری و اپلیکیشن‌های موبایل تا وب‌سایت‌های تعاملی و فراگیر.',
+        tags: ['پلتفرم‌های وب', 'اپلیکیشن‌های موبایل', 'رابط و تجربه کاربری', 'وب سه‌بعدی'],
+        footer: 'ساخته‌شده برای مردم',
+      },
+      {
+        label: 'سیستم‌های پیوسته',
+        title: 'بلاک‌چین و فناوری مالی',
+        description:
+          'گردش‌کارهای تراکنش، نرم‌افزارهای مالی پیوسته و برنامه‌های مبتنی بر سیستم‌های توزیع‌شده را مهندسی می‌کنیم.',
+        tags: ['بلاک‌چین', 'قراردادهای هوشمند', 'فناوری مالی'],
+        footer: 'سیستم‌هایی برای پیوند',
+      },
+      {
+        label: 'زیرساخت‌های دیجیتال',
+        title: 'ابر، زیرساخت و سیستم‌های دیجیتال',
+        description:
+          'خدمات را به هم وصل می‌کنیم، عملیات را ساده می‌سازیم و زیربناهای نرم‌افزاری پایداری می‌سازیم که همراه کسب‌وکار شما رشد کنند.',
+        tags: ['بخش پشتی و APIها', 'سیستم‌های ابری', 'نرم‌افزارهای تجاری'],
+        footer: 'آماده گسترش',
+      },
+    ],
+    footerHeading: 'رشته‌های گوناگون؛ یک نگرش مهندسی.',
+    footerDescription:
+      'راهکارهای عملی بر پایه نیازهای کسب‌وکار شما، نه برعکس.',
+    footerCta: 'درباره پروژه‌تان گفت‌وگو کنیم',
+  },
+  ps: {
+    eyebrow: 'د ټکنالوژۍ سټوډیو',
+    heading: ['له دودیز', 'سافټویر', 'څخه هاخوا'],
+    description:
+      'د هغو سوداګریو لپاره هوښیار سیسټمونه، ډیجیټلي محصولات او د راتلونکي نسل تجربې جوړوو چې پرمختګ ته چمتو دي.',
+    cards: [
+      {
+        label: 'هوښیارتیا',
+        title: 'مصنوعي ځیرکتیا، ماشیني زده‌کړه او هوښیار سیسټمونه',
+        description:
+          'پېچلي کاري بهیرونه او ارزښتناک معلومات په لا هوښیار او پیاوړو سوداګریزو سیسټمونو بدلوو.',
+        tags: ['عملي مصنوعي ځیرکتیا', 'اتومات کول', 'د ځیرکتیا یوځای کول'],
+        footer: 'په ډیزاین کې هوښیارتیا',
+      },
+      {
+        label: 'ډیجیټلي تجربې',
+        title: 'وېب، موبایل او درې‌بعدي تجربې',
+        description:
+          'ښکلي ډیجیټلي محصولات جوړوو؛ له سوداګریزو پلېټفارمونو او موبایل اپلېکېشنونو نیولې تر متقابلو وېبپاڼو پورې.',
+        tags: ['وېب پلېټفارمونه', 'موبایل اپلېکېشنونه', 'د کارن تجربه', 'درې‌بعدي وېب'],
+        footer: 'د خلکو لپاره جوړ شوی',
+      },
+      {
+        label: 'نښتي سیسټمونه',
+        title: 'بلاکچېن او مالي ټکنالوژي',
+        description:
+          'د راکړې ورکړې کاري بهیرونه، سره تړلي مالي سافټویرونه او پر وېشل شوو سیسټمونو ولاړ اپلېکېشنونه جوړوو.',
+        tags: ['بلاکچېن', 'ځیرک قراردادونه', 'مالي ټکنالوژي'],
+        footer: 'د نښلونکو سیسټمونو جوړول',
+      },
+      {
+        label: 'ډیجیټلي بنسټونه',
+        title: 'کلاوډ، زېربنا او ډیجیټلي سیسټمونه',
+        description:
+          'خدمتونه نښلوو، چارې اسانوو او داسې باوري سافټویري بنسټونه جوړوو چې ستاسو له سوداګرۍ سره وده وکړي.',
+        tags: ['شاتني سیسټمونه او APIګانې', 'کلاوډ سیسټمونه', 'سوداګریز سافټویر'],
+        footer: 'د پراختیا لپاره طرحه شوی',
+      },
+    ],
+    footerHeading: 'بېلابېلې څانګې؛ یوه انجینري لیدلوری.',
+    footerDescription:
+      'عملي حللارې ستاسو د سوداګرۍ د اړتیاوو له مخې جوړېږي، نه برعکس.',
+    footerCta: 'د خپلې پروژې په اړه خبرې وکړئ',
+  },
+};
 
 /* ─────────────────────────────────────────────────────────────
    useInView
@@ -1693,54 +1939,65 @@ const testimonials = [
   },
 ];
 
-const footerLinks = [
+const testimonialTranslations: Record<
+  SiteLanguage,
   {
-    title: 'Platform',
-    links: [
-      { label: 'Wallet', href: '/wallet' },
-      { label: 'Exchange', href: '/exchange' },
-      { label: 'Cards', href: '/cards' },
-      { label: 'Remittances', href: '/remittances' },
-      { label: 'API', href: '/api' },
-    ],
+    eyebrow: string;
+    heading: [string, string];
+    description: string;
+    cta: string;
+    empty: string;
+    perspective: string;
+    quotes: Record<string, { text: string; date: string }>;
+  }
+> = {
+  en: {
+    eyebrow: 'What our clients say',
+    heading: ['Good work speaks.', 'Our clients speak louder.'],
+    description:
+      'The best measure of our work is the experience of the people we build it for. Explore feedback from clients who have worked with SofTech.',
+    cta: 'Discuss your project',
+    empty: 'Client feedback will be featured here soon.',
+    perspective: 'Client perspective',
+    quotes: {},
   },
-  {
-    title: 'Company',
-    links: [
-      { label: 'About Us', href: '/about' },
-      { label: 'Careers', href: '/careers' },
-      { label: 'Press Kit', href: '/press' },
-      { label: 'Blog', href: '/blog' },
-      { label: 'Brand Guidelines', href: '/brand' },
-    ],
+  'fa-AF': {
+    eyebrow: 'دیدگاه مشتریان ما',
+    heading: ['کار خوب خود گویای همه‌چیز است.', 'مشتریان ما گویاترند.'],
+    description:
+      'بهترین معیار کار ما تجربه کسانی است که برای‌شان می‌سازیم. دیدگاه مشتریانی را بخوانید که با SofTech همکاری کرده‌اند.',
+    cta: 'درباره پروژه‌تان گفتگو کنید',
+    empty: 'دیدگاه مشتریان به‌زودی در اینجا نمایش داده می‌شود.',
+    perspective: 'دیدگاه مشتری',
+    quotes: {
+      'Ahmad K.': { text: 'AtlasPay فرستادن پول برای خانواده‌ام در هرات را بسیار آسان کرد. فوری و امن است.', date: '۲ روز پیش' },
+      'Fatima M.': { text: 'سرانجام پلتفرمی که می‌توانم به آن اعتماد کنم. قابلیت کیف پول دقیقاً همان چیزی است که برای کسب‌وکارم نیاز داشتم.', date: '۱ هفته پیش' },
+      'Omar S.': { text: 'معامله رمزارز روان است و قیمت‌ها همیشه به‌روز اند. بهترین اپلیکیشن در افغانستان.', date: '۳ روز پیش' },
+      'Zarina H.': { text: 'هر روز برای کسب‌وکار حواله‌ام از AtlasPay استفاده می‌کنم. کارمزدها بی‌رقیب و انتقال‌ها فوری اند.', date: '۵ روز پیش' },
+      'Mohammad R.': { text: 'کیف پول دوارزی همه‌چیز را تغییر داد. می‌توانم دالر و افغانی نگه دارم و هر زمان بخواهم معامله کنم.', date: '۱ روز پیش' },
+      'Lailuma N.': { text: 'به‌عنوان صاحب یک کسب‌وکار کوچک، AtlasPay کمک می‌کند پرداخت‌های رمزارزی مشتریان خارج از کشور را به‌آسانی بپذیرم.', date: '۲ هفته پیش' },
+    },
   },
-  {
-    title: 'Support',
-    links: [
-      { label: 'Help Center', href: '/help' },
-      { label: 'Contact Us', href: '/contact' },
-      { label: 'Status', href: '/status' },
-      { label: 'Community', href: '/community' },
-      { label: 'Security', href: '/security' },
-    ],
+  ps: {
+    eyebrow: 'زموږ پېرودونکي څه وایي',
+    heading: ['ښه کار خپله خبرې کوي.', 'زموږ پېرودونکي لا ډېرې خبرې کوي.'],
+    description:
+      'زموږ د کار تر ټولو ښه معیار د هغو خلکو تجربه ده چې موږ ورته محصولات جوړوو. د هغو پېرودونکو نظرونه وګورئ چې له SofTech سره یې کار کړی دی.',
+    cta: 'د خپلې پروژې په اړه خبرې وکړئ',
+    empty: 'د پېرودونکو نظرونه به ژر دلته خپاره شي.',
+    perspective: 'د پېرودونکي نظر',
+    quotes: {
+      'Ahmad K.': { text: 'AtlasPay په هرات کې خپلې کورنۍ ته د پیسو لېږل راته ډېر اسانه کړل. لېږدونه فوري او خوندي دي.', date: '۲ ورځې مخکې' },
+      'Fatima M.': { text: 'بالاخره داسې پلاتفورم چې باور پرې کولی شم. د والټ ځانګړنه زما د سوداګرۍ لپاره بالکل اړینه وه.', date: '۱ اونۍ مخکې' },
+      'Omar S.': { text: 'د کریپټو سوداګري اسانه ده او بیې تل تازه وي. په افغانستان کې تر ټولو ښه اپلېکېشن دی.', date: '۳ ورځې مخکې' },
+      'Zarina H.': { text: 'زه هره ورځ د حوالې سوداګرۍ لپاره AtlasPay کاروم. فیسونه یې بې سیاله او پیسې سمدستي لېږدول کېږي.', date: '۵ ورځې مخکې' },
+      'Mohammad R.': { text: 'د دوو اسعارو والټ هر څه بدل کړل. ډالر او افغانۍ ساتلی شم او هر وخت سوداګري کولی شم.', date: '۱ ورځ مخکې' },
+      'Lailuma N.': { text: 'د یوې کوچنۍ سوداګرۍ د خاوندې په توګه، AtlasPay راسره مرسته کوي چې له بهرنیو پېرودونکو د کریپټو پیسې په اسانۍ ومنم.', date: '۲ اونۍ مخکې' },
+    },
   },
-  {
-    title: 'Legal',
-    links: [
-      { label: 'Terms of Service', href: '/terms' },
-      { label: 'Privacy Policy', href: '/privacy' },
-      { label: 'Cookie Policy', href: '/cookies' },
-      { label: 'Licenses', href: '/licenses' },
-      { label: 'Compliance', href: '/compliance' },
-    ],
-  },
-];
+};
 
-const socialLinks = [
-  { icon: GitBranch, href: '#', label: 'GitHub' },
-  { icon: Briefcase, href: '#', label: 'Business' },
-  { icon: Mail, href: '#', label: 'Email' },
-];
+
 
 const FOOTER_COINS = [
   { symbol: 'BTC', price: 67284, change: 2.4 },
@@ -1753,7 +2010,7 @@ const FOOTER_COINS = [
    NavMegaMenu sub-component
 ══════════════════════════════════════════════════════════ */
 interface NavDropdownItem {
-  icon: React.ElementType;
+  icon: LucideIcon;
   label: string;
   desc: string;
   href: string;
@@ -1762,7 +2019,6 @@ interface NavDropdownItem {
 }
 
 // Simple mock components to satisfy type compiler checks if necessary
-interface NavDropdownItem { label: string; href: string; desc: string; icon: React.ElementType; color: string; badge?: string; }
 
 /* ─────────────────────────────────────────────────────────────
    NavMegaMenu Component
@@ -2364,7 +2620,7 @@ export function StatCard({ value, label, icon: Icon, index, inView = true }: Sta
 type StatCardProps = {
   value: string;
   label: string;
-  icon?: React.ElementType;
+  icon?: LucideIcon;
   index: number;
   inView?: boolean;
 };
@@ -2505,500 +2761,575 @@ interface TestimonialCardProps {
   index?: number;
 }
 
-/* ─────────────────────────────────────────────────────────────
-   TestimonialAvatar Component
-───────────────────────────────────────────────────────────── */
-export function TestimonialAvatar({
-  name = 'Trader',
-  seed,
-}: {
-  name: string;
-  seed?: number;
-}) {
-  // Crashproof parsing structure strips spacing issues safely before index access
-  const initials = String(name || '')
-    .trim()
-    .split(/\s+/)
-    .filter(Boolean)
-    .map((n) => (n && n[0] ? n[0] : ''))
-    .filter(Boolean)
-    .join('')
-    .substring(0, 2)
-    .toUpperCase();
-    
-  const safeNameLength = String(name || '').length || 6;
-  const hue = (seed ?? safeNameLength * 40) % 360;
-  
-  return (
-    <div
-      className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0 select-none border border-white/5"
-      style={{
-        background: `linear-gradient(135deg, hsl(${hue}, 55%, 35%), hsl(${(hue + 30) % 360}, 45%, 25%))`,
-        boxShadow: `0 0 0 2px rgba(${BrandColors.primary.rgb}, 0.15)`,
-      }}
-    >
-      {initials || 'U'}
-    </div>
-  );
-}
 
 /* ─────────────────────────────────────────────────────────────
-   RatingBar Component
+   SofTech Testimonials
 ───────────────────────────────────────────────────────────── */
-export function RatingBar({ rating = 5 }: { rating?: number }) {
-  return (
-    <div className="flex items-center gap-0.5">
-      {Array.from({ length: 5 }).map((_, i) => {
-        const isFilled = i < rating;
-        return (
-          <Star
-            key={`rating-star-${i}`}
-            size={12}
-            /* 🚀 Fixed: Aligned to dynamic theme primary gold tokens while keeping original markup style */
-            className={cn(
-              "transition-colors duration-200",
-              isFilled ? "text-primary fill-primary" : "text-muted-foreground/30 fill-none"
-            )}
-          />
-        );
-      })}
-    </div>
-  );
-}
-
-/* ─────────────────────────────────────────────────────────────
-   TestimonialCard Component
-───────────────────────────────────────────────────────────── */
-export function TestimonialCard({ name = 'Trader', role, amount, date, rating, text, index = 0 }: TestimonialCardProps) {
-  const safeName = String(name || '').trim() || 'Trader';
-
-  return (
-    <div
-      className="group relative rounded-2xl p-5 transition-all duration-500 border border-border/40 select-none"
-      style={{
-        /* 🚀 Fixed Card Transparency: Solid charcoal canvas ensures background particles can no longer bleed through */
-        background: '#12161A',
-        animationDelay: `${index * 100}ms`,
-      }}
-    >
-      {/* Glow halo mapped safely to central color variables */}
-      <div
-        className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-        style={{
-          background: `radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(${BrandColors.primary.rgb}, 0.04) 0%, transparent 60%)`,
-        }}
-      />
-      <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-      
-      <div className="relative z-10 flex flex-col gap-3">
-        <div className="flex items-center justify-between">
-          <RatingBar rating={rating} />
-          {/* Mapped amount badge safely to central success colors */}
-          <span className="text-[11px] font-mono text-success font-bold tracking-tight">
-            {amount}
-          </span>
-        </div>
-        
-        <p className="text-foreground/90 text-sm leading-relaxed text-left">&ldquo;{text}&rdquo;</p>
-        
-        <div className="flex items-center gap-3 mt-auto pt-2 border-t border-border/40">
-          <TestimonialAvatar name={safeName} seed={safeName.length} />
-          <div className="flex-1 min-w-0 text-left">
-            <div className="flex items-center gap-2">
-              <span className="text-sm font-bold text-foreground truncate">{safeName}</span>
-              <span className="w-4 h-4 rounded-full bg-success/10 flex items-center justify-center shrink-0 border border-success/20">
-                <CheckCircle size={10} className="text-success" />
-              </span>
-            </div>
-            <div className="flex items-center gap-2 text-xs text-muted-foreground/60 mt-0.5 font-medium">
-              <span>{role}</span>
-              <span className="w-1 h-1 rounded-full bg-border" />
-              <span>{date}</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 export interface TestimonialData {
   name: string;
   role: string;
-  amount: string;
-  date: string;
-  rating: number;
   text: string;
+  date?: string;
+  project?: string;
+
+  // Optional legacy fields so existing data can be migrated gradually.
+  // These are deliberately not displayed in the new design.
+  amount?: string;
+  rating?: number;
 }
 
+/* ── Client Avatar ── */
+
+export function TestimonialAvatar({
+  name,
+}: {
+  name?: string;
+  seed?: number;
+}) {
+  const initials = String(name ?? "")
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+
+  return (
+    <div
+      aria-hidden="true"
+      className="flex h-11 w-11 shrink-0 select-none items-center justify-center rounded-xl border border-[#28D9A0]/20 bg-[#28D9A0]/[0.08] text-sm font-bold text-[#28D9A0]"
+    >
+      {initials || "C"}
+    </div>
+  );
+}
+
+/* ── Testimonial Card ── */
+
+export function TestimonialCard({
+  name,
+  role,
+  text,
+  date,
+  project,
+  language = 'en',
+}: TestimonialData & { index?: number; language?: SiteLanguage }) {
+  const copy = testimonialTranslations[language];
+  const localizedQuote = copy.quotes[name];
+  const isRtl = language !== 'en';
+  return (
+    <article lang={language} dir={isRtl ? 'rtl' : 'ltr'} className="group relative flex h-full min-h-[250px] flex-col overflow-hidden rounded-2xl border border-white/[0.08] bg-[#080E19] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-[#28D9A0]/30 hover:bg-[#0A1220] sm:p-7">
+      {/* Fine technical accent */}
+      <div
+        aria-hidden="true"
+        className="absolute left-6 right-6 top-0 h-px bg-gradient-to-r from-transparent via-[#28D9A0]/50 to-transparent opacity-50 transition-opacity duration-300 group-hover:opacity-100"
+      />
+
+      <div className={`mb-6 flex items-center justify-between ${isRtl ? 'flex-row-reverse' : ''}`}>
+        <span className={`text-[10px] font-semibold uppercase ${isRtl ? '' : 'tracking-[0.2em]'} text-[#28D9A0]/80`}>
+          {copy.perspective}
+        </span>
+
+        <span
+          aria-hidden="true"
+          className="font-serif text-4xl leading-none text-[#28D9A0]/30"
+        >
+          “
+        </span>
+      </div>
+
+      <blockquote className={`flex-1 text-sm leading-7 text-slate-300 ${isRtl ? 'text-right' : 'text-left'}`}>
+        {localizedQuote?.text ?? text}
+      </blockquote>
+
+      {project ? (
+        <div className="mt-5">
+          <span className="inline-flex items-center rounded-md border border-white/[0.08] bg-white/[0.025] px-2.5 py-1 text-[10px] font-medium tracking-wide text-slate-400">
+            {project}
+          </span>
+        </div>
+      ) : null}
+
+      <div className={`mt-6 flex items-center gap-3 border-t border-white/[0.07] pt-5 ${isRtl ? 'flex-row-reverse' : ''}`}>
+        <TestimonialAvatar name={name} />
+
+        <div className={`min-w-0 flex-1 ${isRtl ? 'text-right' : 'text-left'}`}>
+          <p className="truncate text-sm font-semibold text-white">
+            {name}
+          </p>
+
+          <p className="mt-1 truncate text-xs text-slate-500">
+            <bdi>{role}</bdi>
+          </p>
+        </div>
+
+        {date ? (
+          <span className="shrink-0 text-[10px] text-slate-600">
+            {localizedQuote?.date ?? date}
+          </span>
+        ) : null}
+      </div>
+    </article>
+  );
+}
+
+/* ── Continuous Testimonial Marquee ── */
 
 export function MarqueeRow({
   items = [],
-  direction = 'left',
-  speed = 30,
+  direction = "left",
+  speed = 36,
+  language = 'en',
 }: {
   items: TestimonialData[];
-  direction?: 'left' | 'right';
+  direction?: "left" | "right";
   speed?: number;
+  language?: SiteLanguage;
 }) {
-  const [rowId, setRowId] = useState('');
-
-  useEffect(() => {
-    setRowId(`marquee-${Math.random().toString(36).slice(2, 9)}`);
-  }, []);
-
-  // Guard rails: safe fallback check avoids crashing during async network fetch phases
+  const isRtl = language !== 'en';
   const safeItems = Array.isArray(items) ? items : [];
-  const combinedItems = [...safeItems, ...safeItems];
+
+  if (safeItems.length === 0) {
+    return null;
+  }
+
+  // Duplicate the sequence to create a continuous scrolling track.
+  const repeatedItems = [...safeItems, ...safeItems];
 
   return (
-    <div className="relative overflow-hidden w-full">
-      {rowId ? (
-        <style>{`
-          @keyframes ${rowId} {
-            0%   { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+    <div className="group/marquee relative w-full overflow-hidden">
+      <style>{`
+        @keyframes softechTestimonialScroll {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .softech-testimonial-track {
+            animation-play-state: paused !important;
+            transform: none !important;
           }
-        `}</style>
-      ) : null}
-      
+        }
+      `}</style>
+
+      {/* Edge fades */}
       <div
-        className="flex gap-4 w-max"
+        aria-hidden="true"
+        className={`pointer-events-none absolute inset-y-0 ${isRtl ? 'right-0 bg-gradient-to-l' : 'left-0 bg-gradient-to-r'} z-10 w-10 from-[#050914] to-transparent sm:w-24`}
+      />
+
+      <div
+        aria-hidden="true"
+        className={`pointer-events-none absolute inset-y-0 ${isRtl ? 'left-0 bg-gradient-to-r' : 'right-0 bg-gradient-to-l'} z-10 w-10 from-[#050914] to-transparent sm:w-24`}
+      />
+
+      <div
+        className="softech-testimonial-track flex w-max gap-5 group-hover/marquee:[animation-play-state:paused]"
         style={{
-          animation: rowId ? `${rowId} ${speed}s linear infinite` : 'none',
-          animationDirection: direction === 'right' ? 'reverse' : 'normal',
+          animationName: "softechTestimonialScroll",
+          animationDuration: `${Math.max(1, speed)}s`,
+          animationTimingFunction: "linear",
+          animationIterationCount: "infinite",
+          animationDirection: (direction === "right") !== isRtl ? "reverse" : "normal",
         }}
       >
-        {combinedItems.length > 0 ? (
-          combinedItems.map((t, i) => (
-            <div key={t?.name ? `${t.name}-${i}` : `marquee-card-${i}`} className="w-[340px] shrink-0">
-              <TestimonialCard {...t} index={i} />
-            </div>
-          ))
-        ) : (
-          // Opaque solid skeletons stand up securely against particle layers
-          Array.from({ length: 3 }).map((_, i) => (
-            <div 
-              key={`marquee-skeleton-${i}`} 
-              className="w-[340px] h-44 animate-pulse rounded-lg border backdrop-blur-md shrink-0" 
-              style={{ backgroundColor: '#12161A', borderColor: '#22262A' }}
-            />
-          ))
-        )}
+        {repeatedItems.map((item, index) => (
+          <div
+            key={`${item.name}-${index}`}
+            className="w-[300px] shrink-0 sm:w-[350px]"
+          >
+            <TestimonialCard {...item} language={language} />
+          </div>
+        ))}
       </div>
     </div>
   );
 }
 
-/* ─────────────────────────────────────────────────────────────
-   TestimonialsSection Component
-───────────────────────────────────────────────────────────── */
-export function TestimonialsSection() {
-  const safeTestimonials = Array.isArray(testimonials) ? testimonials : [];
+/* ── Testimonials Section ── */
+
+export function TestimonialsSection({ language }: { language: SiteLanguage }) {
+  const copy = testimonialTranslations[language];
+  const isRtl = language !== 'en';
+  const safeTestimonials = Array.isArray(testimonials)
+    ? testimonials
+    : [];
+
   const row1 = safeTestimonials.slice(0, 3);
   const row2 = safeTestimonials.slice(3, 6);
 
   return (
-    <section id="testimonials" className="relative z-10 py-20 sm:py-28 overflow-hidden bg-background/5">
-      {/* ── Dynamic Ambient Branding Backdrop Glow ── */}
-      <div className="absolute inset-0 pointer-events-none z-0">
-        <div
-          className="absolute top-1/2 left-1/4 w-[500px] h-[500px] rounded-full"
-          style={{
-            /* Seamlessly tracks your custom brand Gold Ochre parameters across configurations */
-            background: `radial-gradient(circle, rgba(${BrandColors.primary.rgb}, 0.3) 0%, transparent 70%)`,
-            opacity: 0.1, // Clean, elegant illumination overlay constraints
-            filter: 'blur(80px)',
-          }}
-        />
-      </div>
+    <section
+      id="testimonials"
+      lang={language}
+      dir={isRtl ? 'rtl' : 'ltr'}
+      aria-labelledby="softech-testimonials-heading"
+      className="relative z-10 overflow-hidden bg-[#050914] py-24 sm:py-32"
+    >
+      {/* Subtle engineering-inspired background */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px)",
+          backgroundSize: "64px 64px",
+          maskImage:
+            "linear-gradient(to bottom, transparent, black 20%, black 80%, transparent)",
+        }}
+      />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-16 relative z-10">
-        <div className="flex flex-col lg:flex-row items-start lg:items-end justify-between gap-6">
-          <div>
-            <div className="flex items-center gap-3 mb-3 select-none">
-              <div className="flex -space-x-2">
-                {safeTestimonials.slice(0, 4).map((t, idx) => (
-                  <TestimonialAvatar key={t?.name || idx} name={t?.name || 'Trader'} seed={String(t?.name || '').length} />
-                ))}
-              </div>
-              <div className="flex items-center gap-1.5 mt-0.5">
-                <RatingBar rating={5} />
-                <span className="text-xs text-muted-foreground/60 font-semibold ml-1">4.98 avg</span>
-              </div>
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 top-24 h-[360px] w-[600px] -translate-x-1/2 rounded-full bg-[#28D9A0]/[0.045] blur-[120px]"
+      />
+
+      <div className={`relative z-10 mx-auto mb-14 max-w-7xl px-4 sm:px-6 lg:mb-20 lg:px-8 ${isRtl ? 'text-right' : 'text-left'}`}>
+        <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
+          <div className="max-w-3xl">
+            <div className={`mb-5 flex items-center gap-3 ${isRtl ? 'flex-row-reverse' : ''}`}>
+              <span className="h-px w-8 bg-[#28D9A0]" />
+
+              <span className={`text-[10px] font-bold uppercase ${isRtl ? '' : 'tracking-[0.24em]'} text-[#28D9A0]`}>
+                {copy.eyebrow}
+              </span>
             </div>
-            
-            <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-foreground mb-2">
-              Trusted by thousands
+
+            <h2
+              id="softech-testimonials-heading"
+              className={`text-3xl font-semibold leading-tight text-white sm:text-4xl lg:text-5xl ${isRtl ? '' : 'tracking-[-0.04em]'}`}
+            >
+              {copy.heading[0]}
+              <span className="block text-slate-500">
+                {copy.heading[1]}
+              </span>
             </h2>
-            <p className="text-muted-foreground/80 text-base sm:text-lg max-w-xl font-medium mt-1">
-              Join the growing community of Afghans using AtlasPay for their daily financial needs.
+
+            <p className="mt-5 max-w-2xl text-sm leading-7 text-slate-400 sm:text-base">
+              {copy.description}
             </p>
           </div>
-          
-          <Link href="/testimonials">
-            <Button variant="ghost" size="sm" className="text-sm gap-1.5 shrink-0 font-bold group">
-              Read all reviews <ChevronRight size={14} className="transition-transform duration-200 group-hover:translate-x-0.5" />
-            </Button>
+
+          <Link
+            href="/#contact"
+            className={`inline-flex w-fit items-center gap-2 border-b border-[#28D9A0]/40 pb-2 text-sm font-medium text-white transition-colors hover:border-[#28D9A0] hover:text-[#28D9A0] ${isRtl ? 'flex-row-reverse' : ''}`}
+          >
+            {copy.cta}
+            <ArrowRight size={15} className={isRtl ? 'rotate-180' : ''} />
           </Link>
         </div>
       </div>
 
-      {/* Endless Horizontal Rolling Columns */}
-      <div className="flex flex-col gap-5 relative z-10">
-        <MarqueeRow items={row1} direction="left" speed={35} />
-        <MarqueeRow items={row2} direction="right" speed={30} />
-      </div>
+      {safeTestimonials.length > 0 ? (
+        <div className="relative z-10 flex flex-col gap-5">
+          <MarqueeRow items={row1} direction="left" speed={42} language={language} />
+
+          {row2.length > 0 ? (
+            <MarqueeRow items={row2} direction="right" speed={48} language={language} />
+          ) : null}
+        </div>
+      ) : (
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="rounded-2xl border border-white/[0.08] bg-white/[0.02] px-6 py-12 text-center">
+            <p className="text-sm text-slate-400">
+              {copy.empty}
+            </p>
+          </div>
+        </div>
+      )}
+
     </section>
   );
 }
 
+
+
+const footerLinks = [
+  {
+    title: "Services",
+    links: [
+      { label: "Website Development", href: "/#capabilities" },
+      { label: "Mobile Applications", href: "/#capabilities" },
+      { label: "Custom Software", href: "/#capabilities" },
+      { label: "AI & Automation", href: "/#capabilities" },
+      { label: "UI/UX Design", href: "/#capabilities" },
+    ],
+  },
+  {
+    title: "Company",
+    links: [
+      { label: "About Us", href: "/#engineering-section" },
+      { label: "Our Work", href: "/#capabilities" },
+      { label: "Client Reviews", href: "/#testimonials" },
+    ],
+  },
+  {
+    title: "Get in Touch",
+    links: [
+      { label: "Start a Project", href: "/#contact" },
+      {
+        label: "Email Us",
+        href: "mailto:info@softechsoftwaresystems.com",
+      },
+    ],
+  },
+];
+
+const footerTranslations: Record<
+  SiteLanguage,
+  {
+    description: string;
+    homeLabel: string;
+    groups: { title: string; links: string[] }[];
+    copyright: string;
+    tagline: string;
+    contact: string;
+  }
+> = {
+  en: {
+    description: 'We build digital products that help businesses work smarter, serve customers better, and move forward with confidence.',
+    homeLabel: 'SofTech Solutions home',
+    groups: [
+      { title: 'Services', links: ['Website Development', 'Mobile Applications', 'Custom Software', 'AI & Automation', 'UI/UX Design'] },
+      { title: 'Company', links: ['About Us', 'Our Work', 'Client Reviews'] },
+      { title: 'Get in Touch', links: ['Start a Project', 'Email Us'] },
+    ],
+    copyright: 'All rights reserved.',
+    tagline: 'Built with care. Designed for business.',
+    contact: 'Contact us',
+  },
+  'fa-AF': {
+    description: 'محصولات دیجیتال می‌سازیم تا کسب‌وکارها هوشمندانه‌تر کار کنند، بهتر به مشتریان خدمت کنند و با اطمینان پیشرفت کنند.',
+    homeLabel: 'صفحه اصلی SofTech Solutions',
+    groups: [
+      { title: 'خدمات', links: ['ساخت وب‌سایت', 'اپلیکیشن‌های موبایل', 'نرم‌افزار سفارشی', 'هوش مصنوعی و خودکارسازی', 'طراحی رابط و تجربه کاربری'] },
+      { title: 'شرکت', links: ['درباره ما', 'کارهای ما', 'دیدگاه مشتریان'] },
+      { title: 'تماس با ما', links: ['آغاز یک پروژه', 'فرستادن ایمیل'] },
+    ],
+    copyright: 'تمام حقوق محفوظ است.',
+    tagline: 'با دقت ساخته شده؛ برای کسب‌وکار طراحی شده.',
+    contact: 'تماس با ما',
+  },
+  ps: {
+    description: 'موږ ډیجیټلي محصولات جوړوو چې سوداګرۍ هوښیار کار وکړي، پېرودونکو ته ښه خدمت وکړي او په ډاډه زړه پرمختګ وکړي.',
+    homeLabel: 'د SofTech Solutions کورپاڼه',
+    groups: [
+      { title: 'خدمتونه', links: ['د وېب‌پاڼې جوړول', 'د موبایل اپلېکېشنونه', 'ځانګړی سافټویر', 'مصنوعي ځیرکتیا او اتومات', 'د کارن‌مخ او تجربې طرحه'] },
+      { title: 'شرکت', links: ['زموږ په اړه', 'زموږ کارونه', 'د پېرودونکو نظرونه'] },
+      { title: 'اړیکه ونیسئ', links: ['یوه پروژه پیل کړئ', 'برېښنالیک راولېږئ'] },
+    ],
+    copyright: 'ټول حقونه خوندي دي.',
+    tagline: 'په پاملرنې جوړ شوی؛ د سوداګرۍ لپاره طرحه شوی.',
+    contact: 'اړیکه ونیسئ',
+  },
+};
+
+
+
 /* ─────────────────────────────────────────────────────────────
    Footer
 ───────────────────────────────────────────────────────────── */
-function Footer() {
-  const [email, setEmail] = useState('');
-  const [subscribed, setSubscribed] = useState(false);
-  const [langOpen, setLangOpen] = useState(false);
 
-  const handleSubscribe = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email) {
-      setSubscribed(true);
-      setEmail('');
-      setTimeout(() => setSubscribed(false), 3000);
-    }
-  };
+function Footer({ language }: { language: SiteLanguage }) {
+  const copy = footerTranslations[language];
+  const isRtl = language !== 'en';
+  const [currentYear, setCurrentYear] = useState<number | null>(null);
 
-return (
-  <>
-    {/* ── Pre-footer CTA ── */}
-    <section className="relative z-10 py-20 sm:py-28 bg-background/5">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div
-          className="relative rounded-3xl overflow-hidden p-10 sm:p-14 md:p-16 border backdrop-blur-xl border-border/40"
-          style={{
-            background:
-              'linear-gradient(135deg, #1E2329 0%, #15191E 45%, #0B0E11 100%)',
-            boxShadow: '0 24px 64px rgba(0, 0, 0, 0.35)',
-          }}
-        >
-          {/* Ambient lights */}
-          <div className="absolute inset-0 pointer-events-none z-0">
-            <div
-              className="absolute -top-40 -right-40 w-[500px] h-[500px] rounded-full"
-              style={{
-                background: `radial-gradient(circle, rgba(${BrandColors.primary.rgb}, 0.3) 0%, transparent 70%)`,
-                opacity: 0.1,
-                filter: 'blur(80px)',
-              }}
-            />
-            <div
-              className="absolute -bottom-40 -left-40 w-[400px] h-[400px] rounded-full"
-              style={{
-                background: `radial-gradient(circle, rgba(${BrandColors.success.rgb}, 0.2) 0%, transparent 70%)`,
-                opacity: 0.1,
-                filter: 'blur(80px)',
-              }}
-            />
-          </div>
+  useEffect(() => {
+    setCurrentYear(new Date().getFullYear());
+  }, []);
 
-          <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
-            <div className="max-w-xl text-left">
-              <div className="flex items-center gap-2 mb-3">
-                <span className="text-[10px] font-bold text-primary uppercase tracking-[0.18em]">
-                  Stay ahead
+  return (
+    <>
+     
+      {/* ── Main Footer ── */}
+      <footer lang={language} dir={isRtl ? 'rtl' : 'ltr'} className="relative z-10 border-t border-border/40 bg-gradient-to-b from-popover to-background">
+        <div className="relative z-10 mx-auto max-w-7xl px-4 py-14 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-5 lg:gap-8">
+            {/* Brand */}
+            <div className={`${isRtl ? 'text-right' : 'text-left'} lg:col-span-2`}>
+              <Link
+                href="/"
+                aria-label={copy.homeLabel}
+                className={`mb-4 inline-flex items-center gap-2.5 ${isRtl ? 'flex-row-reverse' : ''}`}
+              >
+                <div className="flex h-9 w-9 items-center justify-center rounded border border-primary/20 bg-primary/10">
+                  <span className="text-sm font-black text-primary">
+                    ST
+                  </span>
+                </div>
+
+                <span className="text-base font-bold text-foreground">
+                  SofTech Solutions
                 </span>
-                <div className="h-[1.5px] w-8 bg-primary/25" />
+              </Link>
+
+              <p className="mb-5 max-w-xs text-xs font-semibold leading-relaxed text-muted-foreground/60">
+                {copy.description}
+              </p>
+
+                    </div>
+
+            {/* Footer navigation */}
+            {footerLinks.map((group, groupIndex) => (
+              <div key={group.title} className={isRtl ? 'text-right' : 'text-left'}>
+                <h3 className={`mb-4 text-xs font-bold uppercase ${isRtl ? '' : 'tracking-widest'} text-muted-foreground/50`}>
+                  {copy.groups[groupIndex].title}
+                </h3>
+
+                <ul className="space-y-3">
+                  {group.links.map((item, linkIndex) => (
+                    <li key={item.label}>
+                      <Link
+                        href={item.href}
+                        className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                      >
+                        {copy.groups[groupIndex].links[linkIndex]}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
               </div>
-
-              <h2 className="text-3xl sm:text-4xl font-black tracking-tight text-foreground mb-3">
-                Ready to transform your finances?
-              </h2>
-
-              <p className="text-muted-foreground/80 text-base sm:text-lg font-medium mt-1">
-                Join <span className="text-primary font-bold">50,000+</span>{' '}
-                Afghans already using AtlasPay. Get early access to new
-                features and exclusive updates.
-              </p>
-            </div>
-
-            <div className="w-full lg:w-auto shrink-0 relative z-10">
-              <form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-3">
-                <div className="relative">
-                  <Mail
-                    size={16}
-                    className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted-foreground/40"
-                  />
-                  <input
-                    type="email"
-                    placeholder="Enter your email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full sm:w-72 h-11 pl-10 pr-4 rounded text-sm bg-background/50 border border-border text-foreground placeholder:text-muted-foreground/30 focus:outline-none focus:border-primary/50 transition-colors"
-                    required
-                  />
-                </div>
-
-                <Button type="submit" size="md" className="h-11 shrink-0 font-bold group">
-                  {subscribed ? 'Subscribed!' : 'Subscribe'}
-                  {!subscribed && (
-                    <ArrowRight
-                      size={14}
-                      className="ml-1.5 transition-transform duration-150 group-hover:translate-x-0.5"
-                    />
-                  )}
-                </Button>
-              </form>
-
-              <p className="text-[11px] text-muted-foreground/30 font-bold uppercase tracking-wider mt-2">
-                No spam, ever. Unsubscribe anytime.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
-      </div>
-    </section>
 
-    {/* ── Main Footer ── */}
-    <footer className="relative z-10 border-t bg-gradient-to-b from-popover to-background border-border/40">
-      
-      {/* Live ticker */}
-      <div className="border-b border-border/20 overflow-hidden select-none bg-background/10">
-        <div className="flex items-center gap-6 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2.5">
-          <span className="text-[10px] font-bold text-muted-foreground/40 uppercase tracking-widest shrink-0">
-            Live prices
-          </span>
-
-          <div className="flex items-center gap-6 overflow-x-auto no-scrollbar">
-            {FOOTER_COINS.map((coin) => {
-              const isPositive = coin.change >= 0;
-
-              return (
-                <div key={coin.symbol} className="flex items-center gap-2 shrink-0">
-                  <span className="text-xs font-bold text-foreground">
-                    {coin.symbol}
-                  </span>
-
-                  <span className="text-xs font-mono font-bold text-muted-foreground">
-                    $
-                    {coin.price.toLocaleString('en-US', {
-                      minimumFractionDigits: 2,
-                      maximumFractionDigits: 2,
-                    })}
-                  </span>
-
-                  <span
-                    className={cn(
-                      'text-[10px] font-bold font-mono',
-                      isPositive ? 'text-success' : 'text-destructive'
-                    )}
-                  >
-                    {isPositive ? '+' : ''}
-                    {coin.change.toFixed(2)}%
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-
-      {/* Links grid */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 relative z-10">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8">
-
-          {/* Brand */}
-          <div className="lg:col-span-2 text-left">
-            <div className="flex items-center gap-2.5 mb-4">
-              <div className="w-9 h-9 rounded border bg-primary/10 border-primary/20 flex items-center justify-center">
-                <span className="text-primary font-black text-sm">AP</span>
-              </div>
-              <span className="text-foreground font-bold text-base">
-                AtlasPay
+        {/* Bottom bar */}
+        <div className="border-t border-border/20 bg-background/20">
+          <div className={`mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-4 py-4 sm:flex-row sm:px-6 lg:px-8 ${isRtl ? 'sm:flex-row-reverse' : ''}`}>
+            <div className={`flex flex-col items-center gap-3 text-center text-xs font-bold text-muted-foreground/40 sm:flex-row sm:gap-4 ${isRtl ? 'sm:flex-row-reverse' : ''}`}>
+              <span>
+                © {currentYear ?? ""} SofTech Solutions. {copy.copyright}
               </span>
+
+              <span className="hidden sm:inline">·</span>
+
+              <div className={`flex items-center gap-1.5 ${isRtl ? 'flex-row-reverse' : ''}`}>
+                <Shield size={11} className="text-primary" />
+                <span>{copy.tagline}</span>
+              </div>
             </div>
 
-            <p className="text-xs text-muted-foreground/60 leading-relaxed font-semibold mb-5 max-w-xs">
-              Afghanistan&apos;s most trusted financial platform. Send, spend,
-              and trade across borders with confidence.
-            </p>
-
-            <div className="flex items-center gap-3">
-              {socialLinks.map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  className="w-8 h-8 rounded border bg-card/40 border-border/60 flex items-center justify-center text-muted-foreground/50 hover:text-foreground transition"
-                >
-                  <s.icon size={15} />
-                </a>
-              ))}
-            </div>
-          </div>
-
-          {/* Footer links */}
-          {footerLinks.map((group) => (
-            <div key={group.title} className="text-left">
-              <h3 className="text-xs font-bold text-muted-foreground/40 uppercase tracking-widest mb-4">
-                {group.title}
-              </h3>
-
-              <ul className="space-y-3">
-                {group.links.map((link) => (
-                  <li key={link.label}>
-                    <a
-                      href={link.href}
-                      className="text-sm text-muted-foreground hover:text-foreground transition"
-                    >
-                      {link.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Bottom bar */}
-      <div className="border-t border-border/20 bg-background/20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-4 text-xs font-bold uppercase tracking-wider text-muted-foreground/30">
-            <span>© {new Date().getFullYear()} AtlasPay. All rights reserved.</span>
-
-            <span className="hidden sm:inline">·</span>
-
-            <div className="flex items-center gap-1.5">
-              <Shield size={11} className="text-primary" />
-              <span>Secure Terminal Layer</span>
-            </div>
+            <Link
+              href="/#contact"
+              className="text-xs font-semibold text-muted-foreground/50 transition-colors hover:text-primary"
+            >
+              {copy.contact}
+            </Link>
           </div>
         </div>
-      </div>
-    </footer>
-  </>
-);
+      </footer>
+    </>
+  );
 }
+
 /* ─────────────────────────────────────────────────────────────
    MAIN PAGE
 ───────────────────────────────────────────────────────────── */
 export default function LandingPage() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [heroReady, setHeroReady] = useState(false);
   const [activeSection, setActiveSection] = useState('');
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [heroLanguage, setHeroLanguage] = useState<SiteLanguage>('en');
+  const heroText = heroTranslations[heroLanguage];
+  const technologyText = technologyTranslations[heroLanguage];
+  const isHeroRtl = heroLanguage !== 'en';
   const dropdownTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const section2 = useInView(0.25);
+  useEffect(() => {
+    const applyLanguage = (language: string | null) => {
+      if (isSiteLanguage(language)) setHeroLanguage(language);
+    };
+    const onLanguageChange = (event: Event) => {
+      applyLanguage((event as CustomEvent<SiteLanguage>).detail);
+    };
+    const frame = window.requestAnimationFrame(() => {
+      applyLanguage(window.localStorage.getItem(SITE_LANGUAGE_STORAGE_KEY));
+    });
+
+    window.addEventListener(SITE_LANGUAGE_CHANGE_EVENT, onLanguageChange);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener(SITE_LANGUAGE_CHANGE_EVENT, onLanguageChange);
+    };
+  }, []);
+
+  const { ref: section2Ref, inView: section2InView } = useInView(0.25);
   const section3 = useInView(0.2);
   const featuresSection = useInView(0.1);
+const laserSurfaceRef = useRef<HTMLDivElement>(null);
+const laserStageRef = useRef<HTMLDivElement>(null);
+const cardsRef = useRef<HTMLDivElement>(null);
+const [laserLandingY, setLaserLandingY] = useState<number | null>(null);
 
-  useEffect(() => {
-    const t = setTimeout(() => setHeroReady(true), 120);
-    return () => clearTimeout(t);
-  }, []);
+useLayoutEffect(() => {
+  const stage = laserStageRef.current;
+  const cards = cardsRef.current;
+
+  if (!stage || !cards) return;
+
+  let frame = 0;
+
+  const measure = () => {
+    cancelAnimationFrame(frame);
+
+    frame = requestAnimationFrame(() => {
+      const stageRect = stage.getBoundingClientRect();
+      const cardsRect = cards.getBoundingClientRect();
+
+      setLaserLandingY(cardsRect.top - stageRect.top);
+    });
+  };
+
+  measure();
+
+  const observer = new ResizeObserver(measure);
+  observer.observe(stage);
+  observer.observe(cards);
+
+  window.addEventListener("resize", measure);
+
+  return () => {
+    cancelAnimationFrame(frame);
+    observer.disconnect();
+    window.removeEventListener("resize", measure);
+  };
+}, []);
+
+useLayoutEffect(() => {
+  const technologySection = document.getElementById("technology");
+  const engineeringSection = document.getElementById("engineering-section");
+  if (!technologySection || !engineeringSection) return;
+
+  const mobileViewport = window.matchMedia("(max-width: 767px)");
+  const syncSectionHeight = () => {
+    if (mobileViewport.matches) {
+      engineeringSection.style.removeProperty("height");
+      return;
+    }
+
+    engineeringSection.style.height = `${Math.ceil(
+      technologySection.getBoundingClientRect().height,
+    )}px`;
+  };
+
+  syncSectionHeight();
+  const resizeObserver = new ResizeObserver(syncSectionHeight);
+  resizeObserver.observe(technologySection);
+  window.addEventListener("resize", syncSectionHeight);
+  mobileViewport.addEventListener("change", syncSectionHeight);
+
+  return () => {
+    resizeObserver.disconnect();
+    window.removeEventListener("resize", syncSectionHeight);
+    mobileViewport.removeEventListener("change", syncSectionHeight);
+    engineeringSection.style.removeProperty("height");
+  };
+}, []);
+
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -3064,2330 +3395,885 @@ export default function LandingPage() {
     {/* ═══════════════════════════════════════════════════════════════
         NAVIGATION
     ═══════════════════════════════════════════════════════════════ */}
-    <nav
+    <div
       className={cn(
-        'fixed top-0 left-0 right-0 z-50',
+        'fixed inset-x-0 top-0 z-50',
         'transition-all duration-500 ease-out',
-        'border-b',
         scrolled
           ? [
-              'bg-[#020202]/80',
-              'backdrop-blur-2xl',
-              'border-white/[0.06]',
-              'shadow-[0_12px_40px_rgba(0,0,0,0.35)]',
+              'bg-[#050914]/95',
+              'shadow-[0_12px_40px_rgba(0,0,0,0.28)]',
             ].join(' ')
-          : 'bg-transparent border-transparent',
+          : 'bg-[#050914]/85',
       )}
     >
       {/* Scroll progress indicator */}
       <ScrollProgressBar />
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex h-[72px] items-center justify-between">
-
-          {/* ═══════════════════════════════════════════════════════
-              BRAND
-          ═══════════════════════════════════════════════════════ */}
-          <Link
-            href="/"
-            className="group/logo flex shrink-0 select-none items-center gap-3"
-          >
-            {/* Logo mark */}
-            <div className="relative">
-              {/* Hover aura */}
-              <div
-                aria-hidden="true"
-                className="
-                  absolute inset-0
-                  rounded-xl
-                  bg-primary/20
-                  opacity-0
-                  blur-xl
-                  transition-opacity duration-500
-                  group-hover/logo:opacity-100
-                "
-              />
-
-              {/* Logo container */}
-              <div
-                className="
-                  relative
-                  flex h-9 w-9 items-center justify-center
-                  rounded-xl
-                  border border-primary/20
-                  bg-primary/[0.07]
-                  shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]
-                  transition-all duration-300
-                  group-hover/logo:scale-105
-                  group-hover/logo:border-primary/35
-                  group-hover/logo:bg-primary/10
-                "
-              >
-                <span className="text-sm font-black tracking-[-0.08em] text-primary">
-                  AP
-                </span>
-              </div>
-            </div>
-
-            {/* Wordmark */}
-            <div className="flex flex-col justify-center leading-none">
-              <span
-                className="
-                  text-[15px]
-                  font-black
-                  tracking-[-0.02em]
-                  text-white
-                  transition-colors duration-300
-                "
-              >
-                AtlasPay
-              </span>
-
-              <span
-                className="
-                  mt-1
-                  text-[8px]
-                  font-bold
-                  uppercase
-                  tracking-[0.18em]
-                  text-white/30
-                "
-              >
-                Crypto · Wallet · Payments
-              </span>
-            </div>
-          </Link>
-
-          {/* ═══════════════════════════════════════════════════════
-              DESKTOP NAVIGATION
-          ═══════════════════════════════════════════════════════ */}
-          <div className="hidden lg:flex items-center">
-
-            {/* Products */}
-            <div
-              className="relative"
-              onMouseEnter={() => {
-                if (dropdownTimer.current) {
-                  clearTimeout(dropdownTimer.current);
-                }
-                setDropdownOpen(true);
-              }}
-              onMouseLeave={() => {
-                if (dropdownTimer.current) {
-                  clearTimeout(dropdownTimer.current);
-                }
-                dropdownTimer.current = setTimeout(() => setDropdownOpen(false), 140);
-              }}
-            >
-              <button
-                type="button"
-                className={cn(
-                  `
-                    group/nav
-                    flex items-center gap-1.5
-                    rounded-lg
-                    px-3 py-2
-                    text-[13px]
-                    font-semibold
-                    transition-all duration-200
-                    focus:outline-none
-                  `,
-                  dropdownOpen
-                    ? 'bg-white/[0.05] text-white'
-                    : 'text-white/50 hover:bg-white/[0.025] hover:text-white/90',
-                )}
-              >
-                <span>Products</span>
-
-                <svg
-                  width="11"
-                  height="11"
-                  viewBox="0 0 10 10"
-                  fill="none"
-                  className={cn(
-                    'transition-transform duration-200',
-                    dropdownOpen && 'rotate-180',
-                  )}
-                >
-                  <path
-                    d="M2 3.5L5 6.5L8 3.5"
-                    stroke="currentColor"
-                    strokeWidth="1.4"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="opacity-60"
-                  />
-                </svg>
-              </button>
-
-              <NavMegaMenu
-                items={navMegaItems}
-                visible={dropdownOpen}
-              />
-            </div>
-
-            {/* Divider */}
-            <div className="mx-2 h-5 w-px bg-white/[0.07]" />
-
-            {/* Standard links */}
-            <div className="flex items-center gap-0.5">
-              {navLinks.map((link) => {
-                const isActive = activeSection === link.label;
-
-                return (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    className={cn(
-                      `
-                        group/link
-                        relative
-                        rounded-lg
-                        px-3 py-2
-                        text-[13px]
-                        font-semibold
-                        transition-all duration-200
-                        focus:outline-none
-                      `,
-                      isActive
-                        ? 'text-white'
-                        : 'text-white/45 hover:text-white/90',
-                    )}
-                  >
-                    <span className="relative">
-                      {link.label}
-
-                      {/* Animated underline */}
-                      <span
-                        className={cn(
-                          `
-                            absolute
-                            -bottom-1
-                            left-0
-                            h-px
-                            rounded-full
-                            bg-primary
-                            transition-all duration-300
-                          `,
-                          isActive
-                            ? 'w-full opacity-80'
-                            : 'w-0 opacity-0 group-hover/link:w-full group-hover/link:opacity-60',
-                        )}
-                      />
-                    </span>
-
-                    {/* Active indicator */}
-                    {isActive && (
-                      <span
-                        className="
-                          absolute
-                          right-2
-                          top-1.5
-                          h-1
-                          w-1
-                          rounded-full
-                          bg-primary
-                        "
-                        style={{
-                          boxShadow: '0 0 8px rgba(219,168,0,0.8)',
-                        }}
-                      />
-                    )}
-                  </a>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* ═══════════════════════════════════════════════════════
-              RIGHT ACTIONS
-          ═══════════════════════════════════════════════════════ */}
-          <div className="hidden lg:flex items-center gap-2.5">
-
-            {/* Market status */}
-            <div
-              className="
-                hidden
-                xl:flex
-                items-center gap-2
-                rounded-full
-                border border-white/[0.06]
-                bg-white/[0.025]
-                px-3 py-1.5
-              "
-            >
-              <span className="relative flex h-1.5 w-1.5">
-                <span
-                  className="
-                    absolute
-                    inline-flex
-                    h-full w-full
-                    animate-ping
-                    rounded-full
-                    bg-primary
-                    opacity-50
-                  "
-                />
-
-                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
-              </span>
-
-              <span className="text-[9px] font-black text-primary">
-                ₿
-              </span>
-
-              <span className="font-mono text-[10px] font-bold text-white/80">
-                $67,240
-              </span>
-
-              <span className="text-[9px] font-extrabold text-success">
-                +2.4%
-              </span>
-            </div>
-
-            {/* Sign in */}
-            <Link href="/auth/login">
-              <button
-                type="button"
-                className="
-                  rounded-xl
-                  border border-white/[0.07]
-                  bg-white/[0.025]
-                  px-4 py-2
-                  text-[13px]
-                  font-bold
-                  text-white/60
-                  transition-all duration-200
-                  hover:border-white/[0.12]
-                  hover:bg-white/[0.05]
-                  hover:text-white
-                  focus:outline-none
-                "
-              >
-                Sign in
-              </button>
-            </Link>
-
-            {/* Primary CTA */}
-            <Link href="/auth/register">
-              <button
-                type="button"
-                className="
-                  group/cta
-                  relative
-                  flex items-center gap-2
-                  overflow-hidden
-                  rounded-xl
-                  bg-primary
-                  px-5 py-2
-                  text-[13px]
-                  font-extrabold
-                  text-primary-foreground
-                  shadow-[0_8px_30px_rgba(219,168,0,0.12)]
-                  transition-all duration-300
-                  hover:-translate-y-0.5
-                  hover:shadow-[0_12px_35px_rgba(219,168,0,0.2)]
-                  focus:outline-none
-                "
-              >
-                {/* Shine sweep */}
-                <span
-                  aria-hidden="true"
-                  className="
-                    absolute inset-y-0 left-0
-                    w-1/2
-                    -translate-x-[160%]
-                    skew-x-[-20deg]
-                    bg-white/20
-                    transition-transform duration-700
-                    group-hover/cta:translate-x-[300%]
-                  "
-                />
-
-                <span className="relative z-10">
-                  Get Started
-                </span>
-
-                <ArrowRight
-                  size={14}
-                  className="
-                    relative z-10
-                    transition-transform duration-200
-                    group-hover/cta:translate-x-0.5
-                  "
-                />
-              </button>
-            </Link>
-          </div>
-
-          {/* ═══════════════════════════════════════════════════════
-              MOBILE MENU BUTTON
-          ═══════════════════════════════════════════════════════ */}
-          <button
-            type="button"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            className={cn(
-              `
-                lg:hidden
-                relative
-                flex h-10 w-10
-                flex-col
-                items-center
-                justify-center
-                gap-[5px]
-                rounded-xl
-                border
-                transition-all duration-300
-                focus:outline-none
-              `,
-              mobileOpen
-                ? 'border-primary/25 bg-primary/[0.07]'
-                : 'border-white/[0.07] bg-white/[0.025]',
-            )}
-            aria-label="Toggle menu"
-            aria-expanded={mobileOpen}
-          >
-            <span
-              className={cn(
-                'h-[1.5px] w-4 rounded-full transition-all duration-300',
-                mobileOpen
-                  ? 'translate-y-[6.5px] rotate-45 bg-primary'
-                  : 'bg-white/50',
-              )}
-            />
-
-            <span
-              className={cn(
-                'h-[1.5px] w-4 rounded-full transition-all duration-200',
-                mobileOpen
-                  ? 'scale-x-0 opacity-0'
-                  : 'bg-white/50',
-              )}
-            />
-
-            <span
-              className={cn(
-                'h-[1.5px] w-4 rounded-full transition-all duration-300',
-                mobileOpen
-                  ? '-translate-y-[6.5px] -rotate-45 bg-primary'
-                  : 'bg-white/50',
-              )}
-            />
-          </button>
-        </div>
-      </div>
-    </nav>
-
-       {/* ══════════════════════════════════════════════════════════
-          HERO LANDING SPLASH VIEWPORT SECTION
-      ══════════════════════════════════════════════════════════ */}
-  <section className="relative min-h-screen flex flex-col overflow-hidden bg-transparent">
-  <div className="absolute inset-0 z-0">
-    <DotGrid />
-  </div>
-
-  <FloatingOrbs ready={heroReady} />
-
-  <div className="absolute inset-y-0 right-0 w-1/2 flex items-center justify-center pointer-events-none">
-    <PulseRings ready={heroReady} />
-  </div>
-
-  {/* Bottom atmospheric fade */}
-  <div
-    className="absolute bottom-0 left-0 right-0 h-48 pointer-events-none z-10"
-    style={{
-      background:
-        'linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.45) 45%, transparent 100%)',
-    }}
-  />
-
-  {/* Top atmospheric fade */}
-  <div
-    className="absolute top-0 left-0 right-0 h-24 pointer-events-none z-10"
-    style={{
-      background:
-        'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 100%)',
-    }}
-  />
-
-
-        <div className="relative z-20 mt-16">
-          <TickerStrip ready={heroReady} />
-        </div>
-
-        <div className="relative z-20 flex-1 flex items-center">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-16">
-            <div className="flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-20">
-              
-              {/* LEFT COLUMN: Core Branding Context Elements */}
-              <div className="flex-1 max-wxl order-2 lg:order-1 text-center lg:text-left">
-                <div
-                  className={cn(
-                    'transition-all duration-1000 ease-out',
-                    heroReady ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20',
-                  )}
-                >
-                  {/* Live Status Badge Layer - Migrated safely to var(--primary) for Gold Ochre layout tracking */}
-                  <div
-                    className={cn(
-                      'inline-flex items-center gap-2 px-3 py-1.5 rounded-full mb-6 bg-primary/10 border border-primary/20 backdrop-blur-sm transition-all duration-700',
-                      heroReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2',
-                    )}
-                  >
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
-                    </span>
-                    <span className="text-primary text-xs font-bold uppercase tracking-wider">
-                      Live — Markets Open
-                    </span>
-                  </div>
-
-                  <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.05] mb-6">
-                    <span className="block text-foreground">Afghanistan&apos;s</span>
-                    {/* Shimmer Text Gradient - Aligned to your premium Gold Ochre design parameters */}
-                <span
-  className="inline-block tracking-tighter px-4 py-2 -mx-4 -my-2"
-  style={{
-    background:
-      'linear-gradient(135deg, var(--primary) 0%, #FFF3B3 40%, #FFFCE6 70%, var(--primary) 100%)',
-    backgroundSize: '200% auto',
-    WebkitBackgroundClip: 'text',
-    WebkitTextFillColor: 'transparent',
-    backgroundClip: 'text',
-    animation: heroReady ? 'shimmerText 4s linear infinite' : 'none',
-    willChange: 'transform, background-position', // Forces clean GPU rendering
-  }}
->
-  Crypto Platform
-</span>
-
-
-                  </h1>
-
-                  <p className="text-muted-foreground text-lg sm:text-xl mb-10 leading-relaxed max-w-lg font-medium">
-                    Manage crypto assets, send instant P2P transfers, and trade with live pricing
-                    &mdash; all from one secure, locally-supported platform.
-                  </p>
-
-                  <div className="flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-4 mb-10">
-                    <Link href="/auth/register">
-                      <Button
-                        size="lg"
-                        className="px-8 text-base font-extrabold text-primary-foreground bg-primary hover:bg-primary/95 shadow-lg shadow-primary/10 relative overflow-hidden group/btn cursor-pointer focus:outline-none h-12"
-                      >
-                        <span className="relative z-10 flex items-center gap-2">
-                          Get Started Free <ArrowRight size={16} />
-                        </span>
-                        <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover/btn:translate-x-[100%] transition-transform duration-500 skew-x-12" />
-                      </Button>
-                    </Link>
-                    <a href="#features">
-                      <Button
-                        variant="ghost"
-                        size="lg"
-                        className="px-8 text-base font-bold text-muted-foreground bg-card/40 border border-border hover:text-foreground hover:border-muted-foreground transition-all duration-200 cursor-pointer focus:outline-none h-12"
-                      >
-                        Learn More <ChevronRight size={16} className="ml-1" />
-                      </Button>
-                    </a>
-                  </div>
-
-                  {/* Verification Features Row */}
-                  <div className="flex flex-wrap items-center justify-center lg:justify-start gap-5 border-t border-border/10 pt-6">
-                    {[
-                      { icon: CheckCircle, label: 'No hidden fees' },
-                      { icon: Zap, label: 'Instant transfers' },
-                      { icon: Shield, label: 'Bank-grade security' },
-                    ].map(({ icon: Icon, label }, i) => (
-                      <div
-                        key={label}
-                        className={cn(
-                          'flex items-center gap-1.5 text-xs text-muted-foreground/40 font-bold uppercase tracking-wider transition-all duration-500 ease-out',
-                          heroReady ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2',
-                        )}
-                        style={{ transitionDelay: `${600 + i * 100}ms` }}
-                      >
-                        <Icon size={13} className="text-primary" />
-                        {label}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* RIGHT COLUMN: Interactive Hardware Card Showcase */}
-              <div className="flex-1 flex justify-center lg:justify-end order-1 lg:order-2">
-                <div
-                  className={cn(
-                    'transition-all duration-1000 ease-out delay-200',
-                    heroReady ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-24',
-                  )}
-                >
-                  <div className="relative" style={{ width: 420, height: 340 }}>
-                    
-                    {/* Ambient dynamic backdrop glow halo - fully migrated to your custom Gold Ochre brand color */}
-                    <div
-                      className="absolute rounded-full pointer-events-none z-0"
-                      style={{
-                        width: 320,
-                        height: 320,
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                        background: 'radial-gradient(circle, rgba(219, 168, 0, 0.12) 0%, transparent 70%)',
-                        filter: 'blur(30px)',
-                        opacity: heroReady ? 1 : 0,
-                        transition: 'opacity 1.5s ease',
-                      }}
-                    />
-
-                    {/* Secondary Tilted Card Asset Layer */}
-                    <div
-                      className={cn(
-                        'absolute transition-all duration-1000 ease-out z-10',
-                        heroReady ? 'opacity-100' : 'opacity-0 translate-x-8',
-                      )}
-                      style={{
-                        top: 60,
-                        left: 50,
-                        transform: 'rotate(8deg) translateY(10px)',
-                        transitionDelay: '350ms',
-                      }}
-                    >
-                      <HeroCard small tilt />
-                    </div>
-
-                    {/* Primary Floating Card Asset Layer */}
-                    <div
-                      className={cn(
-                        'absolute transition-all duration-1000 ease-out z-20',
-                        heroReady ? 'opacity-100' : 'opacity-0 translate-x-12',
-                      )}
-                      style={{
-                        top: 20,
-                        left: 10,
-                        animation: heroReady ? 'floatCard 5s ease-in-out infinite' : 'none',
-                        transitionDelay: '150ms',
-                      }}
-                    >
-                      <HeroCard />
-                    </div>
-
-                    {/* Floating Info Pill: Active User base status */}
-                    <StatPill ready={heroReady} delay={700} style={{ top: 0, right: 0 }}>
-                      <span className="w-2 h-2 rounded-full bg-primary animate-pulse flex-shrink-0" />
-                      <span className="text-muted-foreground/60 font-semibold">Users</span>
-                      <span className="text-foreground font-extrabold">50K+</span>
-                    </StatPill>
-
-                    {/* Floating Info Pill: Real-time price tracker trend asset */}
-                    <StatPill ready={heroReady} delay={850} style={{ bottom: 30, right: -10 }}>
-                      <span className="text-orange-500 font-black text-sm">₿</span>
-                      <div className="text-left">
-                        <p className="text-foreground font-mono font-bold text-xs leading-none">$67,240</p>
-                        <p className="text-primary text-[10px] font-bold mt-1">+2.4% today</p>
-                      </div>
-                      <Sparkline color="var(--primary)" up />
-                    </StatPill>
-
-                    {/* Floating Info Pill: Infrastructure system encryption metrics */}
-                    <StatPill ready={heroReady} delay={1000} style={{ bottom: 10, left: -10 }}>
-                      <div className="w-6 h-6 rounded bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0">
-                        <Shield size={12} className="text-primary" />
-                      </div>
-                      <div className="text-left">
-                        <p className="text-foreground text-xs font-bold leading-none">AES-256</p>
-                        <p className="text-muted-foreground/40 text-[10px] font-semibold mt-1">Bank-grade</p>
-                      </div>
-                    </StatPill>
-
-                    {/* Floating Info Pill: Transaction settlement speed bounds */}
-                    <StatPill
-                      ready={heroReady}
-                      delay={1150}
-                      style={{ top: 80, right: -20 }}
-                      className="hidden lg:flex"
-                    >
-                      <div className="w-6 h-6 rounded bg-primary/10 border border-primary/20 flex items-center justify-center flex-shrink-0">
-                        <Zap size={12} className="text-primary" />
-                      </div>
-                      <div className="text-left">
-                        <p className="text-foreground text-xs font-bold leading-none">&lt; 3 sec</p>
-                        <p className="text-muted-foreground/40 text-[10px] font-semibold mt-1">Transfer speed</p>
-                      </div>
-                    </StatPill>
-
-                    {/* Floating Info Pill: 24-Hour Exchange Trading Volume metrics */}
-                    <StatPill
-                      ready={heroReady}
-                      delay={1300}
-                      style={{ top: -10, left: 60 }}
-                      className="hidden lg:flex"
-                    >
-                      <Activity size={12} className="text-primary" />
-                      <span className="text-muted-foreground/60 text-[10px] font-semibold">24h volume</span>
-                      <span className="text-foreground font-mono text-xs font-black">$2.4M</span>
-                    </StatPill>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
- {/* ═══════════════════════════════════════════════════════════════════════
-    SECTION 2 — SMART PAYMENTS
-    Pitch-black product canvas
-    Kibo / Tether card LEFT → Editorial content RIGHT
-═══════════════════════════════════════════════════════════════════════ */}
-<section
-  id="features"
-  className="relative isolate overflow-hidden bg-[#020202] text-foreground"
->
-  {/* ══════════════════════════════════════════════════════════════════
-      AMBIENT BACKGROUND SYSTEM
-      Intentionally restrained — the product remains the visual focus.
-  ══════════════════════════════════════════════════════════════════ */}
-
-  {/* Base pitch-black canvas */}
-  <div
-    aria-hidden="true"
-    className="absolute inset-0 z-0 pointer-events-none"
-    style={{
-      background: `
-        radial-gradient(
-          80% 70% at 18% 50%,
-          rgba(219,168,0,0.045) 0%,
-          rgba(219,168,0,0.018) 32%,
-          transparent 68%
-        ),
-        radial-gradient(
-          65% 75% at 82% 42%,
-          rgba(255,255,255,0.018) 0%,
-          transparent 62%
-        ),
-        linear-gradient(
-          180deg,
-          #020202 0%,
-          #030303 48%,
-          #010101 100%
-        )
-      `,
-    }}
-  />
-
-  {/* Soft gold spotlight behind the card */}
-  <div
-    aria-hidden="true"
-    className="absolute pointer-events-none z-0 rounded-full"
-    style={{
-      width: 680,
-      height: 680,
-      left: '-14%',
-      top: '50%',
-      transform: 'translateY(-50%)',
-      background:
-        'radial-gradient(circle, rgba(219,168,0,0.075) 0%, rgba(219,168,0,0.028) 28%, transparent 68%)',
-      filter: 'blur(45px)',
-      animation: section2.inView ? 'sec2BlobA 16s ease-in-out infinite' : 'none',
-    }}
-  />
-
-  {/* Very subtle opposing ambient light */}
-  <div
-    aria-hidden="true"
-    className="absolute pointer-events-none z-0 rounded-full"
-    style={{
-      width: 520,
-      height: 520,
-      right: '-14%',
-      top: '15%',
-      background:
-        'radial-gradient(circle, rgba(255,255,255,0.025) 0%, transparent 68%)',
-      filter: 'blur(70px)',
-      opacity: 0.7,
-    }}
-  />
-
-  {/* Focused gold halo directly behind the product */}
-  <div
-    aria-hidden="true"
-    className="absolute pointer-events-none z-0 rounded-full"
-    style={{
-      width: 430,
-      height: 430,
-      left: '18%',
-      top: '50%',
-      transform: 'translate(-50%, -50%)',
-      background:
-        'radial-gradient(circle, rgba(219,168,0,0.085) 0%, rgba(219,168,0,0.025) 42%, transparent 72%)',
-      filter: 'blur(35px)',
-      opacity: section2.inView ? 1 : 0,
-      transition: 'opacity 1.5s ease',
-    }}
-  />
-
-  {/* ══════════════════════════════════════════════════════════════════
-      TECHNICAL GRID
-      Extremely subtle — adds depth without becoming a visible pattern.
-  ══════════════════════════════════════════════════════════════════ */}
-  <div
-    aria-hidden="true"
-    className="absolute inset-0 z-0 pointer-events-none opacity-[0.025]"
-    style={{
-      backgroundImage: `
-        linear-gradient(rgba(255,255,255,0.18) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.18) 1px, transparent 1px)
-      `,
-      backgroundSize: '72px 72px',
-      maskImage:
-        'radial-gradient(ellipse 85% 80% at 50% 50%, black 0%, transparent 75%)',
-      WebkitMaskImage:
-        'radial-gradient(ellipse 85% 80% at 50% 50%, black 0%, transparent 75%)',
-    }}
-  />
-
-  {/* ══════════════════════════════════════════════════════════════════
-      MICRO AMBIENT PARTICLES
-      Sparse, almost imperceptible.
-  ══════════════════════════════════════════════════════════════════ */}
-  <div
-    aria-hidden="true"
-    className="absolute inset-0 z-0 pointer-events-none overflow-hidden"
-  >
-    {[
-      { size: 2, top: '18%', left: '9%', delay: 0, dur: 8 },
-      { size: 2, top: '72%', left: '14%', delay: 1.5, dur: 9 },
-      { size: 2, top: '28%', left: '88%', delay: 0.8, dur: 7 },
-      { size: 1, top: '78%', left: '78%', delay: 2, dur: 10 },
-      { size: 2, top: '12%', left: '62%', delay: 1, dur: 8 },
-      { size: 1, top: '58%', left: '48%', delay: 2.5, dur: 9 },
-    ].map((particle, i) => (
-      <span
-        key={i}
-        className="absolute rounded-full bg-primary"
-        style={{
-          width: particle.size,
-          height: particle.size,
-          top: particle.top,
-          left: particle.left,
-          opacity: 0.3,
-          boxShadow: '0 0 10px rgba(219,168,0,0.35)',
-          animation: `particleFloat ${particle.dur}s ease-in-out ${particle.delay}s infinite`,
-        }}
-      />
-    ))}
-  </div>
-
-  {/* ══════════════════════════════════════════════════════════════════
-      SECTION EDGE TRANSITIONS
-      Keeps this section visually connected to the hero and next section.
-  ══════════════════════════════════════════════════════════════════ */}
-
-  <div
-    aria-hidden="true"
-    className="absolute top-0 left-0 right-0 h-32 z-10 pointer-events-none"
-    style={{
-      background:
-        'linear-gradient(to bottom, #020202 0%, rgba(2,2,2,0.65) 35%, transparent 100%)',
-    }}
-  />
-
-  <div
-    aria-hidden="true"
-    className="absolute bottom-0 left-0 right-0 h-40 z-10 pointer-events-none"
-    style={{
-      background:
-        'linear-gradient(to top, #020202 0%, rgba(2,2,2,0.75) 38%, transparent 100%)',
-    }}
-  />
-
-  {/* ══════════════════════════════════════════════════════════════════
-      CONTENT
-  ══════════════════════════════════════════════════════════════════ */}
-  <div
-    ref={section2.ref}
-    className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-28 sm:py-36 lg:py-44"
-  >
-    <div className="flex flex-col lg:flex-row items-center justify-between gap-20 lg:gap-24">
-
-      {/* ══════════════════════════════════════════════════════════════
-          LEFT — PRODUCT VISUAL
-      ══════════════════════════════════════════════════════════════ */}
-      <div className="w-full lg:flex-1 flex justify-center lg:justify-start order-2 lg:order-1">
-        <div
-          className={cn(
-            'relative w-[420px] max-w-full h-[380px]',
-            'transition-all duration-1000 ease-out',
-            section2.inView
-              ? 'opacity-100 translate-x-0'
-              : 'opacity-0 -translate-x-20',
-          )}
-        >
-
-          {/* Product-centered atmospheric halo */}
-          <div
-            aria-hidden="true"
-            className="absolute left-1/2 top-1/2 pointer-events-none rounded-full"
-            style={{
-              width: 380,
-              height: 280,
-              transform: 'translate(-50%, -50%)',
-              background:
-                'radial-gradient(ellipse, rgba(219,168,0,0.095) 0%, rgba(219,168,0,0.035) 45%, transparent 72%)',
-              filter: 'blur(28px)',
-              opacity: section2.inView ? 1 : 0,
-              transition: 'opacity 1.5s ease',
-            }}
-          />
-
-          {/* Fine orbital rings */}
-          <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-            {[1, 2].map((ring) => (
-              <div
-                key={ring}
-                className="absolute rounded-full"
-                style={{
-                  width: `${300 + ring * 80}px`,
-                  height: `${220 + ring * 55}px`,
-                  border: '1px solid rgba(219,168,0,0.065)',
-                  boxShadow:
-                    ring === 1
-                      ? '0 0 40px rgba(219,168,0,0.025)'
-                      : 'none',
-                  animation: section2.inView
-                    ? `pulseRing ${4 + ring}s ease-out ${ring * 0.7}s infinite`
-                    : 'none',
-                }}
-              />
-            ))}
-          </div>
-
-          {/* Product card */}
-          <div
-            className="absolute inset-0 flex items-center justify-center"
-            style={{
-              animation: section2.inView
-                ? 'floatCard 6s ease-in-out infinite'
-                : 'none',
-            }}
-          >
-            <TetherHubCard />
-          </div>
-
-          {/* ══════════════════════════════════════════════════════════
-              FLOATING PRODUCT METRICS
-          ══════════════════════════════════════════════════════════ */}
-
-          {/* Instant issuance */}
-          <div
-            className={cn(
-              'absolute top-8 right-[-8px] sm:right-[-24px] z-30',
-              'flex items-center gap-2.5 px-3.5 py-2.5',
-              'rounded-xl border border-white/[0.08]',
-              'bg-[#080808]/85 backdrop-blur-xl',
-              'shadow-[0_12px_40px_rgba(0,0,0,0.45)]',
-              'transition-all duration-700 ease-out',
-              section2.inView
-                ? 'opacity-100 translate-y-0 scale-100'
-                : 'opacity-0 translate-y-3 scale-95',
-            )}
-            style={{ transitionDelay: '400ms' }}
-          >
-            <div className="w-7 h-7 rounded-lg bg-primary/10 border border-primary/15 flex items-center justify-center">
-              <Zap size={12} className="text-primary" />
-            </div>
-
-            <div>
-              <p className="text-foreground text-[11px] font-bold leading-none">
-                Instant issuance
-              </p>
-              <p className="text-muted-foreground/45 text-[9px] font-semibold mt-1">
-                Ready in seconds
-              </p>
-            </div>
-          </div>
-
-          {/* Security */}
-          <div
-            className={cn(
-              'absolute bottom-8 left-[-8px] sm:left-[-24px] z-30',
-              'flex items-center gap-2.5 px-3.5 py-2.5',
-              'rounded-xl border border-white/[0.08]',
-              'bg-[#080808]/85 backdrop-blur-xl',
-              'shadow-[0_12px_40px_rgba(0,0,0,0.45)]',
-              'transition-all duration-700 ease-out',
-              section2.inView
-                ? 'opacity-100 translate-y-0 scale-100'
-                : 'opacity-0 translate-y-3 scale-95',
-            )}
-            style={{ transitionDelay: '600ms' }}
-          >
-            <div className="w-7 h-7 rounded-lg bg-primary/10 border border-primary/15 flex items-center justify-center">
-              <Lock size={12} className="text-primary" />
-            </div>
-
-            <div>
-              <p className="text-foreground text-[11px] font-black leading-none">
-                AES-256
-              </p>
-              <p className="text-muted-foreground/45 text-[9px] font-semibold mt-1">
-                End-to-end encrypted
-              </p>
-            </div>
-          </div>
-
-          {/* Balance */}
-          <div
-            className={cn(
-              'absolute bottom-3 right-[-8px] sm:right-[-20px] z-30',
-              'flex items-center gap-2 px-3 py-2',
-              'rounded-lg border border-white/[0.07]',
-              'bg-[#080808]/80 backdrop-blur-xl',
-              'shadow-[0_12px_40px_rgba(0,0,0,0.4)]',
-              'transition-all duration-700 ease-out',
-              section2.inView
-                ? 'opacity-100 translate-y-0'
-                : 'opacity-0 translate-y-3',
-            )}
-            style={{ transitionDelay: '750ms' }}
-          >
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-primary opacity-50 animate-ping" />
-              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-primary" />
-            </span>
-
-            <span className="text-muted-foreground/50 text-[10px] font-semibold">
-              Balance
-            </span>
-
-            <span className="text-foreground text-xs font-mono font-bold">
-              $4,820.00
-            </span>
-          </div>
-
-          {/* Interaction hint */}
-          <p
-            className={cn(
-              'absolute bottom-[-28px] left-0 right-0',
-              'text-center text-[9px] tracking-[0.18em]',
-              'uppercase text-muted-foreground/25 font-bold',
-              'transition-opacity duration-700',
-              section2.inView ? 'opacity-100' : 'opacity-0',
-            )}
-            style={{ transitionDelay: '1000ms' }}
-          >
-            Hover to explore
-          </p>
-        </div>
-      </div>
-
-      {/* ══════════════════════════════════════════════════════════════
-          RIGHT — EDITORIAL CONTENT
-      ══════════════════════════════════════════════════════════════ */}
-      <div className="w-full lg:flex-1 max-w-xl order-1 lg:order-2">
-        <div
-          className={cn(
-            'transition-all duration-1000 ease-out delay-150',
-            section2.inView
-              ? 'opacity-100 translate-x-0'
-              : 'opacity-0 translate-x-16',
-          )}
-        >
-
-          {/* Eyebrow */}
-          <div className="inline-flex items-center gap-2 mb-6">
-            <span className="w-6 h-px bg-primary/60" />
-
-            <span className="text-primary/80 text-[10px] font-black uppercase tracking-[0.2em]">
-              Smart Payments
-            </span>
-
-            <span className="w-1 h-1 rounded-full bg-primary/40" />
-          </div>
-
-          {/* Heading */}
-          <h2 className="text-4xl sm:text-5xl lg:text-[3.5rem] font-bold tracking-[-0.04em] leading-[1.04] text-foreground mb-6">
-            One card for
-            <br />
-
-            <span
-              className="inline-block"
-              style={{
-                background:
-                  'linear-gradient(135deg, var(--primary) 0%, #FFF3B3 42%, #FFFCE6 68%, var(--primary) 100%)',
-                backgroundSize: '200% auto',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                animation: section2.inView
-                  ? 'shimmerText 4s linear infinite'
-                  : 'none',
-              }}
-            >
-              everything you need.
-            </span>
-          </h2>
-
-          {/* Supporting copy */}
-          <p className="text-muted-foreground/65 text-base sm:text-lg leading-relaxed max-w-lg mb-10">
-            A smarter way to move money. Create your virtual card instantly,
-            spend across currencies, and stay in control of every transaction
-            from one secure platform.
-          </p>
-
-          {/* Feature stack */}
-          <div className="space-y-2.5 mb-10">
-            {[
-              {
-                icon: Zap,
-                title: 'Instant virtual card issuance',
-                desc: 'Create your card in seconds with no paperwork.',
-              },
-              {
-                icon: Globe,
-                title: 'Multi-currency spending',
-                desc: 'Move between AFN and USD with effortless control.',
-              },
-              {
-                icon: Activity,
-                title: 'Real-time transaction alerts',
-                desc: 'Know exactly when money moves, instantly.',
-              },
-              {
-                icon: Lock,
-                title: 'Complete card control',
-                desc: 'Freeze or unfreeze your card whenever you need.',
-              },
-            ].map((item, i) => {
-              const Icon = item.icon;
-
-              return (
-                <div
-                  key={item.title}
-                  className={cn(
-                    'group flex items-center gap-4',
-                    'px-4 py-3.5 rounded-xl',
-                    'border border-white/[0.055]',
-                    'bg-white/[0.012]',
-                    'transition-all duration-500 ease-out',
-                    'hover:bg-white/[0.025]',
-                    'hover:border-primary/15',
-                    'hover:-translate-y-0.5',
-                    section2.inView
-                      ? 'opacity-100 translate-x-0'
-                      : 'opacity-0 translate-x-8',
-                  )}
-                  style={{
-                    transitionDelay: `${300 + i * 90}ms`,
-                  }}
-                >
-                  {/* Icon */}
-                  <div
-                    className={cn(
-                      'w-9 h-9 rounded-lg flex-shrink-0',
-                      'flex items-center justify-center',
-                      'border border-primary/10',
-                      'bg-primary/[0.045]',
-                      'transition-all duration-300',
-                      'group-hover:bg-primary/[0.08]',
-                      'group-hover:border-primary/20',
-                    )}
-                  >
-                    <Icon
-                      size={15}
-                      className="text-primary"
-                    />
-                  </div>
-
-                  {/* Text */}
-                  <div className="flex-1 min-w-0">
-                    <p className="text-foreground text-sm font-bold leading-tight">
-                      {item.title}
-                    </p>
-
-                    <p className="text-muted-foreground/40 text-xs mt-1 leading-relaxed">
-                      {item.desc}
-                    </p>
-                  </div>
-
-                  {/* Status */}
-                  <CheckCircle
-                    size={14}
-                    className="text-primary/60 flex-shrink-0"
-                  />
-                </div>
-              );
-            })}
-          </div>
-
-          {/* CTA */}
-          <div className="flex flex-col sm:flex-row items-center lg:items-start gap-3">
-            <Link href="/auth/register">
-              <button
-                className={cn(
-                  'relative h-12 px-7 rounded-xl',
-                  'flex items-center justify-center gap-2',
-                  'text-sm font-extrabold',
-                  'text-primary-foreground',
-                  'bg-primary',
-                  'overflow-hidden',
-                  'transition-all duration-300',
-                  'hover:-translate-y-0.5',
-                  'hover:shadow-[0_12px_35px_rgba(219,168,0,0.16)]',
-                  'focus:outline-none',
-                )}
-              >
-                <span className="relative z-10 flex items-center gap-2">
-                  Get Your Card
-                  <ArrowRight
-                    size={15}
-                    className="transition-transform duration-200 group-hover:translate-x-0.5"
-                  />
-                </span>
-
-                <div
-                  className="absolute inset-0 bg-white/10
-                    -translate-x-full
-                    group-hover:translate-x-full
-                    transition-transform duration-500
-                    skew-x-12 pointer-events-none"
-                />
-              </button>
-            </Link>
-
-            <a href="#features">
-              <button
-                className="
-                  h-12 px-7 rounded-xl
-                  text-sm font-bold
-                  text-muted-foreground/70
-                  border border-white/[0.07]
-                  bg-white/[0.015]
-                  transition-all duration-300
-                  hover:text-foreground
-                  hover:bg-white/[0.035]
-                  hover:border-white/[0.12]
-                  focus:outline-none
-                "
-              >
-                Explore features
-              </button>
-            </a>
-          </div>
-        </div>
-      </div>
+      <SiteNavbar />
     </div>
-  </div>
-</section>
- {/* ═══════════════════════════════════════════════════════════════════════
-    SECTION 3 — LIVE MARKETS / TRADING TERMINAL
-    Premium pitch-black financial interface
-═══════════════════════════════════════════════════════════════════════ */}
-<section className="relative z-10 py-28 sm:py-40 overflow-hidden bg-[#020202]">
 
-  {/* ═══════════════════════════════════════════════════════════════════
-      ATMOSPHERIC BACKGROUND SYSTEM
-  ═══════════════════════════════════════════════════════════════════ */}
 
-  {/* Core pitch-black canvas */}
+{/* HERO — SOFTECH SOLUTIONS */}
+<section
+  id="home"
+  aria-labelledby="hero-heading"
+  dir={isHeroRtl ? 'rtl' : 'ltr'}
+  lang={heroLanguage}
+  className={`relative isolate min-h-[100svh] scroll-mt-[76px] overflow-hidden bg-[#050914] pt-[76px] text-[#EDF3FA] ${isHeroRtl ? 'rtl-language' : ''}`}
+>
+  {/* ATMOSPHERIC BACKGROUND */}
   <div
     aria-hidden="true"
-    className="absolute inset-0 pointer-events-none"
-    style={{
-      background: `
-        radial-gradient(
-          ellipse 85% 70% at 72% 42%,
-          rgba(219,168,0,0.055) 0%,
-          rgba(219,168,0,0.018) 32%,
-          transparent 68%
-        ),
-        radial-gradient(
-          ellipse 65% 80% at 12% 65%,
-          rgba(59,130,246,0.018) 0%,
-          transparent 60%
-        ),
-        linear-gradient(
-          180deg,
-          #020202 0%,
-          #030303 48%,
-          #020202 100%
-        )
-      `,
-    }}
-  />
-
-  {/* Large focused gold spotlight behind trading interface */}
-  <div
-    aria-hidden="true"
-    className="absolute pointer-events-none rounded-full"
-    style={{
-      width: 850,
-      height: 850,
-      top: '12%',
-      right: '-20%',
-      background:
-        'radial-gradient(circle, rgba(219,168,0,0.065) 0%, rgba(219,168,0,0.025) 28%, transparent 68%)',
-      filter: 'blur(70px)',
-      animation: 'orbFloat1 18s ease-in-out infinite',
-    }}
-  />
-
-  {/* Secondary cool ambient light */}
-  <div
-    aria-hidden="true"
-    className="absolute pointer-events-none rounded-full"
-    style={{
-      width: 500,
-      height: 500,
-      bottom: '8%',
-      left: '-12%',
-      background:
-        'radial-gradient(circle, rgba(59,130,246,0.025) 0%, transparent 70%)',
-      filter: 'blur(80px)',
-      animation: 'orbFloat2 16s ease-in-out infinite',
-    }}
-  />
-
-  {/* Small central gold spotlight */}
-  <div
-    aria-hidden="true"
-    className="absolute pointer-events-none rounded-full"
-    style={{
-      width: 320,
-      height: 320,
-      top: '48%',
-      left: '48%',
-      transform: 'translate(-50%, -50%)',
-      background:
-        'radial-gradient(circle, rgba(219,168,0,0.035) 0%, transparent 70%)',
-      filter: 'blur(60px)',
-      animation: 'orbFloat3 12s ease-in-out infinite',
-    }}
-  />
-
-  {/* ═══════════════════════════════════════════════════════════════════
-      SUBTLE MARKET GRID
-  ═══════════════════════════════════════════════════════════════════ */}
-  <div
-    aria-hidden="true"
-    className="absolute inset-0 pointer-events-none opacity-[0.025]"
-    style={{
-      backgroundImage: `
-        linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px)
-      `,
-      backgroundSize: '72px 72px',
-      maskImage:
-        'linear-gradient(to bottom, transparent, black 15%, black 80%, transparent)',
-      WebkitMaskImage:
-        'linear-gradient(to bottom, transparent, black 15%, black 80%, transparent)',
-    }}
-  />
-
-  {/* ═══════════════════════════════════════════════════════════════════
-      MARKET TRAJECTORY LINES
-  ═══════════════════════════════════════════════════════════════════ */}
-  <div
-    aria-hidden="true"
-    className="absolute inset-0 pointer-events-none overflow-hidden"
+    className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
   >
-    <svg
-      className="absolute w-full h-full"
-      viewBox="0 0 1440 900"
-      preserveAspectRatio="xMidYMid slice"
-      fill="none"
-    >
-      {/* Primary rising market trajectory */}
-      <path
-        d="M-100 720
-           C160 680 250 590 420 620
-           C600 650 690 470 850 500
-           C1040 535 1120 350 1540 270"
-        stroke="var(--primary)"
-        strokeWidth="1"
-        opacity="0.055"
-      />
+    {/* Deep navy atmosphere */}
+    <div className="absolute -right-[12%] -top-[20%] h-[38rem] w-[38rem] rounded-full bg-[#142D52]/30 blur-[140px]" />
 
-      {/* Secondary trajectory */}
-      <path
-        d="M-100 560
-           C180 500 300 470 480 500
-           C690 535 770 360 960 390
-           C1140 420 1270 260 1540 220"
-        stroke="rgba(255,255,255,0.12)"
-        strokeWidth="0.8"
-        opacity="0.025"
-      />
+    {/* Muted green atmosphere */}
+    <div className="absolute -bottom-[18%] left-[2%] h-[30rem] w-[30rem] rounded-full bg-[#126544]/[0.10] blur-[140px]" />
 
-      {/* Minimal circuit-style line */}
-      <path
-        d="M0 780
-           H280
-           V690
-           H520
-           V730
-           H760
-           V620
-           H1020
-           V540
-           H1280
-           V470
-           H1440"
-        stroke="var(--primary)"
-        strokeWidth="0.8"
-        opacity="0.035"
-      />
+    {/* Blue workstation illumination */}
+    <div className="absolute right-[10%] top-[25%] h-[25rem] w-[25rem] rounded-full bg-[#1768C5]/[0.09] blur-[120px]" />
 
-      {/* Market data nodes */}
-      {[
-        [280, 680],
-        [520, 720],
-        [760, 610],
-        [1020, 530],
-        [1280, 460],
-      ].map(([cx, cy], i) => (
-        <g key={`market-node-${i}`}>
-          <circle
-            cx={cx}
-            cy={cy}
-            r="3"
-            fill="var(--primary)"
-            opacity="0.12"
-          />
-          <circle
-            cx={cx}
-            cy={cy}
-            r="8"
-            fill="none"
-            stroke="var(--primary)"
-            strokeWidth="0.6"
-            opacity="0.05"
-          />
-        </g>
-      ))}
-    </svg>
-  </div>
-
-  {/* ═══════════════════════════════════════════════════════════════════
-      FLOATING ATMOSPHERIC PARTICLES
-  ═══════════════════════════════════════════════════════════════════ */}
-  <div
-    aria-hidden="true"
-    className="absolute inset-0 pointer-events-none overflow-hidden"
-  >
-    {[
-      { size: 2, top: '14%', left: '8%', delay: 0, dur: 8 },
-      { size: 3, top: '28%', left: '92%', delay: 1.2, dur: 7 },
-      { size: 2, top: '62%', left: '7%', delay: 2, dur: 9 },
-      { size: 2, top: '76%', left: '87%', delay: 0.5, dur: 8 },
-      { size: 3, top: '44%', left: '54%', delay: 1.8, dur: 7 },
-      { size: 2, top: '88%', left: '42%', delay: 2.4, dur: 10 },
-    ].map((p, i) => (
-      <div
-        key={`section3-particle-${i}`}
-        className="absolute rounded-full bg-primary"
-        style={{
-          width: p.size,
-          height: p.size,
-          top: p.top,
-          left: p.left,
-          opacity: 0.25,
-          filter: 'blur(0.5px)',
-          boxShadow: '0 0 12px rgba(219,168,0,0.35)',
-          animation: `particleFloat ${p.dur}s ease-in-out ${p.delay}s infinite`,
-        }}
-      />
-    ))}
-  </div>
-
-  {/* ═══════════════════════════════════════════════════════════════════
-      EDGE ATMOSPHERE
-  ═══════════════════════════════════════════════════════════════════ */}
-
-  {/* Top fade */}
-  <div
-    aria-hidden="true"
-    className="absolute top-0 left-0 right-0 h-32 pointer-events-none"
-    style={{
-      background:
-        'linear-gradient(to bottom, #020202 0%, rgba(2,2,2,0.75) 35%, transparent 100%)',
-    }}
-  />
-
-  {/* Bottom fade */}
-  <div
-    aria-hidden="true"
-    className="absolute bottom-0 left-0 right-0 h-40 pointer-events-none"
-    style={{
-      background:
-        'linear-gradient(to top, #020202 0%, rgba(2,2,2,0.75) 35%, transparent 100%)',
-    }}
-  />
-
-  {/* Left fade */}
-  <div
-    aria-hidden="true"
-    className="absolute inset-y-0 left-0 w-32 pointer-events-none"
-    style={{
-      background:
-        'linear-gradient(to right, #020202 0%, rgba(2,2,2,0.65) 35%, transparent 100%)',
-    }}
-  />
-
-  {/* Right fade */}
-  <div
-    aria-hidden="true"
-    className="absolute inset-y-0 right-0 w-32 pointer-events-none"
-    style={{
-      background:
-        'linear-gradient(to left, #020202 0%, rgba(2,2,2,0.65) 35%, transparent 100%)',
-    }}
-  />
-
-  {/* ═══════════════════════════════════════════════════════════════════
-      CONTENT
-  ═══════════════════════════════════════════════════════════════════ */}
-  <div
-    ref={section3.ref}
-    className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
-  >
-
-    {/* ═══════════════════════════════════════════════════════════════
-        SECTION HEADER
-    ═══════════════════════════════════════════════════════════════ */}
+    {/* Architectural grid */}
     <div
-      className={cn(
-        'relative text-center mb-16 sm:mb-20 transition-all duration-1000 ease-out',
-        section3.inView
-          ? 'opacity-100 translate-y-0'
-          : 'opacity-0 translate-y-8',
-      )}
-    >
-      {/* Header spotlight */}
-      <div
-        aria-hidden="true"
-        className="absolute left-1/2 top-0 -translate-x-1/2 pointer-events-none"
-        style={{
-          width: 500,
-          height: 220,
-          background:
-            'radial-gradient(ellipse, rgba(219,168,0,0.07) 0%, transparent 70%)',
-          filter: 'blur(35px)',
-        }}
-      />
+      className="absolute inset-0 opacity-[0.055]"
+      style={{
+        backgroundImage:
+          "linear-gradient(rgba(145,170,200,0.13) 1px, transparent 1px), linear-gradient(90deg, rgba(145,170,200,0.13) 1px, transparent 1px)",
+        backgroundSize: "72px 72px",
+        maskImage:
+          "radial-gradient(ellipse at 68% 45%, black 0%, transparent 76%)",
+        WebkitMaskImage:
+          "radial-gradient(ellipse at 68% 45%, black 0%, transparent 76%)",
+      }}
+    />
+
+    {/* Fine dot texture */}
+    <div
+      className="absolute inset-0 opacity-[0.03]"
+      style={{
+        backgroundImage:
+          "radial-gradient(rgba(190,210,230,0.8) 0.6px, transparent 0.6px)",
+        backgroundSize: "20px 20px",
+      }}
+    />
+
+    {/* Boundaries */}
+    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#315780]/50 to-transparent" />
+    <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
+    <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#050914] to-transparent" />
+  </div>
+
+  {/* MAIN LAYOUT */}
+  <div className="relative z-[1] mx-auto grid min-h-[calc(100svh-76px)] w-full max-w-[1480px] grid-cols-1 items-center gap-10 px-5 py-12 sm:px-8 lg:grid-cols-[0.94fr_1.06fr] lg:gap-8 lg:px-12 xl:gap-12 xl:px-16">
+
+    {/* LEFT — BRAND MESSAGE */}
+    <div className="relative z-10 mx-auto w-full max-w-[590px] lg:mx-0">
+
+      {/* Eyebrow */}
+      <div className="mb-7 flex min-w-0 items-center gap-3">
+        <span className="relative flex h-2 w-2 shrink-0">
+          <span className="absolute inset-0 animate-ping rounded-full bg-[#176B50]/60 motion-reduce:animate-none" />
+          <span className="relative h-2 w-2 rounded-full bg-[#287B60] shadow-[0_0_12px_rgba(40,125,92,0.45)]" />
+        </span>
+
+        <SplitText
+          key={`hero-eyebrow-${heroLanguage}`}
+          text={heroText.eyebrow}
+          tag="span"
+          className={`text-[9px] font-semibold text-[#A7B5C7] sm:text-[10px] ${isHeroRtl ? 'inline-block' : 'tracking-[0.13em] sm:tracking-[0.19em] uppercase'}`}
+          splitType={isHeroRtl ? 'none' : 'words'}
+          hideUntilReady
+          delay={24}
+          duration={0.5}
+          from={{ opacity: 0, y: 10 }}
+          to={{ opacity: 1, y: 0 }}
+          threshold={0}
+          rootMargin="0px"
+          textAlign={isHeroRtl ? 'right' : 'left'}
+        />
+
+        <span className="hidden h-px w-8 shrink-0 bg-gradient-to-r from-[#315780]/70 to-transparent sm:block" />
+      </div>
 
       <div className="relative">
-
-        {/* Live market indicator */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full mb-6 bg-primary/[0.07] border border-primary/15 backdrop-blur-xl shadow-[0_0_30px_rgba(219,168,0,0.04)]">
-          <span className="relative flex h-1.5 w-1.5">
-            <span className="absolute inline-flex h-full w-full rounded-full bg-primary animate-ping opacity-60" />
-            <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary" />
-          </span>
-
-          <TrendingUp
-            size={11}
-            className="text-primary"
-          />
-
-          <span className="text-primary text-[10px] sm:text-xs font-extrabold uppercase tracking-[0.16em]">
-            Live Markets · Real-time Data
-          </span>
-        </div>
-
-        {/* Main heading */}
-        <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-[-0.035em] mb-6 leading-[1.04] text-foreground">
-          <span className="block">
-            Trade crypto
-          </span>
-
-          <span
-            className="inline-block px-4 py-2 -mx-4 -my-2"
-            style={{
-              background:
-                'linear-gradient(135deg, var(--primary) 0%, #FFF3B3 38%, #FFFCE6 62%, var(--primary) 100%)',
-              backgroundSize: '200% auto',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-              animation: section3.inView
-                ? 'shimmerText 4s linear infinite'
-                : 'none',
-            }}
-          >
-            with confidence
-          </span>
-        </h2>
-
-        <p className="text-muted-foreground/65 text-base sm:text-lg max-w-2xl mx-auto leading-relaxed font-medium">
-          Professional-grade trading tools with a simpler experience.
-          Monitor markets, manage your portfolio, and execute trades from
-          one secure platform built for modern digital finance.
-        </p>
-      </div>
-    </div>
-
-    {/* ═══════════════════════════════════════════════════════════════
-        MAIN TRADING INTERFACE
-    ═══════════════════════════════════════════════════════════════ */}
-    <div className="flex flex-col xl:flex-row items-start gap-8 lg:gap-10">
-
-      {/* ═════════════════════════════════════════════════════════════
-          LEFT — TRADING TERMINAL
-      ═════════════════════════════════════════════════════════════ */}
-      <div
-        className={cn(
-          'w-full xl:w-[58%] transition-all duration-1000 ease-out',
-          section3.inView
-            ? 'opacity-100 translate-x-0'
-            : 'opacity-0 -translate-x-16',
-        )}
-      >
-        {/* Outer ambient glow */}
-        <div className="relative">
-
-          <div
-            aria-hidden="true"
-            className="absolute -inset-8 pointer-events-none rounded-[2rem]"
-            style={{
-              background:
-                'radial-gradient(ellipse at 50% 50%, rgba(219,168,0,0.055) 0%, transparent 68%)',
-              filter: 'blur(35px)',
-            }}
-          />
-
-          {/* Terminal shell */}
-          <div
-            className="relative rounded-2xl overflow-hidden border border-white/[0.07] bg-[#050505]/95 backdrop-blur-2xl"
-            style={{
-              boxShadow: `
-                0 40px 100px rgba(0,0,0,0.65),
-                0 0 0 1px rgba(255,255,255,0.015),
-                inset 0 1px 0 rgba(255,255,255,0.035)
-              `,
-            }}
-          >
-
-            {/* Gold top accent light */}
-            <div
-              aria-hidden="true"
-              className="absolute top-0 left-[12%] right-[12%] h-px pointer-events-none"
-              style={{
-                background:
-                  'linear-gradient(90deg, transparent, rgba(219,168,0,0.35), transparent)',
-                boxShadow: '0 0 18px rgba(219,168,0,0.18)',
-              }}
-            />
-
-            {/* Terminal toolbar */}
-            <div className="px-4 sm:px-5 py-3.5 flex items-center justify-between border-b border-white/[0.05] bg-white/[0.012]">
-
-              <div className="flex items-center gap-3 select-none">
-
-                {/* Window controls */}
-                <div className="flex items-center gap-1.5">
-                  <div className="w-2.5 h-2.5 rounded-full bg-red-500/40 border border-red-400/10" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-primary/50 border border-primary/10" />
-                  <div className="w-2.5 h-2.5 rounded-full bg-emerald-400/40 border border-emerald-400/10" />
-                </div>
-
-                <div className="w-px h-4 bg-white/[0.07]" />
-
-                <div className="flex items-center gap-2">
-                  <Activity
-                    size={12}
-                    className="text-primary"
-                  />
-
-                  <span className="text-muted-foreground/45 text-[10px] sm:text-xs font-mono font-bold tracking-tight">
-                    AtlasPay://markets/live
-                  </span>
-                </div>
-              </div>
-
-              {/* Live status */}
-              <div className="flex items-center gap-3 select-none">
-
-                <div className="flex items-center gap-1.5 px-2 py-1 rounded-md bg-primary/[0.05] border border-primary/10">
-                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-
-                  <span className="text-primary text-[9px] font-black uppercase tracking-[0.14em]">
-                    Live
-                  </span>
-                </div>
-
-                <span className="hidden sm:block text-muted-foreground/25 text-[9px] font-mono font-bold">
-                  UPDATED JUST NOW
-                </span>
-              </div>
-            </div>
-
-            {/* Terminal body */}
-            <div className="p-3 sm:p-4">
-
-              {/* Portfolio overview card */}
-              <div
-                className={cn(
-                  'relative overflow-hidden flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 px-4 py-4 rounded-xl border border-primary/10 bg-gradient-to-br from-primary/[0.055] via-transparent to-transparent mb-4 transition-all duration-700',
-                  section3.inView
-                    ? 'opacity-100 translate-y-0'
-                    : 'opacity-0 -translate-y-4',
-                )}
-                style={{
-                  transitionDelay: '100ms',
-                }}
-              >
-
-                {/* Internal spotlight */}
-                <div
-                  aria-hidden="true"
-                  className="absolute -top-20 -right-20 w-48 h-48 rounded-full pointer-events-none"
-                  style={{
-                    background:
-                      'radial-gradient(circle, rgba(219,168,0,0.08), transparent 70%)',
-                    filter: 'blur(20px)',
-                  }}
-                />
-
-                <div className="relative text-left">
-                  <p className="text-muted-foreground/35 text-[9px] font-black uppercase tracking-[0.16em] mb-1">
-                    Total Portfolio Value
-                  </p>
-
-                  <p className="text-foreground text-xl sm:text-2xl font-bold font-mono tracking-tight">
-                    $12,
-                    <span className="text-primary font-black">
-                      482
-                    </span>
-                    <span className="text-muted-foreground/50 text-base font-medium">
-                      .50
-                    </span>
-                  </p>
-                </div>
-
-                <div className="relative flex items-center gap-5 sm:gap-7">
-
-                  <div className="hidden sm:block text-right">
-                    <p className="text-muted-foreground/30 text-[8px] font-black uppercase tracking-[0.14em] mb-1">
-                      24h P&L
-                    </p>
-
-                    <p className="text-success text-sm font-bold font-mono">
-                      +$968.20
-                    </p>
-                  </div>
-
-                  <div className="text-right">
-                    <p className="text-muted-foreground/30 text-[8px] font-black uppercase tracking-[0.14em] mb-1">
-                      Change
-                    </p>
-
-                    <div className="flex items-center gap-1.5">
-                      <TrendingUp
-                        size={11}
-                        className="text-success"
-                      />
-
-                      <span className="text-success text-sm font-bold font-mono">
-                        +8.4%
-                      </span>
-                    </div>
-                  </div>
-
-                  <Link href="/auth/register">
-                    <button
-                      className="px-4 py-2 rounded-lg text-primary-foreground text-[10px] font-black uppercase tracking-wider bg-primary hover:bg-primary/90 transition-all duration-200 shadow-lg shadow-primary/10 cursor-pointer"
-                    >
-                      Trade
-                    </button>
-                  </Link>
-                </div>
-              </div>
-
-              {/* Market table header */}
-              <div
-                className={cn(
-                  'grid items-center px-4 pb-2.5 transition-all duration-500',
-                  section3.inView
-                    ? 'opacity-100'
-                    : 'opacity-0',
-                )}
-                style={{
-                  gridTemplateColumns:
-                    '20px 36px minmax(100px,1fr) 80px 80px 60px',
-                  gap: '12px',
-                  transitionDelay: '150ms',
-                }}
-              >
-                <span className="text-[8px] text-muted-foreground/20 font-black uppercase tracking-wider">
-                  #
-                </span>
-
-                <span className="col-span-2 text-[8px] text-muted-foreground/20 font-black uppercase tracking-wider">
-                  Asset
-                </span>
-
-                <span className="text-[8px] text-muted-foreground/20 font-black uppercase tracking-wider text-right hidden sm:block">
-                  Chart
-                </span>
-
-                <span className="text-[8px] text-muted-foreground/20 font-black uppercase tracking-wider text-right">
-                  Price
-                </span>
-
-                <span className="text-[8px] text-muted-foreground/20 font-black uppercase tracking-wider text-right hidden lg:block">
-                  Volume
-                </span>
-              </div>
-
-              {/* Asset rows */}
-              <div className="space-y-1.5">
-                {terminalCoins.map((coin) => (
-                  <TerminalCoinRow
-                    key={coin.symbol}
-                    {...coin}
-                    inView={section3.inView}
-                  />
-                ))}
-              </div>
-
-              {/* Terminal footer */}
-              <div
-                className={cn(
-                  'flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mt-4 pt-4 border-t border-white/[0.05] transition-all duration-500',
-                  section3.inView
-                    ? 'opacity-100'
-                    : 'opacity-0',
-                )}
-                style={{
-                  transitionDelay: '600ms',
-                }}
-              >
-                <div className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-success/70" />
-
-                  <span className="text-muted-foreground/25 text-[9px] font-mono font-bold">
-                    MARKET DATA · UPDATED IN REAL-TIME
-                  </span>
-                </div>
-
-                <Link href="/auth/register">
-                  <button
-                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[9px] font-black uppercase tracking-wider text-primary bg-primary/[0.06] border border-primary/10 hover:bg-primary/[0.12] transition-all duration-200 cursor-pointer"
-                  >
-                    View all markets
-                    <ChevronRight size={10} />
-                  </button>
-                </Link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* ═════════════════════════════════════════════════════════════
-          RIGHT — TRADING WIDGET STACK
-      ═════════════════════════════════════════════════════════════ */}
-      <div
-        className={cn(
-          'w-full xl:w-[42%] flex flex-col gap-4 transition-all duration-1000 ease-out delay-200',
-          section3.inView
-            ? 'opacity-100 translate-x-0'
-            : 'opacity-0 translate-x-16',
-        )}
-      >
-
-        {/* Quick Trade */}
-        <QuickTradeWidget
-          inView={section3.inView}
-        />
-
-        {/* Allocation */}
-        <AllocationRing
-          inView={section3.inView}
-        />
-
-        {/* Order Book */}
-        <OrderBookMini
-          inView={section3.inView}
-        />
-
-        {/* Trust metrics */}
-        <div
-          className={cn(
-            'grid grid-cols-3 gap-2.5 transition-all duration-700 ease-out',
-            section3.inView
-              ? 'opacity-100 translate-y-0'
-              : 'opacity-0 translate-y-8',
-          )}
-          style={{
-            transitionDelay: '850ms',
-          }}
+        <h1
+          id="hero-heading"
+          className={`w-full ${isHeroRtl ? 'text-right text-[clamp(2.2rem,5vw,4.5rem)] tracking-normal' : 'text-left text-[clamp(2.65rem,5.2vw,5rem)] tracking-[-0.065em]'} font-bold leading-[1.12] sm:leading-[0.99]`}
         >
+          <SplitText
+            key={`hero-headline-first-${heroLanguage}`}
+            text={heroText.headline[0]}
+            tag="span"
+            className={`block ${isHeroRtl ? '' : 'whitespace-nowrap'} text-[#C5CDD7]`}
+            splitType={isHeroRtl ? 'none' : 'chars'}
+            hideUntilReady
+            delay={24}
+            duration={0.65}
+            from={{ opacity: 0, y: 18 }}
+            to={{ opacity: 1, y: 0 }}
+            threshold={0}
+            rootMargin="0px"
+            textAlign={isHeroRtl ? 'right' : 'left'}
+          />
+          <SplitText
+            key={`hero-headline-second-${heroLanguage}`}
+            text={heroText.headline[1]}
+            tag="span"
+            className={`hero-gradient-text block ${isHeroRtl ? '' : 'whitespace-nowrap'}`}
+            splitType={isHeroRtl ? 'none' : 'chars'}
+            hideUntilReady
+            delay={24}
+            duration={0.65}
+            startDelay={100}
+            from={{ opacity: 0, y: 18 }}
+            to={{ opacity: 1, y: 0 }}
+            threshold={0}
+            rootMargin="0px"
+            textAlign={isHeroRtl ? 'right' : 'left'}
+          />
+        </h1>
+      </div>
+
+      {/* Supporting copy */}
+      <SplitText
+        key={`hero-description-${heroLanguage}`}
+        text={heroText.description}
+        tag="p"
+        className={`mt-6 max-w-[440px] text-[14px] leading-7 text-[#A2AEC0] sm:mt-7 sm:text-[15px] sm:leading-7 ${isHeroRtl ? 'font-normal' : ''}`}
+        splitType={isHeroRtl ? 'none' : 'words'}
+        hideUntilReady
+        delay={14}
+        startDelay={250}
+        duration={0.45}
+        from={{ opacity: 0, y: 10 }}
+        to={{ opacity: 1, y: 0 }}
+        threshold={0}
+        rootMargin="0px"
+        textAlign={isHeroRtl ? 'right' : 'left'}
+      />
+
+      {/* CALLS TO ACTION */}
+      <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
+
+        {/* Primary — deep navy blue */}
+        <Link
+          href="/#contact"
+          className="group relative inline-flex min-h-12 w-full items-center justify-center gap-3 overflow-hidden rounded-sm border border-[#315780]/70 bg-[#102847] px-6 py-3 text-[12px] font-semibold text-[#E5EDF7] shadow-[0_8px_35px_rgba(12,43,78,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#426F9F] hover:bg-[#16385F] hover:shadow-[0_12px_38px_rgba(18,65,112,0.32)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#315780] focus-visible:ring-offset-2 focus-visible:ring-offset-[#050914] sm:w-auto"
+        >
+          <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-[#8CB9E8]/10 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
+
+          <span className="relative">{heroText.startProject}</span>
+
+          <ArrowRight
+            size={15}
+            aria-hidden="true"
+            className={`relative transition-transform duration-300 ${isHeroRtl ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`}
+          />
+        </Link>
+
+        {/* Secondary */}
+        <Link
+          href="/#capabilities"
+          className="group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-sm border border-white/[0.12] bg-white/[0.015] px-5 py-3 text-[12px] font-medium text-[#C4CEDB] transition-all duration-300 hover:border-[#315780]/60 hover:bg-[#102847]/50 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#315780] sm:w-auto"
+        >
+          {heroText.exploreServices}
+
+          <ArrowUpRight
+            size={14}
+            aria-hidden="true"
+            className={`transition-transform duration-300 ${isHeroRtl ? 'rotate-[-45deg] group-hover:-translate-x-0.5 group-hover:translate-y-0.5' : 'group-hover:translate-x-0.5 group-hover:-translate-y-0.5'}`}
+          />
+        </Link>
+      </div>
+
+      {/* CAPABILITIES */}
+      <div className="mt-9 border-t border-white/[0.09] pt-5 sm:mt-10">
+        <p className={`mb-4 text-[9px] font-semibold text-[#748298] ${isHeroRtl ? '' : 'tracking-[0.22em] uppercase'}`}>
+          {heroText.buildHeading}
+        </p>
+
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-3 sm:gap-x-6">
           {[
-            {
-              icon: Shield,
-              label: 'Audited',
-              sub: 'Smart contracts',
-              color: 'var(--success)',
-              rgb: '14, 203, 129',
-            },
-            {
-              icon: Lock,
-              label: 'Secured',
-              sub: 'AES-256 vault',
-              color: 'var(--secondary)',
-              rgb: '59, 130, 246',
-            },
-            {
-              icon: Zap,
-              label: 'Fast',
-              sub: 'Sub-3s trades',
-              color: 'var(--primary)',
-              rgb: '219, 168, 0',
-            },
-          ].map((b) => (
+            { icon: Code2, label: heroText.capabilities[0] },
+            { icon: Globe2, label: heroText.capabilities[1] },
+            { icon: Cpu, label: heroText.capabilities[2] },
+          ].map(({ icon: Icon, label }) => (
             <div
-              key={b.label}
-              className="relative overflow-hidden flex flex-col items-center gap-1.5 p-3.5 rounded-xl border border-white/[0.06] bg-white/[0.015] backdrop-blur-xl text-center transition-all duration-300 hover:bg-white/[0.025] hover:border-white/[0.09]"
+              key={label}
+              className="group inline-flex items-center gap-2.5 text-[11px] font-medium text-[#A0ACBC] transition-colors duration-200 hover:text-white sm:text-xs"
             >
-              {/* Tiny card spotlight */}
-              <div
-                aria-hidden="true"
-                className="absolute -top-10 left-1/2 -translate-x-1/2 w-20 h-20 rounded-full pointer-events-none"
-                style={{
-                  background: `radial-gradient(circle, rgba(${b.rgb},0.08), transparent 70%)`,
-                  filter: 'blur(12px)',
-                }}
-              />
-
-              <div
-                className="relative w-8 h-8 rounded-lg border flex items-center justify-center"
-                style={{
-                  background: `rgba(${b.rgb}, 0.06)`,
-                  borderColor: `rgba(${b.rgb}, 0.14)`,
-                }}
-              >
-                <b.icon
+              <span className="flex h-8 w-8 items-center justify-center rounded-sm border border-white/[0.09] bg-white/[0.025] transition-all duration-300 group-hover:border-[#315780]/60 group-hover:bg-[#102847]/50">
+                <Icon
                   size={14}
-                  style={{
-                    color: b.color,
-                  }}
+                  strokeWidth={1.6}
+                  className="text-[#568C80]"
+                  aria-hidden="true"
                 />
-              </div>
+              </span>
 
-              <p className="text-foreground text-[11px] font-bold leading-tight mt-1">
-                {b.label}
-              </p>
-
-              <p className="text-muted-foreground/30 text-[8px] font-bold leading-none">
-                {b.sub}
-              </p>
+              {label}
             </div>
           ))}
         </div>
+      </div>
 
-        {/* Main CTA */}
-        <div
-          className={cn(
-            'transition-all duration-700 ease-out',
-            section3.inView
-              ? 'opacity-100 translate-y-0'
-              : 'opacity-0 translate-y-8',
-          )}
-          style={{
-            transitionDelay: '950ms',
-          }}
-        >
-          <Link href="/auth/register">
-            <button
-              className="relative w-full py-3.5 rounded-xl text-sm font-black text-primary-foreground overflow-hidden group transition-all duration-300 bg-primary hover:bg-primary/95 shadow-[0_12px_40px_rgba(219,168,0,0.10)] hover:shadow-[0_16px_50px_rgba(219,168,0,0.18)] hover:-translate-y-0.5 cursor-pointer focus:outline-none"
-              style={{
-                boxShadow:
-                  'inset 0 1px 0 rgba(255,255,255,0.18), 0 12px 40px rgba(219,168,0,0.10)',
-              }}
-            >
-              {/* Animated shine */}
-              <div className="absolute inset-0 bg-white/10 -translate-x-full group-hover:translate-x-full transition-transform duration-700 skew-x-12 pointer-events-none" />
+      {/* BRAND SIGNATURE */}
+      <div className={`mt-7 hidden items-center gap-3 text-[8px] text-[#69768A] sm:flex ${isHeroRtl ? '' : 'tracking-[0.17em] uppercase'}`}>
+        <span className="h-px w-7 bg-[#315780]/70" />
+        {heroText.signature}
+      </div>
+    </div>
 
-              <span className="relative z-10 flex items-center justify-center gap-2">
-                Start Trading Free
-                <ArrowRight
-                  size={16}
-                  className="transition-transform duration-200 group-hover:translate-x-0.5"
-                />
-              </span>
-            </button>
-          </Link>
+    {/* RIGHT — 3D WORKSTATION */}
+    <div className="relative mx-auto w-full min-w-0 max-w-[680px] lg:ml-auto lg:max-w-none">
 
-          <div className="flex items-center justify-center gap-2 mt-3">
-            <span className="w-1 h-1 rounded-full bg-primary/50" />
+      {/* Ambient lighting */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-[10%] rounded-full bg-[#1768C5]/[0.10] blur-[90px]"
+      />
 
-            <p className="text-center text-muted-foreground/25 text-[9px] font-bold uppercase tracking-[0.12em]">
-              No credit card · Instant setup · 50K+ active traders
+      {/* Outer structural ring */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 top-1/2 h-[76%] w-[76%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#7E91AA]/[0.09]"
+      />
+
+      {/* Outer orbit */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 top-1/2 aspect-square w-[86%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-[#91A4BB]/[0.13] motion-safe:animate-[spin_90s_linear_infinite] motion-reduce:animate-none"
+      />
+
+      {/* Inner green-blue orbit */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 top-1/2 aspect-square w-[68%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#24614F]/[0.28] motion-safe:animate-[spin_65s_linear_infinite_reverse] motion-reduce:animate-none"
+      />
+
+      {/* Orbital markers */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-[16%] top-[25%] z-[2] h-1.5 w-1.5 rounded-full bg-[#287B60] shadow-[0_0_14px_rgba(40,125,92,0.55)] motion-safe:animate-pulse"
+      />
+
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute right-[13%] top-[35%] z-[2] h-1.5 w-1.5 rounded-full bg-[#668CB5] shadow-[0_0_12px_rgba(102,140,181,0.5)] motion-safe:animate-pulse [animation-delay:1.2s]"
+      />
+
+      {/* Workstation — unchanged */}
+      <div className="relative z-[1] min-w-0">
+        <ComputerScene language={heroLanguage} />
+      </div>
+
+      {/* Engineering status */}
+      <div className={`pointer-events-none absolute top-[12%] z-[3] hidden border border-white/[0.10] bg-[#080E1A]/85 px-3.5 py-3 shadow-[0_12px_40px_rgba(0,0,0,0.25)] backdrop-blur-xl sm:block motion-safe:animate-[pulse_7s_ease-in-out_infinite] ${isHeroRtl ? 'right-0' : 'left-0'}`}>
+        <div className="flex items-center gap-2">
+          <span className="flex h-6 w-6 items-center justify-center border border-[#315780]/50 bg-[#102847]/60">
+            <Code2 size={12} className="text-[#7199C4]" />
+          </span>
+
+          <div>
+            <p className="text-[9px] font-semibold text-[#E3EAF2]">
+              {heroText.engineering}
             </p>
-
-            <span className="w-1 h-1 rounded-full bg-primary/50" />
+            <p className={`mt-1 text-[8px] text-[#8795A8] ${isHeroRtl ? '' : 'uppercase tracking-[0.12em]'}`}>
+              {heroText.engineeringTagline}
+            </p>
           </div>
         </div>
+      </div>
+
+      {/* System status */}
+      <div className={`pointer-events-none absolute top-[22%] z-[3] hidden border border-white/[0.10] bg-[#080E1A]/85 px-3.5 py-3 shadow-[0_12px_40px_rgba(0,0,0,0.25)] backdrop-blur-xl sm:block motion-safe:animate-[pulse_8s_ease-in-out_infinite] [animation-delay:1.5s] ${isHeroRtl ? 'left-0' : 'right-0'}`}>
+        <div className="flex items-center gap-2.5">
+          <span className="relative flex h-2 w-2">
+            <span className="absolute inset-0 animate-ping rounded-full bg-[#315780]/50 motion-reduce:animate-none" />
+            <span className="relative h-2 w-2 rounded-full bg-[#568C80]" />
+          </span>
+
+          <div>
+            <p className="text-[9px] font-semibold text-[#E3EAF2]">
+              {heroText.systemsOnline}
+            </p>
+            <p className={`mt-1 text-[8px] text-[#8795A8] ${isHeroRtl ? '' : 'uppercase tracking-[0.12em]'}`}>
+              {heroText.workflowSummary}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      {/* Bottom workflow signature */}
+      <div className="pointer-events-none relative z-[2] mx-auto mt-1 flex w-fit max-w-full items-center gap-3 border border-white/[0.09] bg-[#080E1A]/85 px-4 py-2.5 backdrop-blur-xl">
+        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#568C80] shadow-[0_0_10px_rgba(65,130,109,0.45)]" />
+
+        <span className={`text-[9px] font-medium text-[#A0ACBC] ${isHeroRtl ? '' : 'tracking-[0.18em] uppercase'}`}>
+          {heroText.workflow[0]}
+        </span>
+
+        <span className="text-[#536176]">/</span>
+
+        <span className={`text-[9px] font-medium text-[#A0ACBC] ${isHeroRtl ? '' : 'tracking-[0.18em] uppercase'}`}>
+          {heroText.workflow[1]}
+        </span>
+
+        <span className="text-[#536176]">/</span>
+
+        <span className={`text-[9px] font-medium text-[#A0ACBC] ${isHeroRtl ? '' : 'tracking-[0.18em] uppercase'}`}>
+          {heroText.workflow[2]}
+        </span>
       </div>
     </div>
   </div>
 </section>
 
-{/* ═══════════════════════════════════════════════════════════════════════
-    SECTION 4 — PLATFORM CORE FEATURES
-    Pitch-black atmospheric environment + localized spotlights
-═══════════════════════════════════════════════════════════════════════ */}
+{/* SECTION 02 — THE TECHNOLOGY STUDIO */}
 <section
-  id="features"
-  className="relative z-10 py-24 sm:py-32 overflow-hidden bg-[#000000] text-foreground"
+  id="technology"
+  lang={heroLanguage}
+  dir={isHeroRtl ? 'rtl' : 'ltr'}
+  className={`relative isolate overflow-hidden bg-[#05070d] px-5 py-24 text-[#edf3fa] sm:px-8 sm:py-32 lg:px-12 lg:py-36 ${isHeroRtl ? 'rtl-language' : ''}`}
 >
-  {/* ═══════════════════════════════════════════════════════════════════
-      ATMOSPHERIC BACKGROUND
-  ═══════════════════════════════════════════════════════════════════ */}
+  {/* MIDNIGHT ENVIRONMENT */}
   <div
     aria-hidden="true"
-    className="absolute inset-0 pointer-events-none overflow-hidden"
+    className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
   >
-    {/* ── Top-center gold spotlight ── */}
+    <div className="absolute inset-0 bg-[#05070d]" />
+
+    {/* Overhead atmosphere */}
+    <div className="absolute left-1/2 top-[-24rem] h-[42rem] w-[64rem] max-w-[140vw] -translate-x-1/2 rounded-full bg-blue-500/[0.07] blur-[150px]" />
+
+    {/* Cool side reflection */}
+    <div className="absolute -right-64 top-[35%] h-[36rem] w-[36rem] rounded-full bg-cyan-500/[0.035] blur-[160px]" />
+
+    {/* Soft lower reflection */}
+    <div className="absolute -bottom-48 -left-40 h-[32rem] w-[42rem] rounded-full bg-blue-500/[0.035] blur-[150px]" />
+
+    {/* Architectural grid */}
     <div
-      className="absolute pointer-events-none"
+      className="absolute inset-0 opacity-[0.045]"
       style={{
-        width: 900,
-        height: 500,
-        top: -300,
-        left: '50%',
-        transform: 'translateX(-50%)',
-        background:
-          'radial-gradient(ellipse at center, rgba(219,168,0,0.10) 0%, rgba(219,168,0,0.045) 28%, rgba(219,168,0,0.012) 55%, transparent 75%)',
-        filter: 'blur(45px)',
+        backgroundImage:
+          "linear-gradient(rgba(148,163,184,0.16) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.16) 1px, transparent 1px)",
+        backgroundSize: "80px 80px",
+        maskImage:
+          "linear-gradient(to bottom, transparent, black 18%, black 75%, transparent)",
+        WebkitMaskImage:
+          "linear-gradient(to bottom, transparent, black 18%, black 75%, transparent)",
       }}
     />
 
-    {/* ── Left warm ambient light ── */}
-    <div
-      className="absolute pointer-events-none"
-      style={{
-        width: 650,
-        height: 750,
-        top: '15%',
-        left: '-25%',
-        background:
-          'radial-gradient(circle, rgba(219,168,0,0.055) 0%, rgba(219,168,0,0.018) 40%, transparent 72%)',
-        filter: 'blur(80px)',
-      }}
-    />
-
-    {/* ── Right warm ambient light ── */}
-    <div
-      className="absolute pointer-events-none"
-      style={{
-        width: 650,
-        height: 750,
-        top: '45%',
-        right: '-25%',
-        background:
-          'radial-gradient(circle, rgba(219,168,0,0.05) 0%, rgba(219,168,0,0.015) 42%, transparent 72%)',
-        filter: 'blur(85px)',
-      }}
-    />
-
-    {/* ── Central soft atmospheric glow ── */}
-    <div
-      className="absolute pointer-events-none"
-      style={{
-        width: 700,
-        height: 500,
-        top: '40%',
-        left: '50%',
-        transform: 'translate(-50%, -50%)',
-        background:
-          'radial-gradient(ellipse, rgba(255,255,255,0.018) 0%, rgba(255,255,255,0.006) 40%, transparent 72%)',
-        filter: 'blur(60px)',
-      }}
-    />
-
-    {/* ═══════════════════════════════════════════════════════════════
-        TECHNICAL GRID
-    ═══════════════════════════════════════════════════════════════ */}
+    {/* Atmospheric haze */}
     <div
       className="absolute inset-0"
       style={{
-        opacity: 0.035,
-        backgroundImage: `
-          linear-gradient(rgba(255,255,255,0.35) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255,255,255,0.35) 1px, transparent 1px)
+        background: `
+          radial-gradient(
+            ellipse at 50% 18%,
+            rgba(103, 232, 249, 0.075) 0%,
+            rgba(59, 130, 246, 0.045) 32%,
+            transparent 68%
+          ),
+          radial-gradient(
+            ellipse at 50% 60%,
+            rgba(56, 189, 248, 0.035) 0%,
+            transparent 70%
+          )
         `,
-        backgroundSize: '64px 64px',
-        maskImage:
-          'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
-        WebkitMaskImage:
-          'linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%)',
+        filter: "blur(35px)",
       }}
     />
 
-    {/* ═══════════════════════════════════════════════════════════════
-        LOCALIZED CARD-AREA LIGHT
-        Gives the feature matrix a subtle visual stage
-    ═══════════════════════════════════════════════════════════════ */}
-    <div
-      className="absolute pointer-events-none"
-      style={{
-        width: '85%',
-        height: 600,
-        top: '28%',
-        left: '7.5%',
-        background:
-          'radial-gradient(ellipse at center, rgba(219,168,0,0.018) 0%, transparent 68%)',
-        filter: 'blur(50px)',
-      }}
-    />
+    {/* Cinematic edge falloff */}
+    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_8%,rgba(2,4,9,0.25)_65%,rgba(2,4,9,0.65)_100%)]" />
 
-    {/* ── Top transition fade ── */}
-    <div
-      className="absolute top-0 left-0 right-0 h-40"
-      style={{
-        background:
-          'linear-gradient(to bottom, #000000 0%, rgba(0,0,0,0.65) 35%, transparent 100%)',
-      }}
-    />
+    {/* Lower atmospheric shadow */}
+    <div className="absolute inset-x-0 bottom-0 h-72 bg-gradient-to-b from-transparent to-[#03050a]/70" />
+  </div>
 
-    {/* ── Bottom transition fade ── */}
+  <div ref={section2Ref} className="mx-auto max-w-[1440px]">
+    {/* SHARED LIGHT STAGE */}
+    <div ref={laserStageRef} className="relative">
+      {/* LASER STAGE — LASERFLOW IS THE ONLY BEAM */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 top-0 z-20 overflow-visible"
+        style={{
+          height:
+            laserLandingY === null
+              ? "100%"
+              : `${laserLandingY + 2}px`,
+        }}
+      >
+        {/* Diffuse illumination around the actual beam */}
+        <div
+          className="absolute left-1/2 top-[-9rem] h-[calc(100%+9rem)] w-40 -translate-x-1/2"
+          style={{
+            background:
+              "radial-gradient(ellipse at 50% 0%, rgba(103,200,255,0.09), rgba(59,130,246,0.035) 38%, transparent 75%)",
+            filter: "blur(24px)",
+          }}
+        />
+
+        {/* Soft illumination around the heading */}
+        <div
+          className="absolute left-1/2 top-[7.5rem] h-36 w-[min(760px,100%)] -translate-x-1/2 -translate-y-1/2 rounded-full"
+          style={{
+            background:
+              "radial-gradient(ellipse, rgba(59,130,246,0.09), rgba(56,189,248,0.035) 42%, transparent 74%)",
+            filter: "blur(38px)",
+          }}
+        />
+
+        {/* Actual animated laser — settings preserved */}
+        <div
+          className="absolute inset-x-0 top-0 overflow-hidden opacity-60 mix-blend-screen"
+          style={{
+            height:
+              laserLandingY === null
+                ? "100%"
+                : `${Math.max(0, laserLandingY)}px`,
+          }}
+        >
+          <LaserFlow
+            surfaceRef={laserSurfaceRef}
+            intensity={1.8}
+            flare={1.5}
+            spread={1.5}
+            color="#078df3"
+            beamPosition={0.5}
+            spill={1}
+            fog={0.2}
+            dust={1.6}
+            revealImage="/your-ui.png"
+            revealRadius={220}
+            revealOpacity={0.6}
+            beamWidth={1.5}
+            streaks={1.5}
+            dots={1}
+            pulse={1.5}
+            speed={1.5}
+            seed={3}
+            mouseInteraction
+            intro
+          />
+        </div>
+
+        {/* Soft light where the beam meets the card row */}
+        {laserLandingY !== null && (
+          <>
+            <div
+              className="pointer-events-none absolute inset-x-0 h-36 -translate-y-1/2"
+              style={{
+                top: `${laserLandingY}px`,
+                background:
+                  "radial-gradient(ellipse at 50% 0%, rgba(56,189,248,0.09), rgba(37,99,235,0.035) 36%, transparent 73%)",
+                filter: "blur(24px)",
+              }}
+            />
+
+            {/* Subtle contact bloom — no horizontal line */}
+            <div
+              className="pointer-events-none absolute left-1/2 h-12 w-[min(620px,90%)] -translate-x-1/2 -translate-y-1/2 rounded-full"
+              style={{
+                top: `${laserLandingY}px`,
+                background:
+                  "radial-gradient(ellipse, rgba(103,200,255,0.11), rgba(59,130,246,0.035) 45%, transparent 75%)",
+                filter: "blur(18px)",
+              }}
+            />
+          </>
+        )}
+      </div>
+
+      {/* SECTION INTRO */}
+      <div className="relative z-10 mx-auto max-w-6xl">
+        {/* Eyebrow */}
+        <div className="flex justify-center">
+          <div
+            className={cn(
+              "mb-8 inline-flex items-center gap-2.5 rounded-full border border-cyan-300/15 bg-[#080c15]/80 px-4 py-2 backdrop-blur-xl transition-all duration-700",
+              section2InView
+                ? "translate-y-0 opacity-100"
+                : "translate-y-4 opacity-0",
+            )}
+          >
+            <span className="relative flex h-2 w-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-300 opacity-40" />
+              <span className="relative inline-flex h-2 w-2 rounded-full bg-cyan-200" />
+            </span>
+
+            <span className={`text-[10px] font-semibold text-cyan-100/80 sm:text-xs ${isHeroRtl ? '' : 'uppercase tracking-[0.24em]'}`}>
+              {technologyText.eyebrow}
+            </span>
+          </div>
+        </div>
+
+        {/* Heading split around the actual laser */}
+        <div dir="ltr" className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-center gap-5 sm:gap-8 md:gap-12">
+          {isHeroRtl ? (
+            <>
+              <h2
+                dir="rtl"
+                className={cn(
+                  "col-start-2 row-start-1 break-words text-left text-balance text-3xl font-medium leading-[1.08] tracking-normal transition-all delay-100 duration-700 sm:text-5xl md:text-6xl lg:text-7xl",
+                  section2InView
+                    ? "translate-x-0 opacity-100"
+                    : "translate-x-5 opacity-0",
+                )}
+              >
+                {technologyText.heading[0]}
+                <span className="block break-words text-slate-100">
+                  {technologyText.heading[1]}
+                </span>
+              </h2>
+
+              <h2
+                dir="rtl"
+                className={cn(
+                  `col-start-1 row-start-1 break-words ${heroLanguage === 'fa-AF' ? 'text-right' : 'text-left'} text-balance text-3xl font-medium leading-[1.08] tracking-normal transition-all delay-150 duration-700 sm:text-5xl md:text-6xl lg:text-7xl`,
+                  section2InView
+                    ? "translate-x-0 opacity-100"
+                    : "-translate-x-5 opacity-0",
+                )}
+              >
+                <span className="bg-gradient-to-r from-cyan-200 via-blue-200 to-indigo-200 bg-clip-text text-transparent">
+                  {technologyText.heading[2]}
+                </span>
+              </h2>
+            </>
+          ) : (
+            <>
+              <h2
+                className={cn(
+                  "break-words text-right text-balance text-3xl font-medium leading-[1.08] tracking-[-0.055em] transition-all delay-100 duration-700 sm:text-5xl md:text-6xl lg:text-7xl",
+                  section2InView
+                    ? "translate-x-0 opacity-100"
+                    : "-translate-x-5 opacity-0",
+                )}
+              >
+                {technologyText.heading[0]}
+                <span className="block break-words text-slate-100">
+                  {technologyText.heading[1]}
+                </span>
+              </h2>
+
+              <h2
+                className={cn(
+                  "break-words text-left text-balance text-3xl font-medium leading-[1.08] tracking-[-0.055em] transition-all delay-150 duration-700 sm:text-5xl md:text-6xl lg:text-7xl",
+                  section2InView
+                    ? "translate-x-0 opacity-100"
+                    : "translate-x-5 opacity-0",
+                )}
+              >
+                <span className="bg-gradient-to-r from-cyan-200 via-blue-200 to-indigo-200 bg-clip-text text-transparent">
+                  {technologyText.heading[2]}
+                </span>
+              </h2>
+            </>
+          )}
+        </div>
+
+        {/* Supporting statement */}
+        <p
+          className={cn(
+            "mx-auto mt-8 max-w-2xl text-center text-pretty text-sm leading-7 text-slate-400 transition-all delay-200 duration-700 sm:mt-9 sm:text-base sm:leading-8",
+            section2InView
+              ? "translate-y-0 opacity-100"
+              : "translate-y-5 opacity-0",
+          )}
+        >
+          {technologyText.description}
+        </p>
+      </div>
+
+      {/* SERVICE CARDS */}
+      <div
+        ref={cardsRef}
+        className="relative z-10 mt-16 grid grid-cols-1 gap-4 sm:mt-20 sm:grid-cols-2 xl:grid-cols-4"
+      >
+        {/* SERVICE 01 — AI */}
+        <article
+          className={cn(
+            "group relative min-h-[320px] overflow-hidden rounded-[26px] border border-white/[0.085] bg-[#080d16]/95 p-6 shadow-[0_12px_50px_rgba(0,0,0,0.24)] backdrop-blur-md transition-all duration-700 hover:-translate-y-1 hover:border-blue-300/35 hover:bg-[#0a1120] hover:shadow-[0_16px_55px_rgba(37,99,235,0.09)] sm:p-7",
+            section2InView
+              ? "translate-y-0 opacity-100"
+              : "translate-y-8 opacity-0",
+          )}
+          style={{ transitionDelay: section2InView ? "100ms" : "0ms" }}
+        >
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-200/50 to-transparent opacity-80" />
+          <div className="pointer-events-none absolute -right-20 -top-20 h-52 w-52 rounded-full bg-blue-400/[0.055] blur-[75px] transition-colors duration-700 group-hover:bg-blue-400/[0.12]" />
+
+          <div className="relative z-10">
+            <div className="mb-8 flex items-start justify-between">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-blue-300/20 bg-blue-300/[0.07] text-blue-200 transition-transform duration-500 group-hover:scale-105">
+                <BrainCircuit className="h-6 w-6" />
+              </div>
+              <span className="font-mono text-xs text-slate-500">01</span>
+            </div>
+
+            <div className="mb-4 flex items-center gap-2">
+              <span className="h-px w-5 bg-blue-200/60" />
+              <span className={`text-[9px] font-semibold text-blue-100/70 ${isHeroRtl ? '' : 'uppercase tracking-[0.23em]'}`}>
+              {technologyText.cards[0].label}
+              </span>
+            </div>
+
+            <h3 className={`break-words text-xl font-medium leading-snug text-white ${isHeroRtl ? 'tracking-normal' : 'tracking-tight'}`}>
+              {technologyText.cards[0].title}
+            </h3>
+
+            <p className="mt-4 text-sm leading-6 text-slate-400">
+              {technologyText.cards[0].description}
+            </p>
+
+            <div className="mt-6 flex flex-wrap gap-2">
+              {technologyText.cards[0].tags.map((item) => (
+                <span
+                  key={item}
+                  className="rounded-full border border-white/[0.075] bg-white/[0.025] px-2.5 py-1.5 text-[10px] text-slate-400 transition-colors group-hover:border-blue-200/15 group-hover:text-slate-200"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+
+            <div className="mt-7 flex items-center justify-between border-t border-white/[0.075] pt-4">
+              <span className="text-xs text-slate-500">{technologyText.cards[0].footer}</span>
+              <ArrowUpRight className={`h-4 w-4 text-slate-500 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-blue-200 ${isHeroRtl ? '-scale-x-100' : ''}`} />
+            </div>
+          </div>
+        </article>
+
+        {/* SERVICE 02 — DIGITAL PRODUCTS */}
+        <article
+          className={cn(
+            "group relative min-h-[320px] overflow-hidden rounded-[26px] border border-white/[0.085] bg-[#080d16]/95 p-6 shadow-[0_12px_50px_rgba(0,0,0,0.24)] backdrop-blur-md transition-all duration-700 hover:-translate-y-1 hover:border-cyan-300/35 hover:bg-[#0a1120] hover:shadow-[0_16px_55px_rgba(6,182,212,0.08)] sm:p-7",
+            section2InView
+              ? "translate-y-0 opacity-100"
+              : "translate-y-8 opacity-0",
+          )}
+          style={{ transitionDelay: section2InView ? "200ms" : "0ms" }}
+        >
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-200/50 to-transparent opacity-80" />
+          <div className="pointer-events-none absolute -right-20 -top-20 h-52 w-52 rounded-full bg-cyan-400/[0.045] blur-[75px] transition-colors duration-700 group-hover:bg-cyan-400/[0.11]" />
+
+          <div className="relative z-10">
+            <div className="mb-8 flex items-start justify-between">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.06] text-cyan-200 transition-transform duration-500 group-hover:scale-105">
+                <Code2 className="h-6 w-6" />
+              </div>
+              <span className="font-mono text-xs text-slate-500">02</span>
+            </div>
+
+            <div className="mb-4 flex items-center gap-2">
+              <span className="h-px w-5 bg-cyan-200/60" />
+              <span className={`text-[9px] font-semibold text-cyan-100/70 ${isHeroRtl ? '' : 'uppercase tracking-[0.23em]'}`}>
+                {technologyText.cards[1].label}
+              </span>
+            </div>
+
+            <h3 className={`break-words text-xl font-medium leading-snug text-white ${isHeroRtl ? 'tracking-normal' : 'tracking-tight'}`}>
+              {technologyText.cards[1].title}
+            </h3>
+
+            <p className="mt-4 text-sm leading-6 text-slate-400">
+              {technologyText.cards[1].description}
+            </p>
+
+            <div className="mt-6 flex flex-wrap gap-2">
+              {technologyText.cards[1].tags.map((item) => (
+                <span
+                  key={item}
+                  className="rounded-full border border-white/[0.075] bg-white/[0.025] px-2.5 py-1.5 text-[10px] text-slate-400 transition-colors group-hover:border-cyan-200/15 group-hover:text-slate-200"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+
+            <div className="mt-7 flex items-center justify-between border-t border-white/[0.075] pt-4">
+              <span className="text-xs text-slate-500">{technologyText.cards[1].footer}</span>
+              <ArrowUpRight className={`h-4 w-4 text-slate-500 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-cyan-200 ${isHeroRtl ? '-scale-x-100' : ''}`} />
+            </div>
+          </div>
+        </article>
+
+        {/* SERVICE 03 — BLOCKCHAIN */}
+        <article
+          className={cn(
+            "group relative min-h-[320px] overflow-hidden rounded-[26px] border border-white/[0.085] bg-[#080d16]/95 p-6 shadow-[0_12px_50px_rgba(0,0,0,0.24)] backdrop-blur-md transition-all duration-700 hover:-translate-y-1 hover:border-violet-300/35 hover:bg-[#0a1120] hover:shadow-[0_16px_55px_rgba(139,92,246,0.08)] sm:p-7",
+            section2InView
+              ? "translate-y-0 opacity-100"
+              : "translate-y-8 opacity-0",
+          )}
+          style={{ transitionDelay: section2InView ? "300ms" : "0ms" }}
+        >
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-200/45 to-transparent opacity-80" />
+          <div className="pointer-events-none absolute -right-20 -top-20 h-52 w-52 rounded-full bg-violet-400/[0.045] blur-[75px] transition-colors duration-700 group-hover:bg-violet-400/[0.11]" />
+
+          <div className="relative z-10">
+            <div className="mb-8 flex items-start justify-between">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-violet-300/20 bg-violet-300/[0.06] text-violet-200 transition-transform duration-500 group-hover:scale-105">
+                <Blocks className="h-6 w-6" />
+              </div>
+              <span className="font-mono text-xs text-slate-500">03</span>
+            </div>
+
+            <div className="mb-4 flex items-center gap-2">
+              <span className="h-px w-5 bg-violet-200/60" />
+              <span className={`text-[9px] font-semibold text-violet-100/70 ${isHeroRtl ? '' : 'uppercase tracking-[0.23em]'}`}>
+                {technologyText.cards[2].label}
+              </span>
+            </div>
+
+            <h3 className={`break-words text-xl font-medium leading-snug text-white ${isHeroRtl ? 'tracking-normal' : 'tracking-tight'}`}>
+              {technologyText.cards[2].title}
+            </h3>
+
+            <p className="mt-4 text-sm leading-6 text-slate-400">
+              {technologyText.cards[2].description}
+            </p>
+
+            <div className="mt-6 flex flex-wrap gap-2">
+              {technologyText.cards[2].tags.map((item) => (
+                <span
+                  key={item}
+                  className="rounded-full border border-white/[0.075] bg-white/[0.025] px-2.5 py-1.5 text-[10px] text-slate-400 transition-colors group-hover:border-violet-200/15 group-hover:text-slate-200"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+
+            <div className="mt-7 flex items-center justify-between border-t border-white/[0.075] pt-4">
+              <span className="text-xs text-slate-500">{technologyText.cards[2].footer}</span>
+              <ArrowUpRight className={`h-4 w-4 text-slate-500 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-violet-200 ${isHeroRtl ? '-scale-x-100' : ''}`} />
+            </div>
+          </div>
+        </article>
+
+        {/* SERVICE 04 — INFRASTRUCTURE */}
+        <article
+          className={cn(
+            "group relative min-h-[320px] overflow-hidden rounded-[26px] border border-white/[0.085] bg-[#080d16]/95 p-6 shadow-[0_12px_50px_rgba(0,0,0,0.24)] backdrop-blur-md transition-all duration-700 hover:-translate-y-1 hover:border-emerald-300/35 hover:bg-[#0a1120] hover:shadow-[0_16px_55px_rgba(16,185,129,0.075)] sm:p-7",
+            section2InView
+              ? "translate-y-0 opacity-100"
+              : "translate-y-8 opacity-0",
+          )}
+          style={{ transitionDelay: section2InView ? "400ms" : "0ms" }}
+        >
+          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-200/45 to-transparent opacity-80" />
+          <div className="pointer-events-none absolute -right-20 -top-20 h-52 w-52 rounded-full bg-emerald-400/[0.04] blur-[75px] transition-colors duration-700 group-hover:bg-emerald-400/[0.10]" />
+
+          <div className="relative z-10">
+            <div className="mb-8 flex items-start justify-between">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-emerald-300/20 bg-emerald-300/[0.06] text-emerald-200 transition-transform duration-500 group-hover:scale-105">
+                <CloudCog className="h-6 w-6" />
+              </div>
+              <span className="font-mono text-xs text-slate-500">04</span>
+            </div>
+
+            <div className="mb-4 flex items-center gap-2">
+              <span className="h-px w-5 bg-emerald-200/60" />
+              <span className={`text-[9px] font-semibold text-emerald-100/70 ${isHeroRtl ? '' : 'uppercase tracking-[0.23em]'}`}>
+                {technologyText.cards[3].label}
+              </span>
+            </div>
+
+            <h3 className={`break-words text-xl font-medium leading-snug text-white ${isHeroRtl ? 'tracking-normal' : 'tracking-tight'}`}>
+              {technologyText.cards[3].title}
+            </h3>
+
+            <p className="mt-4 text-sm leading-6 text-slate-400">
+              {technologyText.cards[3].description}
+            </p>
+
+            <div className="mt-6 flex flex-wrap gap-2">
+              {technologyText.cards[3].tags.map((item) => (
+                <span
+                  key={item}
+                  className="rounded-full border border-white/[0.075] bg-white/[0.025] px-2.5 py-1.5 text-[10px] text-slate-400 transition-colors group-hover:border-emerald-200/15 group-hover:text-slate-200"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+
+            <div className="mt-7 flex items-center justify-between border-t border-white/[0.075] pt-4">
+              <span className="text-xs text-slate-500">{technologyText.cards[3].footer}</span>
+              <ArrowUpRight className={`h-4 w-4 text-slate-500 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-emerald-200 ${isHeroRtl ? '-scale-x-100' : ''}`} />
+            </div>
+          </div>
+        </article>
+      </div>
+    </div>
+
+    {/* SECTION FOOTER */}
     <div
-      className="absolute bottom-0 left-0 right-0 h-40"
-      style={{
-        background:
-          'linear-gradient(to top, #000000 0%, rgba(0,0,0,0.65) 35%, transparent 100%)',
-      }}
+      className={cn(
+        "mt-14 flex flex-col gap-6 border-t border-white/[0.075] pt-7 transition-all delay-500 duration-700 sm:flex-row sm:items-center sm:justify-between",
+        section2InView
+          ? "translate-y-0 opacity-100"
+          : "translate-y-5 opacity-0",
+      )}
+    >
+      <div className="flex items-start gap-3">
+        <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.025] text-cyan-200">
+          <Workflow className="h-4 w-4" />
+        </div>
+
+        <div>
+          <p className="text-sm font-medium text-slate-200">
+            {technologyText.footerHeading}
+          </p>
+          <p className="mt-1 text-xs leading-5 text-slate-500">
+            {technologyText.footerDescription}
+          </p>
+        </div>
+      </div>
+
+      <a
+        href="#contact"
+        className="group inline-flex w-fit items-center gap-3 rounded-full border border-white/[0.10] bg-white/[0.025] px-5 py-3 text-sm font-medium text-slate-200 transition-all duration-300 hover:border-cyan-200/25 hover:bg-cyan-300/[0.045] hover:text-white"
+      >
+        {technologyText.footerCta}
+        <ArrowDownRight className={`h-4 w-4 text-cyan-200 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:translate-y-0.5 ${isHeroRtl ? '-scale-x-100' : ''}`} />
+      </a>
+    </div>
+  </div>
+</section>
+
+{/* SECTION 03 — ENGINEERING PHILOSOPHY */}
+<section
+  id="engineering-section"
+  lang={heroLanguage}
+  dir={isHeroRtl ? 'rtl' : 'ltr'}
+  data-disable-global-glow-cursor
+  className="relative isolate overflow-hidden bg-[#050914]"
+>
+  <div className="absolute inset-0 z-0">
+    <CursorGrid
+      cellSize={60}
+      color={BrandGradient[0]}
+      gradientColors={BrandGradient}
+      radius={140}
+      holdTime={400}
+      fadeDuration={800}
+      fillOpacity={0.06}
+      gridOpacity={0.08}
+      clickPulse
     />
   </div>
 
-  {/* ═══════════════════════════════════════════════════════════════════
-      CONTENT
-  ═══════════════════════════════════════════════════════════════════ */}
-  <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-    {/* ═════════════════════════════════════════════════════════════════
-        HEADER
-    ═════════════════════════════════════════════════════════════════ */}
-    <div
-      ref={featuresSection.ref}
-      className={cn(
-        'text-center mb-16 select-none',
-        'transition-all duration-700 ease-out',
-        // IMPORTANT:
-        // Do not keep the entire section invisible if IntersectionObserver
-        // has not fired.
-        featuresSection.inView
-          ? 'opacity-100 translate-y-0'
-          : 'opacity-100 translate-y-0',
-      )}
-    >
-      {/* Badge */}
-      <Badge
-        variant="secondary"
-        className="mb-5 text-xs inline-flex bg-primary/10 border border-primary/20 text-primary"
-      >
-        <Zap size={12} className="text-primary mr-1.5" />
-        Platform Features
-      </Badge>
-
-      {/* Heading */}
-      <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-foreground mb-5">
-        Everything you need
-      </h2>
-
-      {/* Description */}
-      <p className="text-muted-foreground/75 text-base sm:text-lg max-w-2xl mx-auto font-medium leading-relaxed">
-        A complete crypto platform built for Afghanistan — from wallets to
-        trading to instant transfers.
-      </p>
-    </div>
-
-    {/* ═════════════════════════════════════════════════════════════════
-        FEATURE MATRIX
-    ═════════════════════════════════════════════════════════════════ */}
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-      {features.map((f, i) => (
-        <div
-          key={f.title}
-          className={cn(
-            'relative',
-            'transition-all duration-700 ease-out',
-            // Keep cards visible regardless of observer timing.
-            featuresSection.inView
-              ? 'opacity-100 translate-y-0'
-              : 'opacity-100 translate-y-0',
-          )}
-          style={{
-            transitionDelay: `${i * 80}ms`,
-          }}
-        >
-          <SpotlightCard
-            spotlightColor={
-              featureSpotlightColors[
-                i % featureSpotlightColors.length
-              ]
-            }
-            className="h-full"
-          >
-            <div
-              className="
-                group
-                relative
-                h-full
-                min-h-[230px]
-                flex
-                flex-col
-                p-6
-                rounded-xl
-                overflow-hidden
-
-                bg-[#090909]
-                border
-                border-white/[0.10]
-
-                shadow-[0_20px_70px_rgba(0,0,0,0.55)]
-
-                transition-all
-                duration-300
-
-                hover:bg-[#0D0D0D]
-                hover:border-primary/30
-                hover:shadow-[0_20px_80px_rgba(219,168,0,0.06)]
-              "
-            >
-              {/* ═══════════════════════════════════════════════════
-                  CARD LOCALIZED SPOTLIGHT
-              ═══════════════════════════════════════════════════ */}
-              <div
-                className="
-                  absolute
-                  pointer-events-none
-                  -top-32
-                  left-1/2
-                  w-64
-                  h-64
-                  -translate-x-1/2
-                  rounded-full
-                  opacity-60
-                  blur-3xl
-                "
-                style={{
-                  background:
-                    'radial-gradient(circle, rgba(219,168,0,0.055) 0%, transparent 70%)',
-                }}
-              />
-
-              {/* ═══════════════════════════════════════════════════
-                  CARD TOP EDGE LIGHT
-              ═══════════════════════════════════════════════════ */}
-              <div
-                className="
-                  absolute
-                  top-0
-                  left-[12%]
-                  right-[12%]
-                  h-px
-                  opacity-40
-                "
-                style={{
-                  background:
-                    'linear-gradient(90deg, transparent, rgba(219,168,0,0.35), transparent)',
-                }}
-              />
-
-              {/* ═══════════════════════════════════════════════════
-                  ICON
-              ═══════════════════════════════════════════════════ */}
-              <div
-                className="
-                  relative
-                  z-10
-                  w-12
-                  h-12
-                  rounded-xl
-                  flex
-                  items-center
-                  justify-center
-                  mb-6
-
-                  bg-primary/[0.07]
-                  border
-                  border-primary/[0.16]
-                  text-primary
-
-                  shadow-[0_0_30px_rgba(219,168,0,0.05)]
-
-                  group-hover:bg-primary/[0.11]
-                  group-hover:border-primary/30
-                  group-hover:scale-105
-
-                  transition-all
-                  duration-300
-                "
-              >
-                <f.icon size={21} />
-              </div>
-
-              {/* ═══════════════════════════════════════════════════
-                  CONTENT
-              ═══════════════════════════════════════════════════ */}
-              <div className="relative z-10 flex flex-col flex-1">
-                <h3
-                  className="
-                    text-base
-                    font-bold
-                    text-foreground
-                    mb-2
-                    tracking-tight
-                    group-hover:text-primary
-                    transition-colors
-                    duration-200
-                  "
-                >
-                  {f.title}
-                </h3>
-
-                <p
-                  className="
-                    text-sm
-                    text-muted-foreground/70
-                    leading-relaxed
-                    flex-1
-                    font-medium
-                  "
-                >
-                  {f.description}
-                </p>
-
-                {/* Bottom accent */}
-                <div
-                  className="
-                    mt-6
-                    h-px
-                    w-0
-                    group-hover:w-full
-                    transition-all
-                    duration-500
-                    ease-out
-                    rounded-full
-                    bg-gradient-to-r
-                    from-transparent
-                    via-primary/40
-                    to-transparent
-                  "
-                />
-              </div>
-            </div>
-          </SpotlightCard>
-        </div>
-      ))}
-    </div>
+  <div className="relative z-10 h-full">
+    <EngineeringSection language={heroLanguage} />
   </div>
 </section>
 
@@ -5396,28 +4282,8 @@ export default function LandingPage() {
 ═══════════════════════════════════════════════════════════════════════ */}
 <div className="relative z-10 bg-[#030303] overflow-hidden">
 
-  {/* Ambient transition light */}
-  <div
-    className="absolute top-0 left-1/2 -translate-x-1/2 pointer-events-none"
-    style={{
-      width: 700,
-      height: 250,
-      background:
-        'radial-gradient(ellipse, rgba(219,168,0,0.045) 0%, transparent 70%)',
-      filter: 'blur(50px)',
-    }}
-  />
-
-  {/* Section divider */}
-  <div
-    className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-5xl h-px"
-    style={{
-      background:
-        'linear-gradient(90deg, transparent, rgba(219,168,0,0.15), transparent)',
-    }}
-  />
-
-  <StatsSection />
+  {/* SECTION 4 — TECHNICAL CAPABILITIES */}
+<CapabilitiesSection language={heroLanguage} />
 </div>
 
 
@@ -5426,216 +4292,19 @@ export default function LandingPage() {
 ═══════════════════════════════════════════════════════════════════════ */}
 <section
   id="security"
-  className="relative z-10 py-24 sm:py-32 overflow-hidden bg-[#030303]"
+  className="relative z-10 overflow-hidden bg-[#030303]"
 >
-  {/* ── Background atmosphere ── */}
-  <div className="absolute inset-0 pointer-events-none overflow-hidden">
+  {/* SECTION 6 — CONTACT CTA */}
+<ContactSection language={heroLanguage} />
 
-    {/* Main security spotlight */}
-    <div
-      className="absolute rounded-full"
-      style={{
-        width: 850,
-        height: 500,
-        top: -250,
-        left: '50%',
-        transform: 'translateX(-50%)',
-        background:
-          'radial-gradient(ellipse, rgba(219,168,0,0.06) 0%, rgba(219,168,0,0.018) 40%, transparent 72%)',
-        filter: 'blur(50px)',
-      }}
-    />
-
-    {/* Left gold light */}
-    <div
-      className="absolute rounded-full"
-      style={{
-        width: 500,
-        height: 500,
-        top: '30%',
-        left: '-18%',
-        background:
-          'radial-gradient(circle, rgba(219,168,0,0.035) 0%, transparent 70%)',
-        filter: 'blur(70px)',
-      }}
-    />
-
-    {/* Right blue security light */}
-    <div
-      className="absolute rounded-full"
-      style={{
-        width: 450,
-        height: 550,
-        bottom: '5%',
-        right: '-15%',
-        background:
-          'radial-gradient(circle, rgba(59,130,246,0.025) 0%, transparent 70%)',
-        filter: 'blur(75px)',
-      }}
-    />
-
-    {/* Technical grid */}
-    <div
-      className="absolute inset-0"
-      style={{
-        opacity: 0.02,
-        backgroundImage: `
-          linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)
-        `,
-        backgroundSize: '64px 64px',
-        maskImage:
-          'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)',
-        WebkitMaskImage:
-          'linear-gradient(to bottom, transparent, black 15%, black 85%, transparent)',
-      }}
-    />
-
-    {/* Top fade */}
-    <div
-      className="absolute top-0 left-0 right-0 h-32"
-      style={{
-        background:
-          'linear-gradient(to bottom, #030303, transparent)',
-      }}
-    />
-
-    {/* Bottom fade */}
-    <div
-      className="absolute bottom-0 left-0 right-0 h-32"
-      style={{
-        background:
-          'linear-gradient(to top, #030303, transparent)',
-      }}
-    />
-  </div>
-
-  {/* ── Content ── */}
-  <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-
-    {/* Security header */}
-    <div className="text-center mb-16 select-none">
-
-      <Badge
-        variant="secondary"
-        className="
-          mb-5
-          text-xs
-          inline-flex
-          bg-primary/10
-          border border-primary/20
-          text-primary
-        "
-      >
-        <Shield size={12} className="text-primary mr-1.5" />
-        Security First
-      </Badge>
-
-      <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-foreground mb-5">
-        Built to protect your assets
-      </h2>
-
-      <p className="text-muted-foreground/75 text-base sm:text-lg max-w-2xl mx-auto font-medium leading-relaxed">
-        Multi-layered security infrastructure designed to keep your crypto
-        safe — no compromises.
-      </p>
-    </div>
-
-    {/* Security cards */}
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-      {securityFeatures.map((f, i) => (
-        <SpotlightCard
-          key={f.title}
-          spotlightColor="rgba(219, 168, 0, 0.07)"
-        >
-          <div
-            className="
-              group relative
-              flex items-start gap-5
-              p-6
-              min-h-[150px]
-              rounded-xl
-              overflow-hidden
-              bg-[#0A0A0A]
-              border border-white/[0.08]
-              shadow-[0_20px_60px_rgba(0,0,0,0.35)]
-              hover:bg-[#0D0D0D]
-              hover:border-primary/20
-              transition-all duration-300
-            "
-          >
-            {/* Localized card glow */}
-            <div
-              className="
-                absolute
-                -top-20 -left-20
-                w-48 h-48
-                rounded-full
-                bg-primary/[0.035]
-                blur-3xl
-                opacity-0
-                group-hover:opacity-100
-                transition-opacity duration-500
-                pointer-events-none
-              "
-            />
-
-            {/* Icon */}
-            <div
-              className="
-                relative z-10
-                w-11 h-11
-                rounded-xl
-                bg-primary/[0.07]
-                border border-primary/[0.15]
-                flex items-center justify-center
-                shrink-0
-                text-primary
-                group-hover:bg-primary/[0.11]
-                group-hover:border-primary/25
-                transition-all duration-300
-              "
-            >
-              <f.icon size={18} />
-            </div>
-
-            {/* Text */}
-            <div className="relative z-10 text-left">
-              <h3
-                className="
-                  font-bold
-                  text-foreground
-                  mb-2
-                  tracking-tight
-                  group-hover:text-primary
-                  transition-colors duration-200
-                "
-              >
-                {f.title}
-              </h3>
-
-              <p
-                className="
-                  text-sm
-                  text-muted-foreground/65
-                  leading-relaxed
-                  font-medium
-                "
-              >
-                {f.description}
-              </p>
-            </div>
-          </div>
-        </SpotlightCard>
-      ))}
-    </div>
-  </div>
 </section>
+
+
       {/* ══ TESTIMONIAL COROUSEL SECTION LAYER ════════════════════════════════════ */}
-      <TestimonialsSection />
+      <TestimonialsSection language={heroLanguage} />
 
       {/* ══ CORPORATE SYNCED FOOTER SECTION LAYER ═════════════════════════════════ */}
-      <Footer />
+      <Footer language={heroLanguage} />
 
       {/* ── Mobile Drawer Layout Overlay Module ── */}
       <MobileDrawer
@@ -5704,4 +4373,3 @@ export default function LandingPage() {
     </div>
   );
 }
-

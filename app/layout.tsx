@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import GlobalGlowCursor from "@/components/GlobalGlowCursor";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -24,7 +25,24 @@ export const metadata: Metadata = {
   applicationName: "SofTech Solutions",
   themeColor: "#030a18",
   icons: {
-    icon: "/softech-solutions-image.jpeg",
+    icon: "/softech-solutions-image.png",
+    shortcut: "/favicon.ico",
+    apple: "/softech-solutions-image.png",
+  },
+  openGraph: {
+    title: "SofTech Solutions | Technology for What's Next",
+    description:
+      "SofTech Solutions builds applied AI, custom software, digital products, and automation that move businesses forward.",
+    siteName: "SofTech Solutions",
+    type: "website",
+    images: ["/softech-solutions-image.png"],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "SofTech Solutions | Technology for What's Next",
+    description:
+      "SofTech Solutions builds applied AI, custom software, digital products, and automation that move businesses forward.",
+    images: ["/softech-solutions-image.png"],
   },
 };
 
@@ -38,7 +56,10 @@ export default function RootLayout({
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
-      <body>{children}</body>
+      <body>
+        {children}
+        <GlobalGlowCursor />
+      </body>
     </html>
   );
 }
