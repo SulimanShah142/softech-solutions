@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -10,30 +11,47 @@ import {
   Layers3,
   Network,
   Workflow,
+  type LucideIcon,
 } from 'lucide-react';
+import type { CSSProperties } from 'react';
 import type { SiteLanguage } from '@/lib/site-language';
 
 import ArchitectureVisual from './ArchitectureVisual';
 import CapabilityPanel from './CapabilityPanel';
 
-const capabilities = [
+const BRAND = {
+  jade: '#28D9A0',
+  blue: '#60A5FA',
+  navy: '#050914',
+} as const;
+
+const capabilities: {
+  number: string;
+  icon: LucideIcon;
+  accent: string;
+  visual: 'engineering' | 'integrations' | 'automation';
+  copyIndex: number;
+}[] = [
   {
     number: '02',
     icon: Code2,
-    accent: '#28D9A0',
-    visual: 'engineering' as const,
+    accent: BRAND.jade,
+    visual: 'engineering',
+    copyIndex: 0,
   },
   {
     number: '03',
     icon: GitBranch,
-    accent: '#60A5FA',
-    visual: 'integrations' as const,
+    accent: BRAND.blue,
+    visual: 'integrations',
+    copyIndex: 1,
   },
   {
     number: '04',
     icon: BrainCircuit,
-    accent: '#28D9A0',
-    visual: 'automation' as const,
+    accent: BRAND.jade,
+    visual: 'automation',
+    copyIndex: 2,
   },
 ];
 
@@ -158,49 +176,64 @@ const translations = {
       },
     ],
   },
-} satisfies Record<SiteLanguage, {
-  sectionLabel: string;
-  heading: [string, string];
-  introduction: string;
-  connected: string;
-  architecture: string;
-  structureFlowScale: string;
-  foundationEyebrow: string;
-  foundationHeading: [string, string];
-  foundationDescription: string;
-  principles: string[];
-  architectureTagline: string;
-  architectureStatus: string;
-  moreCapabilities: string;
-  capabilityLabel: string;
-  transition: string;
-  built: string;
-  cards: { eyebrow: string; title: string; description: string }[];
-}>;
+} satisfies Record<
+  SiteLanguage,
+  {
+    sectionLabel: string;
+    heading: [string, string];
+    introduction: string;
+    connected: string;
+    architecture: string;
+    structureFlowScale: string;
+    foundationEyebrow: string;
+    foundationHeading: [string, string];
+    foundationDescription: string;
+    principles: string[];
+    architectureTagline: string;
+    architectureStatus: string;
+    moreCapabilities: string;
+    capabilityLabel: string;
+    transition: string;
+    built: string;
+    cards: {
+      eyebrow: string;
+      title: string;
+      description: string;
+    }[];
+  }
+>;
 
-export default function CapabilitiesSection({ language }: { language: SiteLanguage }) {
-  const copy = translations[language];
-  const isRtl = language !== 'en';
-  const sectionRef = useRef<HTMLElement>(null);
+function useSectionEntrance(sectionRef: React.RefObject<HTMLElement | null>) {
   const [hasEntered, setHasEntered] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
 
   useEffect(() => {
-    const motion = window.matchMedia(
+    const motionQuery = window.matchMedia(
       '(prefers-reduced-motion: reduce)',
     );
 
-    const updateMotion = () => setReducedMotion(motion.matches);
-    updateMotion();
-    motion.addEventListener('change', updateMotion);
+    const updateMotionPreference = () => {
+      setReducedMotion(motionQuery.matches);
+
+      if (motionQuery.matches) {
+        setHasEntered(true);
+      }
+    };
+
+    updateMotionPreference();
+    motionQuery.addEventListener('change', updateMotionPreference);
 
     const section = sectionRef.current;
 
-    if (motion.matches || !('IntersectionObserver' in window)) {
+    if (
+      motionQuery.matches ||
+      !('IntersectionObserver' in window) ||
+      !section
+    ) {
       setHasEntered(true);
 
       return () => {
-        motion.removeEventListener('change', updateMotion);
+        motionQuery.removeEventListener('change', updateMotionPreference);
       };
     }
 
@@ -211,26 +244,48 @@ export default function CapabilitiesSection({ language }: { language: SiteLangua
           observer.disconnect();
         }
       },
-      { threshold: 0.12 },
+      { threshold: 0.08 },
     );
 
-    if (section) observer.observe(section);
+    observer.observe(section);
 
     return () => {
       observer.disconnect();
-      motion.removeEventListener('change', updateMotion);
+      motionQuery.removeEventListener('change', updateMotionPreference);
     };
-  }, []);
+  }, [sectionRef]);
 
-  const entrance = (side: 'left' | 'right', delay = 0) => ({
+  return { hasEntered, reducedMotion };
+}
+
+function entranceStyle(
+  hasEntered: boolean,
+  reducedMotion: boolean,
+  direction: 'left' | 'right',
+  delay = 0,
+): CSSProperties {
+  return {
     opacity: hasEntered ? 1 : 0,
-    transform: hasEntered
-      ? 'translate3d(0, 0, 0)'
-      : `translate3d(${side === 'left' ? '-24px' : '24px'}, 0, 0)`,
+    transform: reducedMotion
+      ? 'none'
+      : hasEntered
+        ? 'translate3d(0, 0, 0)'
+        : `translate3d(${direction === 'left' ? '-20px' : '20px'}, 0, 0)`,
     transition: reducedMotion
       ? 'none'
-      : `opacity 700ms ease ${delay}ms, transform 700ms cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms`,
-  });
+      : `opacity 650ms ease ${delay}ms, transform 750ms cubic-bezier(0.22, 1, 0.36, 1) ${delay}ms`,
+  };
+}
+
+export default function CapabilitiesSection({
+  language,
+}: {
+  language: SiteLanguage;
+}) {
+  const copy = translations[language];
+  const isRtl = language !== 'en';
+  const sectionRef = useRef<HTMLElement>(null);
+  const { hasEntered, reducedMotion } = useSectionEntrance(sectionRef);
 
   return (
     <section
@@ -239,82 +294,122 @@ export default function CapabilitiesSection({ language }: { language: SiteLangua
       dir={isRtl ? 'rtl' : 'ltr'}
       id="capabilities"
       aria-labelledby="capabilities-heading"
-      className="relative isolate overflow-hidden bg-[#050914] py-24 text-white sm:py-32 lg:py-36"
+      className="relative isolate overflow-hidden bg-[#050914] py-20 text-white sm:py-28 lg:py-32"
     >
-      {/* Atmospheric background */}
+      <style>{`
+        @keyframes capabilitiesAmbient {
+          0%, 100% { opacity: .45; }
+          50% { opacity: .8; }
+        }
+
+        @keyframes capabilitiesStatus {
+          0%, 100% { opacity: .45; }
+          50% { opacity: 1; }
+        }
+
+        .capabilities-ambient {
+          animation: capabilitiesAmbient 12s ease-in-out infinite;
+        }
+
+        .capabilities-status {
+          animation: capabilitiesStatus 3s ease-in-out infinite;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .capabilities-ambient,
+          .capabilities-status {
+            animation: none !important;
+          }
+        }
+      `}</style>
+
+      {/* Background atmosphere */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0 overflow-hidden"
       >
         <div
-          className="absolute left-1/2 top-[-260px] h-[560px] w-[900px] -translate-x-1/2 rounded-full"
+          className="capabilities-ambient absolute left-1/2 top-[-260px] h-[540px] w-[860px] max-w-[130vw] -translate-x-1/2 rounded-full"
           style={{
             background:
-              'radial-gradient(ellipse, rgba(40,217,160,0.085) 0%, rgba(40,217,160,0.025) 38%, transparent 72%)',
-            filter: 'blur(70px)',
+              'radial-gradient(ellipse, rgba(40,217,160,0.085) 0%, rgba(40,217,160,0.025) 40%, transparent 72%)',
+            filter: 'blur(65px)',
           }}
         />
 
         <div
-          className="absolute -left-[300px] top-[28%] h-[650px] w-[650px] rounded-full"
+          className="absolute -left-[360px] top-[30%] h-[620px] w-[620px] rounded-full"
           style={{
             background:
-              'radial-gradient(circle, rgba(37,99,235,0.09) 0%, rgba(37,99,235,0.025) 42%, transparent 72%)',
+              'radial-gradient(circle, rgba(37,99,235,0.075) 0%, transparent 70%)',
             filter: 'blur(85px)',
           }}
         />
 
         <div
-          className="absolute -right-[320px] top-[48%] h-[650px] w-[650px] rounded-full"
+          className="absolute -right-[400px] top-[55%] h-[600px] w-[600px] rounded-full"
           style={{
             background:
-              'radial-gradient(circle, rgba(40,217,160,0.055) 0%, transparent 70%)',
+              'radial-gradient(circle, rgba(40,217,160,0.045) 0%, transparent 70%)',
             filter: 'blur(90px)',
           }}
         />
 
         <div
-          className="absolute inset-0 opacity-[0.035]"
+          className="absolute inset-0 opacity-[0.025]"
           style={{
             backgroundImage: `
-              linear-gradient(rgba(148,163,184,0.42) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(148,163,184,0.42) 1px, transparent 1px)
+              linear-gradient(rgba(148,163,184,0.45) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(148,163,184,0.45) 1px, transparent 1px)
             `,
             backgroundSize: '64px 64px',
             maskImage:
-              'linear-gradient(to bottom, transparent 0%, black 14%, black 84%, transparent 100%)',
+              'linear-gradient(to bottom, transparent, black 16%, black 82%, transparent)',
             WebkitMaskImage:
-              'linear-gradient(to bottom, transparent 0%, black 14%, black 84%, transparent 100%)',
+              'linear-gradient(to bottom, transparent, black 16%, black 82%, transparent)',
           }}
         />
 
-        <div className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-[#050914] to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#050914] to-transparent" />
+        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-[#050914] to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#050914] to-transparent" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-5 sm:px-8 lg:px-10">
-        {/* Section heading */}
-        <header className={`mb-14 max-w-3xl sm:mb-16 lg:mb-20 ${isRtl ? 'text-right' : 'text-left'}`}>
+        {/* Section introduction */}
+        <header
+          className={`mb-12 max-w-4xl sm:mb-16 lg:mb-20 ${
+            isRtl ? 'text-right' : 'text-left'
+          }`}
+        >
           <div className="mb-6 flex items-center gap-3">
             <span
               aria-hidden="true"
-              className="h-px w-9"
+              className="h-px w-9 shrink-0"
               style={{
                 background:
-                  'linear-gradient(90deg, #28D9A0, rgba(40,217,160,0.15))',
+                  'linear-gradient(90deg, #28D9A0, rgba(40,217,160,0.12))',
               }}
             />
 
-            <span className={`text-[11px] font-semibold uppercase ${isRtl ? 'tracking-normal' : 'tracking-[0.24em]'} text-[#28D9A0]`}>
+            <span
+              className={`text-[10px] font-semibold uppercase text-[#28D9A0] sm:text-[11px] ${
+                isRtl ? '' : 'tracking-[0.2em]'
+              }`}
+            >
               {copy.sectionLabel}
             </span>
 
-            <span className="ml-1 hidden h-px w-16 bg-white/10 sm:block" />
+            <span
+              aria-hidden="true"
+              className="hidden h-px w-14 bg-white/10 sm:block"
+            />
           </div>
 
           <h2
             id="capabilities-heading"
-            className={`max-w-2xl text-4xl font-semibold leading-[1.08] ${isRtl ? '' : 'tracking-[-0.045em]'} text-white sm:text-5xl lg:text-7xl`}
+            className={`max-w-3xl text-4xl font-semibold leading-[1.1] text-white sm:text-5xl lg:text-7xl ${
+              isRtl ? '' : 'tracking-[-0.045em]'
+            }`}
           >
             {copy.heading[0]}{' '}
             <span className="bg-gradient-to-r from-[#28D9A0] via-[#63E8C0] to-[#60A5FA] bg-clip-text text-transparent">
@@ -322,149 +417,309 @@ export default function CapabilitiesSection({ language }: { language: SiteLangua
             </span>
           </h2>
 
-          <div className={`mt-7 flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between ${isRtl ? 'sm:flex-row-reverse' : ''}`}>
-            <p className="max-w-xl text-sm leading-7 text-slate-400 sm:text-base sm:leading-8">
+          <div
+            className={`mt-6 flex flex-col gap-5 sm:mt-7 sm:flex-row sm:items-end sm:justify-between ${
+              isRtl ? 'sm:flex-row-reverse' : ''
+            }`}
+          >
+            <p className="max-w-2xl text-sm leading-7 text-slate-400 sm:text-base sm:leading-8">
               {copy.introduction}
             </p>
 
-            <div className="hidden shrink-0 items-center gap-2 pb-1 text-xs text-slate-500 lg:flex">
-              <Network size={15} className="text-[#28D9A0]" />
+            <div
+              className={`hidden shrink-0 items-center gap-2 pb-1 text-xs text-slate-500 lg:flex ${
+                isRtl ? 'flex-row-reverse' : ''
+              }`}
+            >
+              <Network
+                size={15}
+                strokeWidth={1.6}
+                className="text-[#28D9A0]"
+              />
               <span>{copy.connected}</span>
             </div>
           </div>
         </header>
 
-        {/* Main architecture feature */}
-        <div className="relative">
-          <div className={`mb-4 flex items-center justify-between border-b border-white/[0.09] pb-3 ${isRtl ? 'flex-row-reverse' : ''}`}>
-            <div className="flex items-center gap-2.5">
-              <Layers3 size={15} className="text-[#28D9A0]" />
-              <span className={`text-[10px] font-semibold uppercase ${isRtl ? 'tracking-normal' : 'tracking-[0.2em]'} text-slate-300`}>
+        {/* Primary architecture feature */}
+        <div>
+          <div
+            className={`mb-5 flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.09] pb-3 ${
+              isRtl ? 'flex-row-reverse' : ''
+            }`}
+          >
+            <div
+              className={`flex items-center gap-2.5 ${
+                isRtl ? 'flex-row-reverse' : ''
+              }`}
+            >
+              <Layers3
+                size={15}
+                strokeWidth={1.6}
+                className="text-[#28D9A0]"
+              />
+
+              <span
+                className={`text-[10px] font-semibold uppercase text-slate-300 sm:text-[11px] ${
+                  isRtl ? '' : 'tracking-[0.17em]'
+                }`}
+              >
                 {copy.architecture}
               </span>
             </div>
 
-            <span className="font-mono text-[10px] tracking-wider text-slate-600">
+            <span
+              className={`font-mono text-[9px] text-slate-600 sm:text-[10px] ${
+                isRtl ? '' : 'tracking-[0.12em]'
+              }`}
+            >
               {copy.structureFlowScale}
             </span>
           </div>
 
-          <div className="grid items-stretch gap-7 lg:grid-cols-[0.82fr_1.18fr] lg:gap-10">
-            {/* Editorial copy enters from the left */}
+          <div className="grid min-w-0 items-center gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:gap-10 xl:gap-14">
+            {/* Architecture narrative */}
             <div
-              className={`group/copy flex flex-col justify-center rounded-xl py-3 transition-colors duration-300 hover:bg-white/[0.012] lg:py-8 ${isRtl ? 'text-right' : 'text-left'}`}
-              style={entrance('left')}
+              className={`flex min-w-0 flex-col justify-center py-2 lg:py-8 ${
+                isRtl ? 'text-right' : 'text-left'
+              }`}
+              style={entranceStyle(
+                hasEntered,
+                reducedMotion,
+                isRtl ? 'right' : 'left',
+              )}
             >
-              <div className="mb-7 flex h-12 w-12 items-center justify-center rounded-xl border border-[#28D9A0]/20 bg-[#28D9A0]/[0.07] text-[#28D9A0] transition-all duration-300 group-hover/copy:border-[#28D9A0]/45 group-hover/copy:bg-[#28D9A0]/[0.12] group-hover/copy:shadow-[0_0_30px_rgba(40,217,160,0.08)]">
-                <Workflow size={22} strokeWidth={1.5} />
+              <div
+                className={`mb-6 flex h-11 w-11 items-center justify-center rounded-xl border border-[#28D9A0]/20 bg-[#28D9A0]/[0.06] text-[#28D9A0] ${
+                  isRtl ? 'self-end' : 'self-start'
+                }`}
+              >
+                <Workflow size={21} strokeWidth={1.5} />
               </div>
 
-              <p className="mb-4 text-[10px] font-semibold uppercase tracking-[0.2em] text-[#28D9A0]/80">
+              <p
+                className={`mb-3 text-[10px] font-semibold uppercase text-[#28D9A0]/85 sm:text-[11px] ${
+                  isRtl ? '' : 'tracking-[0.18em]'
+                }`}
+              >
                 {copy.foundationEyebrow}
               </p>
 
-              <h3 className={`max-w-md text-3xl font-medium leading-tight ${isRtl ? '' : 'tracking-[-0.035em]'} text-white sm:text-4xl`}>
+              <h3
+                className={`max-w-lg text-3xl font-medium leading-[1.2] text-white sm:text-4xl ${
+                  isRtl ? '' : 'tracking-[-0.035em]'
+                }`}
+              >
                 {copy.foundationHeading[0]}
-                <span className="block text-slate-500">
+                <span className="mt-1 block text-slate-500">
                   {copy.foundationHeading[1]}
                 </span>
               </h3>
 
-              <p className="mt-5 max-w-md text-sm leading-7 text-slate-400">
+              <p className="mt-5 max-w-lg text-sm leading-7 text-slate-400 sm:leading-8">
                 {copy.foundationDescription}
               </p>
 
-              <div className="mt-8 flex flex-wrap gap-x-5 gap-y-3 border-t border-white/[0.09] pt-5">
-                {copy.principles.map(
-                  (item) => (
-                    <div
-                      key={item}
-                      className={`flex items-center gap-2 text-xs text-slate-400 ${isRtl ? 'flex-row-reverse' : ''}`}
-                    >
-                      <span className="h-1.5 w-1.5 rounded-full bg-[#28D9A0]" />
-                      {item}
-                    </div>
-                  ),
-                )}
-              </div>
+              <ul
+                className={`mt-7 flex flex-wrap gap-x-5 gap-y-3 border-t border-white/[0.09] pt-5 ${
+                  isRtl ? 'justify-end' : ''
+                }`}
+              >
+                {copy.principles.map((principle) => (
+                  <li
+                    key={principle}
+                    className={`flex items-center gap-2 text-xs text-slate-400 ${
+                      isRtl ? 'flex-row-reverse' : ''
+                    }`}
+                  >
+                    <span
+                      aria-hidden="true"
+                      className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#28D9A0]"
+                    />
+                    {principle}
+                  </li>
+                ))}
+              </ul>
 
-              <div className={`mt-8 flex items-center gap-2 text-xs text-slate-500 ${isRtl ? 'flex-row-reverse' : ''}`}>
+              <div
+                className={`mt-7 flex items-center gap-2 text-xs text-slate-500 ${
+                  isRtl ? 'flex-row-reverse' : ''
+                }`}
+              >
                 <span className="font-mono text-[#28D9A0]">SYS_01</span>
-                <span className="h-px w-8 bg-white/15" />
+                <span
+                  aria-hidden="true"
+                  className="h-px w-7 bg-white/15"
+                />
                 <span>{copy.architectureTagline}</span>
               </div>
             </div>
 
-            {/* Architecture enters from the right */}
+            {/* Architecture visualization */}
             <div
-              className="relative min-w-0"
-              style={entrance('right', 120)}
+              className="min-w-0"
+              style={entranceStyle(
+                hasEntered,
+                reducedMotion,
+                isRtl ? 'left' : 'right',
+                100,
+              )}
             >
               <ArchitectureVisual language={language} />
             </div>
           </div>
 
-          {/* Small system-status rail */}
-          <div className={`mt-6 flex flex-wrap items-center justify-between gap-3 border-y border-white/[0.07] py-3 ${isRtl ? 'flex-row-reverse' : ''}`}>
-            <div className="flex items-center gap-2.5">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#28D9A0]/30" />
+          {/* System metadata */}
+          <div
+            className={`mt-6 flex flex-wrap items-center justify-between gap-3 border-y border-white/[0.07] py-3 ${
+              isRtl ? 'flex-row-reverse' : ''
+            }`}
+          >
+            <div
+              className={`flex items-center gap-2.5 ${
+                isRtl ? 'flex-row-reverse' : ''
+              }`}
+            >
+              <span
+                aria-hidden="true"
+                className="relative flex h-2 w-2 shrink-0"
+              >
+                <span className="capabilities-status absolute inset-0 rounded-full bg-[#28D9A0]/50" />
                 <span className="relative h-2 w-2 rounded-full bg-[#28D9A0]" />
               </span>
-              <span className="font-mono text-[9px] tracking-[0.15em] text-slate-500">
+
+              <span
+                className={`text-[9px] text-slate-500 sm:text-[10px] ${
+                  isRtl ? '' : 'font-mono tracking-[0.12em]'
+                }`}
+              >
                 {copy.architectureStatus}
               </span>
             </div>
 
-            <div className="flex items-center gap-4 font-mono text-[9px] tracking-wider text-slate-600">
+            <div
+              aria-label="Web, API, and data layers"
+              className="flex items-center gap-3 font-mono text-[9px] tracking-wider text-slate-600"
+            >
               <span>WEB</span>
-              <span className="h-1 w-1 rounded-full bg-[#28D9A0]/60" />
+              <span
+                aria-hidden="true"
+                className="h-1 w-1 rounded-full bg-[#28D9A0]/60"
+              />
               <span>API</span>
-              <span className="h-1 w-1 rounded-full bg-[#60A5FA]/60" />
+              <span
+                aria-hidden="true"
+                className="h-1 w-1 rounded-full bg-[#60A5FA]/60"
+              />
               <span>DATA</span>
             </div>
           </div>
         </div>
 
         {/* Supporting capabilities */}
-        <div className="mt-20 sm:mt-24">
-          <div className={`mb-7 flex items-center justify-between gap-4 border-b border-white/[0.09] pb-4 ${isRtl ? 'flex-row-reverse' : ''}`}>
-            <p className={`text-[10px] font-semibold uppercase ${isRtl ? 'tracking-normal' : 'tracking-[0.22em]'} text-slate-400`}>
-              {copy.moreCapabilities}
-            </p>
+        <div className="mt-16 sm:mt-20 lg:mt-24">
+          <div
+            className={`mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-white/[0.09] pb-4 sm:mb-7 ${
+              isRtl ? 'flex-row-reverse' : ''
+            }`}
+          >
+            <div className={isRtl ? 'text-right' : 'text-left'}>
+              <p
+                className={`text-[10px] font-semibold uppercase text-slate-400 sm:text-[11px] ${
+                  isRtl ? '' : 'tracking-[0.18em]'
+                }`}
+              >
+                {copy.moreCapabilities}
+              </p>
+            </div>
 
-            <div className="flex items-center gap-2 text-[10px] text-slate-600">
-              <span>{copy.capabilityLabel}</span>
-              <ArrowDownRight size={13} className={isRtl ? 'rotate-90' : ''} />
+            <div
+              className={`flex items-center gap-2 text-[9px] text-slate-600 sm:text-[10px] ${
+                isRtl ? 'flex-row-reverse' : ''
+              }`}
+            >
+              <span
+                className={isRtl ? '' : 'font-mono tracking-[0.12em]'}
+              >
+                {copy.capabilityLabel}
+              </span>
+
+              <ArrowDownRight
+                size={13}
+                aria-hidden="true"
+                className={isRtl ? '-rotate-90' : ''}
+              />
             </div>
           </div>
 
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-3 md:gap-6">
-            {capabilities.map((capability) => (
-              <CapabilityPanel
-                key={capability.number}
-                number={capability.number}
-                eyebrow={copy.cards[Number(capability.number) - 2].eyebrow}
-                title={copy.cards[Number(capability.number) - 2].title}
-                description={copy.cards[Number(capability.number) - 2].description}
-                icon={capability.icon}
-                accent={capability.accent}
-                visual={capability.visual}
-                language={language}
-              />
-            ))}
+          <div className="grid grid-cols-1 items-stretch gap-4 md:grid-cols-3 md:gap-5 lg:gap-6">
+            {capabilities.map((capability, index) => {
+              const card = copy.cards[capability.copyIndex];
+
+              return (
+                <div
+                  key={capability.number}
+                  className="min-w-0"
+                  style={{
+                    opacity: hasEntered ? 1 : 0,
+                    transform: reducedMotion
+                      ? 'none'
+                      : hasEntered
+                        ? 'translateY(0)'
+                        : 'translateY(16px)',
+                    transition: reducedMotion
+                      ? 'none'
+                      : `opacity 600ms ease ${160 + index * 100}ms, transform 650ms cubic-bezier(0.22, 1, 0.36, 1) ${160 + index * 100}ms`,
+                  }}
+                >
+                  <CapabilityPanel
+                    number={capability.number}
+                    eyebrow={card.eyebrow}
+                    title={card.title}
+                    description={card.description}
+                    icon={capability.icon}
+                    accent={capability.accent}
+                    visual={capability.visual}
+                    language={language}
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
 
-        {/* Transition */}
-        <div className={`mt-20 flex flex-col gap-4 border-t border-white/[0.09] pt-6 sm:mt-24 sm:flex-row sm:items-center sm:justify-between ${isRtl ? 'sm:flex-row-reverse' : ''}`}>
-          <p className={`text-xs text-slate-500 ${isRtl ? '' : 'tracking-wide'}`}>
+        {/* Section closing statement */}
+        <div
+          className={`mt-16 flex flex-col gap-4 border-t border-white/[0.09] pt-6 sm:mt-20 sm:flex-row sm:items-center sm:justify-between ${
+            isRtl ? 'sm:flex-row-reverse' : ''
+          }`}
+        >
+          <p
+            className={`max-w-xl text-xs leading-6 text-slate-500 sm:text-sm ${
+              isRtl ? '' : 'tracking-wide'
+            }`}
+          >
             {copy.transition}
           </p>
 
-          <div className="flex items-center gap-3 text-[10px] font-medium uppercase tracking-[0.18em] text-slate-500">
-            <span>{copy.built}</span>
-            <ArrowUpRight size={14} className={`text-[#28D9A0] ${isRtl ? '-rotate-90' : ''}`} />
+          <div
+            className={`flex items-center gap-3 text-[10px] font-medium text-slate-500 ${
+              isRtl ? 'flex-row-reverse' : ''
+            }`}
+          >
+            <span
+              className={isRtl ? '' : 'uppercase tracking-[0.15em]'}
+            >
+              {copy.built}
+            </span>
+
+            <ArrowUpRight
+              size={14}
+              aria-hidden="true"
+              className={`text-[#28D9A0] ${
+                isRtl ? '-rotate-90' : ''
+              }`}
+            />
           </div>
         </div>
       </div>

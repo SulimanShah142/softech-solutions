@@ -1,10 +1,10 @@
-
 "use client";
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { ArrowUpRight, Menu, X } from "lucide-react";
+
 import {
   SITE_LANGUAGE_STORAGE_KEY,
   isSiteLanguage,
@@ -16,163 +16,236 @@ type Language = SiteLanguage;
 
 const languages: Language[] = ["en", "fa-AF", "ps"];
 
-const translations: Record<
-  Language,
-  {
-    home: string;
-    technology: string;
-    engineering: string;
-    capabilities: string;
-    testimonials: string;
-    contact: string;
-    startProject: string;
-    softwareEngineering: string;
-    openMenu: string;
-    closeMenu: string;
-    mobileNavigation: string;
-    navigation: string;
-    ideaPrompt: string;
-    offerings: string;
-    language: string;
-  }
-> = {
+type Translation = {
+  home: string;
+  technology: string;
+  engineering: string;
+  capabilities: string;
+  contact: string;
+  startProject: string;
+  softwareEngineering: string;
+  openMenu: string;
+  closeMenu: string;
+  mobileNavigation: string;
+  navigation: string;
+  ideaPrompt: string;
+  language: string;
+  brandDescription: string;
+};
+
+const translations: Record<Language, Translation> = {
   en: {
     home: "Home",
     technology: "Technology",
     engineering: "Engineering",
-    capabilities: "Capabilities",
-    testimonials: "Testimonials",
+    capabilities: "Services",
     contact: "Contact",
-    startProject: "Start a project",
+    startProject: "Discuss a project",
     softwareEngineering: "Software engineering",
     openMenu: "Open navigation menu",
     closeMenu: "Close navigation menu",
     mobileNavigation: "Mobile navigation",
     navigation: "Navigation",
-    ideaPrompt: "Have an idea? Let's discuss what we can build together.",
-    offerings: "Software · AI · Digital Solutions",
+    ideaPrompt: "Have a business challenge to solve?",
     language: "Language",
+    brandDescription: "Software engineering",
   },
+
   "fa-AF": {
     home: "خانه",
     technology: "تکنالوژی",
     engineering: "انجنیری",
-    capabilities: "توانایی‌ها",
-    testimonials: "دیدگاه مشتریان",
+    capabilities: "خدمات",
     contact: "تماس",
-    startProject: "آغاز یک پروژه",
+    startProject: "گفتگو درباره پروژه",
     softwareEngineering: "انجنیری نرم‌افزار",
     openMenu: "باز کردن منوی راهبری",
     closeMenu: "بستن منوی راهبری",
     mobileNavigation: "منوی راهبری موبایل",
     navigation: "راهبری",
-    ideaPrompt: "ایده‌ای دارید؟ بیایید درباره ساخت آن باهم گفتگو کنیم.",
-    offerings: "نرم‌افزار · هوش مصنوعی · راهکارهای دیجیتال",
+    ideaPrompt: "برای حل یک چالش تجاری آماده گفتگو هستید؟",
     language: "زبان",
+    brandDescription: "انجنیری نرم‌افزار",
   },
+
   ps: {
     home: "کور",
     technology: "ټکنالوژي",
     engineering: "انجینري",
-    capabilities: "وړتیاوې",
-    testimonials: "د پېرودونکو نظرونه",
+    capabilities: "خدمتونه",
     contact: "اړیکه",
-    startProject: "یوه پروژه پیل کړئ",
+    startProject: "د پروژې په اړه خبرې",
     softwareEngineering: "د سافټویر انجینري",
     openMenu: "د غورنۍ پرانیستل",
     closeMenu: "د غورنۍ تړل",
     mobileNavigation: "د موبایل غورنۍ",
     navigation: "غورنۍ",
-    ideaPrompt: "نظر لرئ؟ راځئ په ګډه د جوړولو په اړه خبرې وکړو.",
-    offerings: "سافټویر · مصنوعي ځیرکتیا · ډیجیټلي حللارې",
+    ideaPrompt: "د سوداګرۍ د یوې ستونزې د حل په اړه خبرې وکړو؟",
     language: "ژبه",
+    brandDescription: "د سافټویر انجینري",
   },
 };
 
+type NavigationKey =
+  | "technology"
+  | "engineering"
+  | "capabilities"
+  | "contact";
+
 const navLinks: {
-  label: keyof Pick<
-    (typeof translations)["en"],
-    "technology" | "engineering" | "capabilities" | "testimonials" | "contact"
-  >;
+  label: NavigationKey;
   href: string;
 }[] = [
   { label: "technology", href: "/#technology" },
   { label: "engineering", href: "/#engineering-section" },
   { label: "capabilities", href: "/#capabilities" },
-  { label: "testimonials", href: "/#testimonials" },
   { label: "contact", href: "/#contact" },
 ];
+
+const languageNames: Record<Language, string> = {
+  en: "English",
+  "fa-AF": "Dari",
+  ps: "Pashto",
+};
+
+const languageLabels: Record<Language, string> = {
+  en: "EN",
+  "fa-AF": "دری",
+  ps: "پښتو",
+};
 
 function LanguageSwitcher({
   language,
   onChange,
   label,
-  tabIndex,
 }: {
   language: Language;
   onChange: (language: Language) => void;
   label: string;
-  tabIndex?: number;
 }) {
-  const names: Record<Language, string> = {
-    en: "EN",
-    "fa-AF": "دری",
-    ps: "پښتو",
-  };
-
   return (
     <div
-      aria-label={label}
-      className="inline-flex shrink-0 items-center gap-0.5 rounded-lg border border-white/10 bg-white/[0.03] p-1"
       role="group"
+      aria-label={label}
+      className="inline-flex shrink-0 items-center gap-0.5 rounded-lg border border-white/[0.09] bg-white/[0.025] p-1"
     >
-      {languages.map((option) => (
-        <button
-          key={option}
-          type="button"
-          lang={option}
-          aria-label={
-            option === "en" ? "English" : option === "fa-AF" ? "Dari" : "Pashto"
-          }
-          aria-pressed={language === option}
-          tabIndex={tabIndex}
-          onClick={() => onChange(option)}
-          className={`rounded-md px-2 py-1.5 text-[11px] font-semibold transition-colors ${
-            language === option
-              ? "bg-[#078df3]/20 text-white"
-              : "text-slate-400 hover:text-white"
-          }`}
-        >
-          {names[option]}
-        </button>
-      ))}
+      {languages.map((option) => {
+        const selected = language === option;
+
+        return (
+          <button
+            key={option}
+            type="button"
+            lang={option}
+            aria-label={languageNames[option]}
+            aria-pressed={selected}
+            onClick={() => onChange(option)}
+            className={[
+              "inline-flex min-h-8 items-center justify-center rounded-md",
+              "px-2.5 text-[11px] font-medium transition-colors duration-200",
+              "focus-visible:outline-none focus-visible:ring-2",
+              "focus-visible:ring-[#28D9A0] focus-visible:ring-offset-2",
+              "focus-visible:ring-offset-[#050914]",
+              selected
+                ? "bg-white/[0.09] text-white"
+                : "text-slate-400 hover:bg-white/[0.05] hover:text-white",
+            ].join(" ")}
+          >
+            {languageLabels[option]}
+          </button>
+        );
+      })}
     </div>
+  );
+}
+
+function ProjectLink({
+  label,
+  rtl,
+  onClick,
+  className = "",
+}: {
+  label: string;
+  rtl: boolean;
+  onClick?: () => void;
+  className?: string;
+}) {
+  return (
+    <Link
+      href="/#contact"
+      onClick={onClick}
+      className={[
+        "group inline-flex min-h-10 items-center justify-center gap-2",
+        "whitespace-nowrap rounded-lg border border-[#28D9A0]/40",
+        "bg-[#28D9A0] px-3.5 py-2",
+        "text-[11px] font-semibold text-[#04120F]",
+        "transition-colors duration-200",
+        "hover:border-[#55E8B7] hover:bg-[#55E8B7]",
+        "focus-visible:outline-none focus-visible:ring-2",
+        "focus-visible:ring-[#28D9A0] focus-visible:ring-offset-2",
+        "focus-visible:ring-offset-[#050914]",
+        "sm:px-4 sm:text-xs",
+        className,
+      ].join(" ")}
+    >
+      <span>{label}</span>
+
+      <ArrowUpRight
+        size={15}
+        aria-hidden="true"
+        className={[
+          "shrink-0 transition-transform duration-200",
+          rtl
+            ? "scale-x-[-1] group-hover:-translate-x-0.5"
+            : "group-hover:translate-x-0.5",
+        ].join(" ")}
+      />
+    </Link>
   );
 }
 
 export default function SiteNavbar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [language, setLanguage] = useState<Language>("en");
-  const menuButtonRef = useRef<HTMLButtonElement | null>(null);
-  const menuAreaRef = useRef<HTMLDivElement | null>(null);
+
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const menuAreaRef = useRef<HTMLDivElement>(null);
+
+  const menuId = useId();
+
   const text = translations[language];
   const isRtl = language !== "en";
 
   useEffect(() => {
-    const frame = window.requestAnimationFrame(() => {
+    try {
       const savedLanguage = window.localStorage.getItem(
         SITE_LANGUAGE_STORAGE_KEY,
       );
+
       if (isSiteLanguage(savedLanguage)) {
         setLanguage(savedLanguage);
       }
-    });
-    return () => window.cancelAnimationFrame(frame);
+    } catch {
+      // Keep the default language if browser storage is unavailable.
+    }
   }, []);
 
   function changeLanguage(nextLanguage: Language) {
     setLanguage(nextLanguage);
-    setSiteLanguage(nextLanguage);
+
+    try {
+      setSiteLanguage(nextLanguage);
+    } catch {
+      // The current selection still works if persistence is unavailable.
+    }
+  }
+
+  function closeMenu() {
+    setMenuOpen(false);
+  }
+
+  function toggleMenu() {
+    setMenuOpen((open) => !open);
   }
 
   useEffect(() => {
@@ -186,170 +259,250 @@ export default function SiteNavbar() {
     }
 
     function handlePointerDown(event: PointerEvent) {
-      if (!menuAreaRef.current?.contains(event.target as Node)) {
+      const target = event.target;
+
+      if (
+        target instanceof Node &&
+        menuAreaRef.current &&
+        !menuAreaRef.current.contains(target)
+      ) {
         setMenuOpen(false);
       }
     }
 
-    const frame = window.requestAnimationFrame(() =>
-      menuAreaRef.current
-        ?.querySelector<HTMLElement>("#site-navigation-menu a[href]")
-        ?.focus(),
-    );
     document.addEventListener("keydown", handleKeyDown);
     document.addEventListener("pointerdown", handlePointerDown);
 
     return () => {
-      window.cancelAnimationFrame(frame);
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("pointerdown", handlePointerDown);
     };
   }, [menuOpen]);
 
-  function closeMenu() {
-    setMenuOpen(false);
-  }
-
   return (
-    <>
-      <header
-        dir={isRtl ? "rtl" : "ltr"}
-        lang={language}
-        className="sticky top-0 z-50 border-b border-white/[0.08] bg-[#050914]/95 shadow-[0_10px_35px_rgba(0,0,0,0.16)]"
+    <header
+      dir={isRtl ? "rtl" : "ltr"}
+      lang={language}
+      className={[
+        "sticky top-0 z-50 w-full",
+        "border-b border-white/[0.08]",
+        "bg-[#050914]/95 text-[#EDF3FA]",
+        "shadow-[0_8px_28px_rgba(0,0,0,0.14)]",
+        "backdrop-blur-xl",
+      ].join(" ")}
+    >
+      <div
+        className={[
+          "mx-auto flex h-[68px] max-w-[1440px]",
+          "items-center justify-between gap-3",
+          "px-4 sm:px-6 lg:h-[76px] lg:px-10 xl:px-12",
+        ].join(" ")}
       >
+        {/* Brand */}
+        <Link
+          href="/#home"
+          aria-label={`SofTech Solutions — ${text.home}`}
+          onClick={closeMenu}
+          className={[
+            "group flex min-w-0 shrink-0 items-center gap-2.5",
+            "rounded-md focus-visible:outline-none",
+            "focus-visible:ring-2 focus-visible:ring-[#28D9A0]",
+          ].join(" ")}
+        >
+          <Image
+            src="/softech-solutions-image.png"
+            alt=""
+            width={48}
+            height={36}
+            priority
+            className={[
+              "h-8 w-10 shrink-0 object-contain",
+              "transition-opacity duration-200 group-hover:opacity-80",
+              "sm:h-9 sm:w-11",
+            ].join(" ")}
+          />
+
+          <span className="flex min-w-0 flex-col justify-center">
+            <span className="whitespace-nowrap text-[14px] font-semibold tracking-[-0.045em] text-[#EDF3FA] sm:text-[15px]">
+              SofTech
+              <span className="text-[#28D9A0]"> Solutions</span>
+            </span>
+
+            <span className="mt-0.5 whitespace-nowrap text-[8px] font-medium uppercase tracking-[0.13em] text-slate-500 sm:text-[9px] sm:tracking-[0.15em]">
+              {text.brandDescription}
+            </span>
+          </span>
+        </Link>
+
+        {/* Desktop navigation */}
         <nav
           aria-label={text.navigation}
-          className="mx-auto flex h-[68px] max-w-7xl items-center justify-between px-4 sm:px-8 lg:px-10"
+          className="hidden min-w-0 flex-1 items-center justify-center md:flex"
         >
-          {/* Brand */}
-          <Link
-            href="/"
-            aria-label={`${text.home} - SofTech Solutions`}
-            className="group flex shrink-0 items-center gap-2.5"
-          >
-            <Image
-              src="/softech-solutions-image.png"
-              alt=""
-              width={68}
-              height={46}
-              priority
-              className="h-[46px] w-[68px] object-contain transition-opacity duration-300 group-hover:opacity-80"
-            />
-            <span className="flex flex-col leading-tight">
-              <span className="text-[14px] font-semibold tracking-[-0.02em] text-[#edf3fa] sm:text-[15px]">
-                SofTech <span className="text-[#23b9ff]">Solutions</span>
-              </span>
-              <span className="mt-1 text-[8px] font-medium uppercase tracking-[0.16em] text-slate-500">
-                {text.softwareEngineering}
-              </span>
-            </span>
-          </Link>
-
-          <div
-            ref={menuAreaRef}
-            className="relative flex shrink-0 items-center gap-2 sm:gap-3"
-          >
-            <Link
-              href="/#contact"
-              onClick={closeMenu}
-              aria-label={text.startProject}
-              className="group inline-flex min-h-10 items-center justify-center gap-1.5 whitespace-nowrap rounded-md border border-[#078df3]/40 bg-[#078df3] px-2.5 py-2 text-[11px] font-semibold text-white shadow-[0_0_24px_rgba(7,141,243,0.12)] transition-all duration-200 hover:-translate-y-0.5 hover:border-[#23b9ff] hover:bg-[#087fda] hover:shadow-[0_0_30px_rgba(7,141,243,0.22)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#23b9ff] focus-visible:ring-offset-2 focus-visible:ring-offset-[#050914] sm:gap-2 sm:px-3 sm:text-[12px]"
-            >
-              <span className="hidden sm:inline">{text.startProject}</span>
-              <ArrowUpRight
-                size={15}
-                aria-hidden="true"
-                className={`transition-transform duration-200 group-hover:-translate-y-0.5 ${isRtl ? "scale-x-[-1] group-hover:-translate-x-0.5" : "group-hover:translate-x-0.5"}`}
-              />
-            </Link>
-
-            <button
-              type="button"
-              onClick={() => setMenuOpen((open) => !open)}
-              aria-label={menuOpen ? text.closeMenu : text.openMenu}
-              aria-expanded={menuOpen}
-              aria-controls="site-navigation-menu"
-              ref={menuButtonRef}
-              className="inline-flex h-10 w-10 items-center justify-center rounded-md border border-white/10 bg-white/[0.03] text-slate-300 transition-colors hover:border-[#078df3]/40 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#23b9ff]"
-            >
-              {menuOpen ? (
-                <X size={19} aria-hidden="true" />
-              ) : (
-                <Menu size={20} aria-hidden="true" />
-              )}
-            </button>
-
-            {menuOpen && (
-              <div
-                id="site-navigation-menu"
-                dir={isRtl ? "rtl" : "ltr"}
-                lang={language}
-                aria-label={text.navigation}
-                className="absolute end-0 top-[calc(100%+14px)] z-[70] max-h-[calc(100dvh-5.5rem)] w-[min(22rem,calc(100vw-2rem))] overflow-y-auto rounded-xl border border-white/[0.11] bg-[#080f1d]/[0.98] p-4 shadow-[0_22px_70px_rgba(0,0,0,0.5)] ring-1 ring-black/20 backdrop-blur-xl sm:p-5"
+          <div className="flex items-center gap-5 lg:gap-7 xl:gap-9">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={[
+                  "group relative inline-flex min-h-10 items-center",
+                  "whitespace-nowrap py-2 text-[11px] font-medium",
+                  "text-slate-400 transition-colors duration-200",
+                  "hover:text-white",
+                  "focus-visible:outline-none focus-visible:text-[#28D9A0]",
+                  "after:absolute after:inset-x-0 after:bottom-1",
+                  "after:h-px after:origin-center after:scale-x-0",
+                  "after:bg-[#28D9A0] after:transition-transform",
+                  "after:duration-200 hover:after:scale-x-100",
+                ].join(" ")}
               >
-                <div className="mb-2 flex items-center justify-between border-b border-white/[0.08] pb-3">
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.2em] text-slate-500">
-                    {text.navigation}
-                  </span>
-                  <span className="h-px w-10 bg-gradient-to-r from-transparent via-[#23b9ff]/50 to-transparent" />
-                </div>
+                {text[link.label]}
+              </Link>
+            ))}
+          </div>
+        </nav>
 
-                <div className="flex flex-col">
-                  {navLinks.map((link, index) => (
-                    <Link
-                      key={link.href}
-                      href={link.href}
-                      onClick={closeMenu}
-                      className="group flex min-h-10 items-center justify-between border-b border-white/[0.055] px-1 py-2.5 text-[13px] font-medium text-slate-300 transition-colors hover:text-white focus-visible:outline-none focus-visible:text-[#23b9ff]"
-                    >
-                      <span className="flex items-center gap-3">
-                        <span className="w-5 font-mono text-[9px] text-slate-600 transition-colors group-hover:text-[#23b9ff]/70">
-                          0{index + 1}
-                        </span>
-                        {text[link.label]}
-                      </span>
-                      <ArrowUpRight
-                        size={14}
-                        aria-hidden="true"
-                        className={`text-slate-600 transition-transform group-hover:-translate-y-0.5 group-hover:text-[#23b9ff] ${isRtl ? "scale-x-[-1]" : ""}`}
-                      />
-                    </Link>
-                  ))}
-                </div>
+        {/* Desktop actions */}
+        <div className="hidden shrink-0 items-center gap-3 md:flex lg:gap-4">
+          <LanguageSwitcher
+            language={language}
+            onChange={changeLanguage}
+            label={text.language}
+          />
 
-                <div className="mt-4 flex items-center justify-between gap-3">
-                  <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-500">
-                    {text.language}
-                  </span>
-                  <LanguageSwitcher
-                    language={language}
-                    onChange={changeLanguage}
-                    label={text.language}
-                  />
-                </div>
+          <span
+            aria-hidden="true"
+            className="h-7 w-px bg-white/[0.09]"
+          />
 
-                <div className="mt-4 border-t border-white/[0.08] pt-4">
-                  <p className="mb-3 text-xs leading-5 text-slate-500">
-                    {text.ideaPrompt}
-                  </p>
+          <ProjectLink label={text.startProject} rtl={isRtl} />
+        </div>
+
+        {/* Mobile menu trigger and dropdown */}
+        <div
+          ref={menuAreaRef}
+          className="relative flex shrink-0 items-center md:hidden"
+        >
+          <button
+            ref={menuButtonRef}
+            type="button"
+            onClick={toggleMenu}
+            aria-label={menuOpen ? text.closeMenu : text.openMenu}
+            aria-expanded={menuOpen}
+            aria-controls={menuId}
+            className={[
+              "inline-flex h-10 w-10 items-center justify-center",
+              "rounded-lg border border-white/[0.10]",
+              "bg-white/[0.025] text-slate-300",
+              "transition-colors duration-200",
+              "hover:border-white/[0.18] hover:bg-white/[0.05]",
+              "hover:text-white",
+              "focus-visible:outline-none focus-visible:ring-2",
+              "focus-visible:ring-[#28D9A0]",
+            ].join(" ")}
+          >
+            {menuOpen ? (
+              <X size={19} aria-hidden="true" />
+            ) : (
+              <Menu size={20} aria-hidden="true" />
+            )}
+          </button>
+
+          {menuOpen && (
+            <div
+              id={menuId}
+              className={[
+                "absolute end-0 top-[calc(100%+12px)] z-[70]",
+                "max-h-[calc(100dvh-6rem)]",
+                "w-[min(22rem,calc(100vw-2rem))]",
+                "overflow-y-auto overscroll-contain",
+                "rounded-xl border border-white/[0.10]",
+                "bg-[#080F1D] p-4 sm:p-5",
+                "shadow-[0_24px_70px_rgba(0,0,0,0.55)]",
+              ].join(" ")}
+            >
+              {/* Menu heading */}
+              <div className="mb-3 flex items-center justify-between border-b border-white/[0.08] pb-3">
+                <span className="text-[10px] font-semibold uppercase tracking-[0.16em] text-slate-500">
+                  {text.navigation}
+                </span>
+
+                <span
+                  aria-hidden="true"
+                  className="h-px w-9 bg-[#28D9A0]/50"
+                />
+              </div>
+
+              {/* Navigation links */}
+              <nav aria-label={text.mobileNavigation} className="flex flex-col">
+                {navLinks.map((link, index) => (
                   <Link
-                    href="/#contact"
+                    key={link.href}
+                    href={link.href}
                     onClick={closeMenu}
-                    className="group flex min-h-11 items-center justify-center gap-2 rounded-md border border-[#078df3]/35 bg-[#078df3]/95 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#087fda] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#23b9ff] focus-visible:ring-offset-2 focus-visible:ring-offset-[#080f1d]"
+                    className={[
+                      "group flex min-h-12 items-center justify-between",
+                      "gap-3 border-b border-white/[0.055]",
+                      "px-1 py-3 text-[13px] font-medium",
+                      "text-slate-300 transition-colors duration-200",
+                      "hover:text-white",
+                      "focus-visible:outline-none focus-visible:text-[#28D9A0]",
+                    ].join(" ")}
                   >
-                    {text.startProject}
+                    <span className="flex min-w-0 items-center gap-3">
+                      <span
+                        aria-hidden="true"
+                        className="w-5 shrink-0 font-mono text-[9px] text-slate-600 transition-colors group-hover:text-[#28D9A0]"
+                      >
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+
+                      <span>{text[link.label]}</span>
+                    </span>
+
                     <ArrowUpRight
                       size={15}
                       aria-hidden="true"
-                      className={isRtl ? "scale-x-[-1]" : ""}
+                      className={[
+                        "shrink-0 text-slate-600 transition-colors",
+                        "group-hover:text-[#28D9A0]",
+                        isRtl ? "scale-x-[-1]" : "",
+                      ].join(" ")}
                     />
                   </Link>
-                </div>
+                ))}
+              </nav>
+
+              {/* Language selector: mobile only */}
+              <div className="mt-4 flex items-center justify-between gap-3">
+                <span className="text-[10px] font-semibold uppercase tracking-[0.14em] text-slate-500">
+                  {text.language}
+                </span>
+
+                <LanguageSwitcher
+                  language={language}
+                  onChange={changeLanguage}
+                  label={text.language}
+                />
               </div>
-            )}
-          </div>
-        </nav>
-      </header>
-    </>
+
+              {/* Mobile CTA */}
+              <div className="mt-4 border-t border-white/[0.08] pt-4">
+                <p className="mb-3 text-xs leading-5 text-slate-400">
+                  {text.ideaPrompt}
+                </p>
+
+                <ProjectLink
+                  label={text.startProject}
+                  rtl={isRtl}
+                  onClick={closeMenu}
+                  className="w-full"
+                />
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </header>
   );
 }

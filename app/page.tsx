@@ -44,8 +44,6 @@ import ComputerScene from "@/components/ComputerScene";
 import SplitText from "@/components/SplitText";
 import LaserFlow from "@/components/LaserFlow";
 import EngineeringSection from '@/components/EngineeringSection';
-import CursorGrid from '@/components/CursorGrid';
-import { BrandGradient } from '@/theme/colors';
 import CapabilitiesSection from '@/components/capabilities/CapabilitiesSection';
 import ContactSection from '@/components/contact/ContactSection';
 import {
@@ -67,6 +65,56 @@ const BrandColors = {
   primary: { rgb: '219,168,0' },
   success: { rgb: '16,185,129' },
 };
+
+
+
+const technologyServiceIcons = [
+  BrainCircuit,
+  Code2,
+  Blocks,
+  CloudCog,
+] as const;
+
+const technologyServiceAccents = [
+  {
+    icon: "border-blue-300/20 bg-blue-300/[0.07] text-blue-200",
+    line: "via-blue-200/60",
+    rule: "bg-blue-200/60",
+    glow: "bg-blue-400/[0.07] group-hover:bg-blue-400/[0.13]",
+    hover: "hover:border-blue-300/30",
+    tag: "group-hover:border-blue-200/20",
+    number: "text-blue-200/70",
+  },
+  {
+    icon: "border-cyan-300/20 bg-cyan-300/[0.06] text-cyan-200",
+    line: "via-cyan-200/60",
+    rule: "bg-cyan-200/60",
+    glow: "bg-cyan-400/[0.06] group-hover:bg-cyan-400/[0.12]",
+    hover: "hover:border-cyan-300/30",
+    tag: "group-hover:border-cyan-200/20",
+    number: "text-cyan-200/70",
+  },
+  {
+    icon: "border-indigo-300/20 bg-indigo-300/[0.06] text-indigo-200",
+    line: "via-indigo-200/60",
+    rule: "bg-indigo-200/60",
+    glow: "bg-indigo-400/[0.06] group-hover:bg-indigo-400/[0.12]",
+    hover: "hover:border-indigo-300/30",
+    tag: "group-hover:border-indigo-200/20",
+    number: "text-indigo-200/70",
+  },
+  {
+    icon: "border-emerald-300/20 bg-emerald-300/[0.05] text-emerald-200",
+    line: "via-emerald-200/50",
+    rule: "bg-emerald-200/60",
+    glow: "bg-emerald-400/[0.045] group-hover:bg-emerald-400/[0.09]",
+    hover: "hover:border-emerald-300/25",
+    tag: "group-hover:border-emerald-200/20",
+    number: "text-emerald-200/70",
+  },
+] as const;
+
+
 
 const StatCardPalette = DEFAULT_PALETTE;
 
@@ -3414,395 +3462,310 @@ useLayoutEffect(() => {
     </div>
 
 
+
 {/* HERO — SOFTECH SOLUTIONS */}
 <section
   id="home"
   aria-labelledby="hero-heading"
-  dir={isHeroRtl ? 'rtl' : 'ltr'}
+  dir={isHeroRtl ? "rtl" : "ltr"}
   lang={heroLanguage}
-  className={`relative isolate min-h-[100svh] scroll-mt-[76px] overflow-hidden bg-[#050914] pt-[76px] text-[#EDF3FA] ${isHeroRtl ? 'rtl-language' : ''}`}
+  className={`relative isolate scroll-mt-20 overflow-hidden bg-[#050914] text-[#EDF3FA] ${
+    isHeroRtl ? "rtl-language" : ""
+  }`}
 >
-  {/* ATMOSPHERIC BACKGROUND */}
+  {/* ARCHITECTURAL BACKGROUND */}
   <div
     aria-hidden="true"
     className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
   >
-    {/* Deep navy atmosphere */}
-    <div className="absolute -right-[12%] -top-[20%] h-[38rem] w-[38rem] rounded-full bg-[#142D52]/30 blur-[140px]" />
+    {/* Controlled cobalt illumination */}
+    <div className="absolute -right-[12%] -top-[18rem] h-[36rem] w-[36rem] rounded-full bg-[#153D72]/20 blur-[120px] sm:h-[46rem] sm:w-[46rem] sm:blur-[150px]" />
 
-    {/* Muted green atmosphere */}
-    <div className="absolute -bottom-[18%] left-[2%] h-[30rem] w-[30rem] rounded-full bg-[#126544]/[0.10] blur-[140px]" />
+    <div className="absolute -left-[18%] top-[28%] h-[25rem] w-[25rem] rounded-full bg-[#102B50]/30 blur-[110px] sm:h-[34rem] sm:w-[34rem]" />
 
-    {/* Blue workstation illumination */}
-    <div className="absolute right-[10%] top-[25%] h-[25rem] w-[25rem] rounded-full bg-[#1768C5]/[0.09] blur-[120px]" />
+    <div className="absolute right-[10%] bottom-[-15rem] h-[28rem] w-[28rem] rounded-full bg-[#174A83]/[0.10] blur-[120px]" />
 
-    {/* Architectural grid */}
+    {/* Technical grid */}
     <div
-      className="absolute inset-0 opacity-[0.055]"
+      className="absolute inset-0 opacity-[0.045]"
       style={{
         backgroundImage:
-          "linear-gradient(rgba(145,170,200,0.13) 1px, transparent 1px), linear-gradient(90deg, rgba(145,170,200,0.13) 1px, transparent 1px)",
-        backgroundSize: "72px 72px",
+          "linear-gradient(rgba(126,158,198,0.22) 1px, transparent 1px), linear-gradient(90deg, rgba(126,158,198,0.22) 1px, transparent 1px)",
+        backgroundSize: "64px 64px",
         maskImage:
-          "radial-gradient(ellipse at 68% 45%, black 0%, transparent 76%)",
+          "radial-gradient(ellipse at 72% 45%, black 0%, transparent 75%)",
         WebkitMaskImage:
-          "radial-gradient(ellipse at 68% 45%, black 0%, transparent 76%)",
+          "radial-gradient(ellipse at 72% 45%, black 0%, transparent 75%)",
       }}
     />
 
-    {/* Fine dot texture */}
-    <div
-      className="absolute inset-0 opacity-[0.03]"
-      style={{
-        backgroundImage:
-          "radial-gradient(rgba(190,210,230,0.8) 0.6px, transparent 0.6px)",
-        backgroundSize: "20px 20px",
-      }}
-    />
+    {/* Restrained jade signal */}
+    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#28D9A0]/40 to-transparent" />
 
-    {/* Boundaries */}
-    <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#315780]/50 to-transparent" />
-    <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-white/[0.08] to-transparent" />
-    <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#050914] to-transparent" />
+    <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#7892B4]/20 to-transparent" />
+
+    <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#050914] to-transparent" />
   </div>
 
-  {/* MAIN LAYOUT */}
-  <div className="relative z-[1] mx-auto grid min-h-[calc(100svh-76px)] w-full max-w-[1480px] grid-cols-1 items-center gap-10 px-5 py-12 sm:px-8 lg:grid-cols-[0.94fr_1.06fr] lg:gap-8 lg:px-12 xl:gap-12 xl:px-16">
-
-    {/* LEFT — BRAND MESSAGE */}
-    <div className="relative z-10 mx-auto w-full max-w-[590px] lg:mx-0">
-
+  {/* MAIN COMPOSITION */}
+  <div className="relative z-[1] mx-auto grid w-full max-w-[1480px] grid-cols-1 items-center gap-8 px-5 pb-12 pt-12 sm:gap-10 sm:px-8 sm:pb-16 sm:pt-14 lg:min-h-[calc(100svh-64px)] lg:grid-cols-[0.94fr_1.06fr] lg:gap-10 lg:px-12 lg:py-12 xl:gap-14 xl:px-16">
+    {/* LEFT — BUSINESS POSITIONING */}
+    <div className="relative z-10 mx-auto w-full max-w-[600px] lg:mx-0">
       {/* Eyebrow */}
-      <div className="mb-7 flex min-w-0 items-center gap-3">
-        <span className="relative flex h-2 w-2 shrink-0">
-          <span className="absolute inset-0 animate-ping rounded-full bg-[#176B50]/60 motion-reduce:animate-none" />
-          <span className="relative h-2 w-2 rounded-full bg-[#287B60] shadow-[0_0_12px_rgba(40,125,92,0.45)]" />
-        </span>
+      <div className="mb-6 flex min-w-0 items-center gap-3 sm:mb-8">
+        <span
+          aria-hidden="true"
+          className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#28D9A0] shadow-[0_0_10px_rgba(40,217,160,0.35)]"
+        />
 
         <SplitText
           key={`hero-eyebrow-${heroLanguage}`}
           text={heroText.eyebrow}
           tag="span"
-          className={`text-[9px] font-semibold text-[#A7B5C7] sm:text-[10px] ${isHeroRtl ? 'inline-block' : 'tracking-[0.13em] sm:tracking-[0.19em] uppercase'}`}
-          splitType={isHeroRtl ? 'none' : 'words'}
+          className={`text-[10px] font-semibold text-[#A9B8CB] sm:text-[11px] ${
+            isHeroRtl ? "" : "uppercase tracking-[0.16em] sm:tracking-[0.2em]"
+          }`}
+          splitType={isHeroRtl ? "none" : "words"}
           hideUntilReady
-          delay={24}
-          duration={0.5}
+          delay={25}
+          duration={0.45}
+          from={{ opacity: 0, y: 7 }}
+          to={{ opacity: 1, y: 0 }}
+          threshold={0}
+          rootMargin="0px"
+          textAlign={isHeroRtl ? "right" : "left"}
+        />
+
+        <span
+          aria-hidden="true"
+          className="hidden h-px w-10 shrink-0 bg-gradient-to-r from-[#28D9A0]/45 to-transparent sm:block"
+        />
+      </div>
+
+      {/* Headline */}
+      <h1
+        id="hero-heading"
+        className={`w-full font-semibold leading-[1.12] sm:leading-[1.07] ${
+          isHeroRtl
+            ? "text-right text-[clamp(2.15rem,6.4vw,4.65rem)] tracking-normal"
+            : "text-left text-[clamp(2.45rem,5.6vw,5.1rem)] tracking-[-0.03em]"
+        }`}
+      >
+        <SplitText
+          key={`hero-headline-first-${heroLanguage}`}
+          text={heroText.headline[0]}
+          tag="span"
+          className="block text-[#E3EAF3]"
+          splitType={isHeroRtl ? "none" : "words"}
+          hideUntilReady
+          delay={35}
+          duration={0.48}
           from={{ opacity: 0, y: 10 }}
           to={{ opacity: 1, y: 0 }}
           threshold={0}
           rootMargin="0px"
-          textAlign={isHeroRtl ? 'right' : 'left'}
+          textAlign={isHeroRtl ? "right" : "left"}
         />
 
-        <span className="hidden h-px w-8 shrink-0 bg-gradient-to-r from-[#315780]/70 to-transparent sm:block" />
-      </div>
-
-      <div className="relative">
-        <h1
-          id="hero-heading"
-          className={`w-full ${isHeroRtl ? 'text-right text-[clamp(2.2rem,5vw,4.5rem)] tracking-normal' : 'text-left text-[clamp(2.65rem,5.2vw,5rem)] tracking-[-0.065em]'} font-bold leading-[1.12] sm:leading-[0.99]`}
-        >
-          <SplitText
-            key={`hero-headline-first-${heroLanguage}`}
-            text={heroText.headline[0]}
-            tag="span"
-            className={`block ${isHeroRtl ? '' : 'whitespace-nowrap'} text-[#C5CDD7]`}
-            splitType={isHeroRtl ? 'none' : 'chars'}
-            hideUntilReady
-            delay={24}
-            duration={0.65}
-            from={{ opacity: 0, y: 18 }}
-            to={{ opacity: 1, y: 0 }}
-            threshold={0}
-            rootMargin="0px"
-            textAlign={isHeroRtl ? 'right' : 'left'}
-          />
-          <SplitText
-            key={`hero-headline-second-${heroLanguage}`}
-            text={heroText.headline[1]}
-            tag="span"
-            className={`hero-gradient-text block ${isHeroRtl ? '' : 'whitespace-nowrap'}`}
-            splitType={isHeroRtl ? 'none' : 'chars'}
-            hideUntilReady
-            delay={24}
-            duration={0.65}
-            startDelay={100}
-            from={{ opacity: 0, y: 18 }}
-            to={{ opacity: 1, y: 0 }}
-            threshold={0}
-            rootMargin="0px"
-            textAlign={isHeroRtl ? 'right' : 'left'}
-          />
-        </h1>
-      </div>
+        <SplitText
+          key={`hero-headline-second-${heroLanguage}`}
+          text={heroText.headline[1]}
+          tag="span"
+          className="hero-gradient-text block"
+          splitType={isHeroRtl ? "none" : "words"}
+          hideUntilReady
+          delay={35}
+          duration={0.48}
+          startDelay={100}
+          from={{ opacity: 0, y: 10 }}
+          to={{ opacity: 1, y: 0 }}
+          threshold={0}
+          rootMargin="0px"
+          textAlign={isHeroRtl ? "right" : "left"}
+        />
+      </h1>
 
       {/* Supporting copy */}
       <SplitText
         key={`hero-description-${heroLanguage}`}
         text={heroText.description}
         tag="p"
-        className={`mt-6 max-w-[440px] text-[14px] leading-7 text-[#A2AEC0] sm:mt-7 sm:text-[15px] sm:leading-7 ${isHeroRtl ? 'font-normal' : ''}`}
-        splitType={isHeroRtl ? 'none' : 'words'}
+        className={`mt-6 max-w-[470px] text-[14px] leading-7 text-[#A9B7C8] sm:mt-7 sm:text-[15px] sm:leading-[1.9] ${
+          isHeroRtl ? "font-normal" : ""
+        }`}
+        splitType={isHeroRtl ? "none" : "words"}
         hideUntilReady
-        delay={14}
-        startDelay={250}
-        duration={0.45}
-        from={{ opacity: 0, y: 10 }}
+        delay={15}
+        startDelay={180}
+        duration={0.4}
+        from={{ opacity: 0, y: 6 }}
         to={{ opacity: 1, y: 0 }}
         threshold={0}
         rootMargin="0px"
-        textAlign={isHeroRtl ? 'right' : 'left'}
+        textAlign={isHeroRtl ? "right" : "left"}
       />
 
-      {/* CALLS TO ACTION */}
-      <div className="mt-8 flex flex-col items-stretch gap-3 sm:flex-row sm:items-center">
-
-        {/* Primary — deep navy blue */}
+      {/* PRIMARY AND SECONDARY ACTIONS */}
+      <div className="mt-8 flex flex-col gap-3 min-[440px]:flex-row min-[440px]:flex-wrap min-[440px]:items-center sm:mt-9">
+        {/* Primary action */}
         <Link
           href="/#contact"
-          className="group relative inline-flex min-h-12 w-full items-center justify-center gap-3 overflow-hidden rounded-sm border border-[#315780]/70 bg-[#102847] px-6 py-3 text-[12px] font-semibold text-[#E5EDF7] shadow-[0_8px_35px_rgba(12,43,78,0.28)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#426F9F] hover:bg-[#16385F] hover:shadow-[0_12px_38px_rgba(18,65,112,0.32)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#315780] focus-visible:ring-offset-2 focus-visible:ring-offset-[#050914] sm:w-auto"
+          className="group inline-flex min-h-[50px] w-full items-center justify-center gap-3 rounded-md border border-[#28D9A0] bg-[#28D9A0] px-5 py-3.5 text-[12px] font-semibold text-[#04120F] transition-[background-color,border-color,box-shadow,transform] duration-200 hover:-translate-y-0.5 hover:border-[#55E8B7] hover:bg-[#55E8B7] hover:shadow-[0_8px_26px_rgba(40,217,160,0.12)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#28D9A0] focus-visible:ring-offset-2 focus-visible:ring-offset-[#050914] min-[440px]:w-auto"
         >
-          <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-[#8CB9E8]/10 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-
-          <span className="relative">{heroText.startProject}</span>
+          <span>{heroText.startProject}</span>
 
           <ArrowRight
             size={15}
             aria-hidden="true"
-            className={`relative transition-transform duration-300 ${isHeroRtl ? 'rotate-180 group-hover:-translate-x-1' : 'group-hover:translate-x-1'}`}
+            className={`shrink-0 transition-transform duration-200 ${
+              isHeroRtl
+                ? "rotate-180 group-hover:-translate-x-1"
+                : "group-hover:translate-x-1"
+            }`}
           />
         </Link>
 
-        {/* Secondary */}
+        {/* Secondary action */}
         <Link
           href="/#capabilities"
-          className="group inline-flex min-h-12 w-full items-center justify-center gap-2 rounded-sm border border-white/[0.12] bg-white/[0.015] px-5 py-3 text-[12px] font-medium text-[#C4CEDB] transition-all duration-300 hover:border-[#315780]/60 hover:bg-[#102847]/50 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#315780] sm:w-auto"
+          className="group inline-flex min-h-[50px] w-full items-center justify-center gap-2 rounded-md border border-white/[0.20] bg-white/[0.04] px-5 py-3.5 text-[12px] font-semibold text-[#F1F5FA] transition-[background-color,border-color,transform] duration-200 hover:-translate-y-0.5 hover:border-white/[0.32] hover:bg-white/[0.075] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#28D9A0] focus-visible:ring-offset-2 focus-visible:ring-offset-[#050914] min-[440px]:w-auto"
         >
-          {heroText.exploreServices}
+          <span>{heroText.exploreServices}</span>
 
           <ArrowUpRight
             size={14}
             aria-hidden="true"
-            className={`transition-transform duration-300 ${isHeroRtl ? 'rotate-[-45deg] group-hover:-translate-x-0.5 group-hover:translate-y-0.5' : 'group-hover:translate-x-0.5 group-hover:-translate-y-0.5'}`}
+            className={`shrink-0 transition-transform duration-200 ${
+              isHeroRtl
+                ? "rotate-[-45deg] group-hover:-translate-x-0.5 group-hover:translate-y-0.5"
+                : "group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+            }`}
           />
         </Link>
       </div>
 
-      {/* CAPABILITIES */}
-      <div className="mt-9 border-t border-white/[0.09] pt-5 sm:mt-10">
-        <p className={`mb-4 text-[9px] font-semibold text-[#748298] ${isHeroRtl ? '' : 'tracking-[0.22em] uppercase'}`}>
-          {heroText.buildHeading}
-        </p>
-
-        <div className="flex flex-wrap items-center gap-x-5 gap-y-3 sm:gap-x-6">
-          {[
-            { icon: Code2, label: heroText.capabilities[0] },
-            { icon: Globe2, label: heroText.capabilities[1] },
-            { icon: Cpu, label: heroText.capabilities[2] },
-          ].map(({ icon: Icon, label }) => (
-            <div
-              key={label}
-              className="group inline-flex items-center gap-2.5 text-[11px] font-medium text-[#A0ACBC] transition-colors duration-200 hover:text-white sm:text-xs"
-            >
-              <span className="flex h-8 w-8 items-center justify-center rounded-sm border border-white/[0.09] bg-white/[0.025] transition-all duration-300 group-hover:border-[#315780]/60 group-hover:bg-[#102847]/50">
-                <Icon
-                  size={14}
-                  strokeWidth={1.6}
-                  className="text-[#568C80]"
-                  aria-hidden="true"
-                />
-              </span>
-
-              {label}
-            </div>
-          ))}
-        </div>
-      </div>
-
       {/* BRAND SIGNATURE */}
-      <div className={`mt-7 hidden items-center gap-3 text-[8px] text-[#69768A] sm:flex ${isHeroRtl ? '' : 'tracking-[0.17em] uppercase'}`}>
-        <span className="h-px w-7 bg-[#315780]/70" />
-        {heroText.signature}
+      <div
+        className={`mt-8 flex items-center gap-3 text-[9px] text-[#8292A7] sm:mt-10 ${
+          isHeroRtl ? "" : "uppercase tracking-[0.14em]"
+        }`}
+      >
+        <span
+          aria-hidden="true"
+          className="h-px w-8 shrink-0 bg-[#28D9A0]/50"
+        />
+
+        <span>{heroText.signature}</span>
       </div>
     </div>
 
-    {/* RIGHT — 3D WORKSTATION */}
-    <div className="relative mx-auto w-full min-w-0 max-w-[680px] lg:ml-auto lg:max-w-none">
-
-      {/* Ambient lighting */}
+    {/* RIGHT — ENGINEERING CHASSIS */}
+    <div className="relative mx-auto flex w-full min-w-0 max-w-[680px] items-center justify-center lg:ml-auto lg:max-w-none">
+      {/* Chassis illumination */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-[10%] rounded-full bg-[#1768C5]/[0.10] blur-[90px]"
+        className="pointer-events-none absolute inset-[12%] rounded-full bg-[#174A83]/20 blur-[75px] sm:blur-[110px]"
       />
 
-      {/* Outer structural ring */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-1/2 h-[76%] w-[76%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#7E91AA]/[0.09]"
-      />
+      {/* Structural chassis */}
+      <div className="relative isolate w-full overflow-hidden rounded-xl border border-[#8197B5]/[0.16] bg-[#0A1120]/70 shadow-[0_28px_90px_rgba(0,0,0,0.24)] backdrop-blur-md sm:rounded-2xl">
+        {/* Chassis header */}
+        <div className="flex min-h-12 items-center justify-between gap-3 border-b border-white/[0.08] bg-white/[0.02] px-4 sm:px-5">
+          <div className="flex min-w-0 items-center gap-2.5">
+            <span
+              aria-hidden="true"
+              className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#28D9A0]"
+            />
 
-      {/* Outer orbit */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-1/2 aspect-square w-[86%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-[#91A4BB]/[0.13] motion-safe:animate-[spin_90s_linear_infinite] motion-reduce:animate-none"
-      />
-
-      {/* Inner green-blue orbit */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-1/2 aspect-square w-[68%] -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#24614F]/[0.28] motion-safe:animate-[spin_65s_linear_infinite_reverse] motion-reduce:animate-none"
-      />
-
-      {/* Orbital markers */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute left-[16%] top-[25%] z-[2] h-1.5 w-1.5 rounded-full bg-[#287B60] shadow-[0_0_14px_rgba(40,125,92,0.55)] motion-safe:animate-pulse"
-      />
-
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute right-[13%] top-[35%] z-[2] h-1.5 w-1.5 rounded-full bg-[#668CB5] shadow-[0_0_12px_rgba(102,140,181,0.5)] motion-safe:animate-pulse [animation-delay:1.2s]"
-      />
-
-      {/* Workstation — unchanged */}
-      <div className="relative z-[1] min-w-0">
-        <ComputerScene language={heroLanguage} />
-      </div>
-
-      {/* Engineering status */}
-      <div className={`pointer-events-none absolute top-[12%] z-[3] hidden border border-white/[0.10] bg-[#080E1A]/85 px-3.5 py-3 shadow-[0_12px_40px_rgba(0,0,0,0.25)] backdrop-blur-xl sm:block motion-safe:animate-[pulse_7s_ease-in-out_infinite] ${isHeroRtl ? 'right-0' : 'left-0'}`}>
-        <div className="flex items-center gap-2">
-          <span className="flex h-6 w-6 items-center justify-center border border-[#315780]/50 bg-[#102847]/60">
-            <Code2 size={12} className="text-[#7199C4]" />
-          </span>
-
-          <div>
-            <p className="text-[9px] font-semibold text-[#E3EAF2]">
+            <span className="truncate text-[9px] font-semibold uppercase tracking-[0.16em] text-[#B7C5D6] sm:text-[10px] sm:tracking-[0.19em]">
               {heroText.engineering}
-            </p>
-            <p className={`mt-1 text-[8px] text-[#8795A8] ${isHeroRtl ? '' : 'uppercase tracking-[0.12em]'}`}>
-              {heroText.engineeringTagline}
-            </p>
+            </span>
           </div>
-        </div>
-      </div>
 
-      {/* System status */}
-      <div className={`pointer-events-none absolute top-[22%] z-[3] hidden border border-white/[0.10] bg-[#080E1A]/85 px-3.5 py-3 shadow-[0_12px_40px_rgba(0,0,0,0.25)] backdrop-blur-xl sm:block motion-safe:animate-[pulse_8s_ease-in-out_infinite] [animation-delay:1.5s] ${isHeroRtl ? 'left-0' : 'right-0'}`}>
-        <div className="flex items-center gap-2.5">
-          <span className="relative flex h-2 w-2">
-            <span className="absolute inset-0 animate-ping rounded-full bg-[#315780]/50 motion-reduce:animate-none" />
-            <span className="relative h-2 w-2 rounded-full bg-[#568C80]" />
+          <span className="shrink-0 font-mono text-[9px] text-[#647890]">
+            SOFTECH / 01
           </span>
+        </div>
 
-          <div>
-            <p className="text-[9px] font-semibold text-[#E3EAF2]">
-              {heroText.systemsOnline}
-            </p>
-            <p className={`mt-1 text-[8px] text-[#8795A8] ${isHeroRtl ? '' : 'uppercase tracking-[0.12em]'}`}>
-              {heroText.workflowSummary}
-            </p>
+        {/* 3D visualization */}
+        <div className="relative min-w-0 px-1 py-2 sm:px-3 sm:py-3">
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(30,74,122,0.12),transparent_70%)]"
+          />
+
+          <div className="relative z-[1] min-w-0">
+            <ComputerScene language={heroLanguage} />
           </div>
         </div>
-      </div>
 
-      {/* Bottom workflow signature */}
-      <div className="pointer-events-none relative z-[2] mx-auto mt-1 flex w-fit max-w-full items-center gap-3 border border-white/[0.09] bg-[#080E1A]/85 px-4 py-2.5 backdrop-blur-xl">
-        <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#568C80] shadow-[0_0_10px_rgba(65,130,109,0.45)]" />
+        {/* Chassis footer */}
+        <div className="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 border-t border-white/[0.08] bg-black/[0.10] px-4 py-3 sm:px-5">
+          <p
+            className={`min-w-0 text-[9px] leading-5 text-[#9AAAC0] sm:text-[10px] ${
+              isHeroRtl ? "" : "tracking-[0.025em]"
+            }`}
+          >
+            {heroText.engineeringTagline}
+          </p>
 
-        <span className={`text-[9px] font-medium text-[#A0ACBC] ${isHeroRtl ? '' : 'tracking-[0.18em] uppercase'}`}>
-          {heroText.workflow[0]}
-        </span>
-
-        <span className="text-[#536176]">/</span>
-
-        <span className={`text-[9px] font-medium text-[#A0ACBC] ${isHeroRtl ? '' : 'tracking-[0.18em] uppercase'}`}>
-          {heroText.workflow[1]}
-        </span>
-
-        <span className="text-[#536176]">/</span>
-
-        <span className={`text-[9px] font-medium text-[#A0ACBC] ${isHeroRtl ? '' : 'tracking-[0.18em] uppercase'}`}>
-          {heroText.workflow[2]}
-        </span>
+          <span className="h-px w-8 shrink-0 bg-[#28D9A0]/45" aria-hidden="true" />
+        </div>
       </div>
     </div>
   </div>
 </section>
 
+
+
 {/* SECTION 02 — THE TECHNOLOGY STUDIO */}
 <section
   id="technology"
   lang={heroLanguage}
-  dir={isHeroRtl ? 'rtl' : 'ltr'}
-  className={`relative isolate overflow-hidden bg-[#05070d] px-5 py-24 text-[#edf3fa] sm:px-8 sm:py-32 lg:px-12 lg:py-36 ${isHeroRtl ? 'rtl-language' : ''}`}
+  dir={isHeroRtl ? "rtl" : "ltr"}
+  aria-labelledby="technology-heading"
+  className={`relative isolate overflow-hidden bg-[#05070d] px-5 py-24 text-[#edf3fa] sm:px-8 sm:py-28 lg:px-12 lg:py-32 ${
+    isHeroRtl ? "rtl-language" : ""
+  }`}
 >
-  {/* MIDNIGHT ENVIRONMENT */}
+  {/* BACKGROUND ENVIRONMENT */}
   <div
     aria-hidden="true"
     className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
   >
     <div className="absolute inset-0 bg-[#05070d]" />
 
-    {/* Overhead atmosphere */}
-    <div className="absolute left-1/2 top-[-24rem] h-[42rem] w-[64rem] max-w-[140vw] -translate-x-1/2 rounded-full bg-blue-500/[0.07] blur-[150px]" />
+    <div className="absolute left-1/2 top-[-28rem] h-[48rem] w-[70rem] max-w-[150vw] -translate-x-1/2 rounded-full bg-blue-500/[0.055] blur-[150px]" />
 
-    {/* Cool side reflection */}
-    <div className="absolute -right-64 top-[35%] h-[36rem] w-[36rem] rounded-full bg-cyan-500/[0.035] blur-[160px]" />
+    <div className="absolute -right-72 top-[32%] h-[34rem] w-[34rem] rounded-full bg-cyan-400/[0.018] blur-[140px]" />
 
-    {/* Soft lower reflection */}
-    <div className="absolute -bottom-48 -left-40 h-[32rem] w-[42rem] rounded-full bg-blue-500/[0.035] blur-[150px]" />
+    <div className="absolute -left-72 bottom-[5%] h-[32rem] w-[32rem] rounded-full bg-blue-500/[0.025] blur-[140px]" />
 
-    {/* Architectural grid */}
     <div
-      className="absolute inset-0 opacity-[0.045]"
+      className="absolute inset-0 opacity-[0.035]"
       style={{
         backgroundImage:
-          "linear-gradient(rgba(148,163,184,0.16) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.16) 1px, transparent 1px)",
-        backgroundSize: "80px 80px",
+          "linear-gradient(rgba(148,163,184,0.18) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.18) 1px, transparent 1px)",
+        backgroundSize: "72px 72px",
         maskImage:
-          "linear-gradient(to bottom, transparent, black 18%, black 75%, transparent)",
+          "linear-gradient(to bottom, transparent, black 12%, black 78%, transparent)",
         WebkitMaskImage:
-          "linear-gradient(to bottom, transparent, black 18%, black 75%, transparent)",
+          "linear-gradient(to bottom, transparent, black 12%, black 78%, transparent)",
       }}
     />
 
-    {/* Atmospheric haze */}
-    <div
-      className="absolute inset-0"
-      style={{
-        background: `
-          radial-gradient(
-            ellipse at 50% 18%,
-            rgba(103, 232, 249, 0.075) 0%,
-            rgba(59, 130, 246, 0.045) 32%,
-            transparent 68%
-          ),
-          radial-gradient(
-            ellipse at 50% 60%,
-            rgba(56, 189, 248, 0.035) 0%,
-            transparent 70%
-          )
-        `,
-        filter: "blur(35px)",
-      }}
-    />
+    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_10%,rgba(2,4,9,0.3)_70%,rgba(2,4,9,0.65)_100%)]" />
 
-    {/* Cinematic edge falloff */}
-    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_8%,rgba(2,4,9,0.25)_65%,rgba(2,4,9,0.65)_100%)]" />
-
-    {/* Lower atmospheric shadow */}
-    <div className="absolute inset-x-0 bottom-0 h-72 bg-gradient-to-b from-transparent to-[#03050a]/70" />
+    <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-b from-transparent to-[#03050a]/80" />
   </div>
 
   <div ref={section2Ref} className="mx-auto max-w-[1440px]">
-    {/* SHARED LIGHT STAGE */}
-    <div ref={laserStageRef} className="relative">
-      {/* LASER STAGE — LASERFLOW IS THE ONLY BEAM */}
+    {/* LASER + CONTENT STAGE */}
+    <div ref={laserStageRef} className="relative isolate">
+      {/* LASER LIGHT FIELD — DECORATIVE BACKGROUND */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 z-20 overflow-visible"
+        className="pointer-events-none absolute inset-x-0 top-0 z-0 overflow-visible"
         style={{
           height:
             laserLandingY === null
@@ -3810,29 +3773,29 @@ useLayoutEffect(() => {
               : `${laserLandingY + 2}px`,
         }}
       >
-        {/* Diffuse illumination around the actual beam */}
+        {/* Subtle vertical atmosphere */}
         <div
-          className="absolute left-1/2 top-[-9rem] h-[calc(100%+9rem)] w-40 -translate-x-1/2"
+          className="absolute left-1/2 top-[-5rem] h-[calc(100%+5rem)] w-28 -translate-x-1/2 sm:w-40"
           style={{
             background:
-              "radial-gradient(ellipse at 50% 0%, rgba(103,200,255,0.09), rgba(59,130,246,0.035) 38%, transparent 75%)",
-            filter: "blur(24px)",
+              "radial-gradient(ellipse at 50% 0%, rgba(103,200,255,0.055), rgba(59,130,246,0.018) 42%, transparent 76%)",
+            filter: "blur(28px)",
           }}
         />
 
-        {/* Soft illumination around the heading */}
+        {/* Restrained header illumination */}
         <div
-          className="absolute left-1/2 top-[7.5rem] h-36 w-[min(760px,100%)] -translate-x-1/2 -translate-y-1/2 rounded-full"
+          className="absolute left-1/2 top-[8rem] h-36 w-[min(700px,90%)] -translate-x-1/2 -translate-y-1/2 rounded-full"
           style={{
             background:
-              "radial-gradient(ellipse, rgba(59,130,246,0.09), rgba(56,189,248,0.035) 42%, transparent 74%)",
-            filter: "blur(38px)",
+              "radial-gradient(ellipse, rgba(59,130,246,0.045), rgba(56,189,248,0.012) 45%, transparent 75%)",
+            filter: "blur(42px)",
           }}
         />
 
-        {/* Actual animated laser — settings preserved */}
+        {/* LaserFlow — original configuration retained */}
         <div
-          className="absolute inset-x-0 top-0 overflow-hidden opacity-60 mix-blend-screen"
+          className="absolute inset-x-0 top-0 overflow-hidden opacity-35 mix-blend-screen"
           style={{
             height:
               laserLandingY === null
@@ -3864,376 +3827,298 @@ useLayoutEffect(() => {
           />
         </div>
 
-        {/* Soft light where the beam meets the card row */}
+        {/* Controlled beam landing */}
         {laserLandingY !== null && (
-          <>
-            <div
-              className="pointer-events-none absolute inset-x-0 h-36 -translate-y-1/2"
-              style={{
-                top: `${laserLandingY}px`,
-                background:
-                  "radial-gradient(ellipse at 50% 0%, rgba(56,189,248,0.09), rgba(37,99,235,0.035) 36%, transparent 73%)",
-                filter: "blur(24px)",
-              }}
-            />
-
-            {/* Subtle contact bloom — no horizontal line */}
-            <div
-              className="pointer-events-none absolute left-1/2 h-12 w-[min(620px,90%)] -translate-x-1/2 -translate-y-1/2 rounded-full"
-              style={{
-                top: `${laserLandingY}px`,
-                background:
-                  "radial-gradient(ellipse, rgba(103,200,255,0.11), rgba(59,130,246,0.035) 45%, transparent 75%)",
-                filter: "blur(18px)",
-              }}
-            />
-          </>
+          <div
+            className="absolute inset-x-0 h-24 -translate-y-1/2"
+            style={{
+              top: `${laserLandingY}px`,
+              background:
+                "radial-gradient(ellipse at 50% 0%, rgba(56,189,248,0.045), rgba(37,99,235,0.015) 42%, transparent 75%)",
+              filter: "blur(26px)",
+            }}
+          />
         )}
       </div>
 
       {/* SECTION INTRO */}
-      <div className="relative z-10 mx-auto max-w-6xl">
+      <header className="relative z-10 mx-auto max-w-5xl">
         {/* Eyebrow */}
         <div className="flex justify-center">
           <div
             className={cn(
-              "mb-8 inline-flex items-center gap-2.5 rounded-full border border-cyan-300/15 bg-[#080c15]/80 px-4 py-2 backdrop-blur-xl transition-all duration-700",
+              "mb-8 inline-flex items-center gap-3 rounded-full border border-white/[0.11] bg-[#070b13]/95 px-4 py-2.5 shadow-[0_8px_32px_rgba(0,0,0,0.25)] transition-all duration-700 sm:mb-10",
               section2InView
                 ? "translate-y-0 opacity-100"
                 : "translate-y-4 opacity-0",
+              "motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none",
             )}
           >
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-300 opacity-40" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-cyan-200" />
+            <span className="relative flex h-2 w-2 shrink-0">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-300 opacity-30 motion-reduce:animate-none" />
+              <span className="relative h-2 w-2 rounded-full bg-cyan-200" />
             </span>
 
-            <span className={`text-[10px] font-semibold text-cyan-100/80 sm:text-xs ${isHeroRtl ? '' : 'uppercase tracking-[0.24em]'}`}>
+            <span
+              className={`text-[10px] font-bold text-cyan-100 sm:text-[11px] ${
+                isHeroRtl ? "" : "uppercase tracking-[0.2em]"
+              }`}
+            >
               {technologyText.eyebrow}
+            </span>
+
+            <span className="h-3 w-px bg-white/15" />
+
+            <span className="font-mono text-[10px] tracking-wider text-slate-400">
+              02 / 04
             </span>
           </div>
         </div>
 
-        {/* Heading split around the actual laser */}
-        <div dir="ltr" className="grid grid-cols-[minmax(0,1fr)_minmax(0,1fr)] items-center gap-5 sm:gap-8 md:gap-12">
+        {/* Stronger split headline */}
+        <div
+          dir="ltr"
+          className="grid grid-cols-2 items-center gap-3 sm:gap-7 md:gap-10"
+        >
           {isHeroRtl ? (
             <>
               <h2
+                id="technology-heading"
                 dir="rtl"
                 className={cn(
-                  "col-start-2 row-start-1 break-words text-left text-balance text-3xl font-medium leading-[1.08] tracking-normal transition-all delay-100 duration-700 sm:text-5xl md:text-6xl lg:text-7xl",
+                  "col-start-2 row-start-1 rounded-xl bg-[#05070d]/35 py-1 text-left text-3xl font-extrabold leading-[1.2] tracking-normal text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.8)] sm:text-5xl md:text-6xl lg:text-7xl",
                   section2InView
                     ? "translate-x-0 opacity-100"
-                    : "translate-x-5 opacity-0",
+                    : "translate-x-3 opacity-0",
+                  "motion-reduce:translate-x-0 motion-reduce:opacity-100",
                 )}
               >
                 {technologyText.heading[0]}
-                <span className="block break-words text-slate-100">
+                <span className="mt-1 block text-white">
                   {technologyText.heading[1]}
                 </span>
               </h2>
 
-              <h2
+              <div
                 dir="rtl"
                 className={cn(
-                  `col-start-1 row-start-1 break-words ${heroLanguage === 'fa-AF' ? 'text-right' : 'text-left'} text-balance text-3xl font-medium leading-[1.08] tracking-normal transition-all delay-150 duration-700 sm:text-5xl md:text-6xl lg:text-7xl`,
+                  `col-start-1 row-start-1 rounded-xl bg-[#05070d]/35 py-1 text-3xl font-extrabold leading-[1.2] text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.8)] sm:text-5xl md:text-6xl lg:text-7xl ${
+                    heroLanguage === "fa-AF" ? "text-right" : "text-left"
+                  }`,
                   section2InView
                     ? "translate-x-0 opacity-100"
-                    : "-translate-x-5 opacity-0",
+                    : "-translate-x-3 opacity-0",
+                  "motion-reduce:translate-x-0 motion-reduce:opacity-100",
                 )}
               >
-                <span className="bg-gradient-to-r from-cyan-200 via-blue-200 to-indigo-200 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-br from-cyan-200 via-blue-200 to-indigo-200 bg-clip-text text-transparent">
                   {technologyText.heading[2]}
                 </span>
-              </h2>
+              </div>
             </>
           ) : (
             <>
               <h2
+                id="technology-heading"
                 className={cn(
-                  "break-words text-right text-balance text-3xl font-medium leading-[1.08] tracking-[-0.055em] transition-all delay-100 duration-700 sm:text-5xl md:text-6xl lg:text-7xl",
+                  "col-start-1 row-start-1 rounded-xl bg-[#05070d]/35 py-1 text-right text-3xl font-extrabold leading-[1.08] tracking-[-0.04em] text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.8)] sm:text-5xl md:text-6xl lg:text-7xl",
                   section2InView
                     ? "translate-x-0 opacity-100"
-                    : "-translate-x-5 opacity-0",
+                    : "-translate-x-3 opacity-0",
+                  "motion-reduce:translate-x-0 motion-reduce:opacity-100",
                 )}
               >
                 {technologyText.heading[0]}
-                <span className="block break-words text-slate-100">
+                <span className="mt-1 block text-white">
                   {technologyText.heading[1]}
                 </span>
               </h2>
 
-              <h2
+              <div
                 className={cn(
-                  "break-words text-left text-balance text-3xl font-medium leading-[1.08] tracking-[-0.055em] transition-all delay-150 duration-700 sm:text-5xl md:text-6xl lg:text-7xl",
+                  "col-start-2 row-start-1 rounded-xl bg-[#05070d]/35 py-1 text-left text-3xl font-extrabold leading-[1.08] tracking-[-0.04em] text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.8)] sm:text-5xl md:text-6xl lg:text-7xl",
                   section2InView
                     ? "translate-x-0 opacity-100"
-                    : "translate-x-5 opacity-0",
+                    : "translate-x-3 opacity-0",
+                  "motion-reduce:translate-x-0 motion-reduce:opacity-100",
                 )}
               >
-                <span className="bg-gradient-to-r from-cyan-200 via-blue-200 to-indigo-200 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-br from-cyan-200 via-blue-200 to-indigo-200 bg-clip-text text-transparent">
                   {technologyText.heading[2]}
                 </span>
-              </h2>
+              </div>
             </>
           )}
         </div>
 
-        {/* Supporting statement */}
-        <p
+        {/* Readable supporting copy */}
+        <div
           className={cn(
-            "mx-auto mt-8 max-w-2xl text-center text-pretty text-sm leading-7 text-slate-400 transition-all delay-200 duration-700 sm:mt-9 sm:text-base sm:leading-8",
+            "mx-auto mt-8 max-w-2xl rounded-2xl border border-white/[0.06] bg-[#05070d]/80 px-5 py-4 shadow-[0_12px_40px_rgba(0,0,0,0.24)] transition-all delay-200 duration-700 sm:mt-9 sm:px-7 sm:py-5",
             section2InView
               ? "translate-y-0 opacity-100"
-              : "translate-y-5 opacity-0",
+              : "translate-y-3 opacity-0",
+            "motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none",
           )}
         >
-          {technologyText.description}
-        </p>
-      </div>
+          <p className="text-center text-sm font-medium leading-7 text-slate-200 sm:text-base sm:leading-8">
+            {technologyText.description}
+          </p>
+        </div>
 
-      {/* SERVICE CARDS */}
+        {/* Studio divider */}
+        <div className="mx-auto mt-8 flex max-w-xs items-center justify-center gap-3 sm:mt-10">
+          <span className="h-px flex-1 bg-gradient-to-r from-transparent to-white/20" />
+          <span className="font-mono text-[9px] font-medium tracking-[0.2em] text-slate-500">
+            SOFTECH / STUDIO
+          </span>
+          <span className="h-px flex-1 bg-gradient-to-l from-transparent to-white/20" />
+        </div>
+      </header>
+
+      {/* COMPACT SERVICE GRID */}
       <div
         ref={cardsRef}
-        className="relative z-10 mt-16 grid grid-cols-1 gap-4 sm:mt-20 sm:grid-cols-2 xl:grid-cols-4"
+        className="relative z-10 mt-12 grid grid-cols-1 gap-4 sm:mt-16 sm:grid-cols-2 lg:mt-20 lg:grid-cols-4 lg:gap-4 xl:gap-5"
       >
-        {/* SERVICE 01 — AI */}
-        <article
-          className={cn(
-            "group relative min-h-[320px] overflow-hidden rounded-[26px] border border-white/[0.085] bg-[#080d16]/95 p-6 shadow-[0_12px_50px_rgba(0,0,0,0.24)] backdrop-blur-md transition-all duration-700 hover:-translate-y-1 hover:border-blue-300/35 hover:bg-[#0a1120] hover:shadow-[0_16px_55px_rgba(37,99,235,0.09)] sm:p-7",
-            section2InView
-              ? "translate-y-0 opacity-100"
-              : "translate-y-8 opacity-0",
-          )}
-          style={{ transitionDelay: section2InView ? "100ms" : "0ms" }}
-        >
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-blue-200/50 to-transparent opacity-80" />
-          <div className="pointer-events-none absolute -right-20 -top-20 h-52 w-52 rounded-full bg-blue-400/[0.055] blur-[75px] transition-colors duration-700 group-hover:bg-blue-400/[0.12]" />
+        {technologyText.cards.map((card, index) => {
+          const Icon = technologyServiceIcons[index] ?? Code2;
+          const accent =
+            technologyServiceAccents[index] ?? technologyServiceAccents[0];
 
-          <div className="relative z-10">
-            <div className="mb-8 flex items-start justify-between">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-blue-300/20 bg-blue-300/[0.07] text-blue-200 transition-transform duration-500 group-hover:scale-105">
-                <BrainCircuit className="h-6 w-6" />
-              </div>
-              <span className="font-mono text-xs text-slate-500">01</span>
-            </div>
+          return (
+            <article
+              key={`${index}-${card.title}`}
+              className={cn(
+                "group relative isolate flex min-w-0 flex-col overflow-hidden rounded-2xl border border-white/[0.09] bg-[#080c14]/95 p-5 shadow-[0_12px_36px_rgba(0,0,0,0.22)] transition-[transform,border-color,background-color,opacity] duration-500 hover:-translate-y-1 hover:border-white/[0.16] hover:bg-[#0a101b] sm:p-6 lg:rounded-[20px] lg:p-5 xl:p-6",
+                accent.hover,
+                section2InView
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-5 opacity-0",
+                "motion-reduce:translate-y-0 motion-reduce:opacity-100 motion-reduce:transition-none",
+              )}
+              style={{
+                transitionDelay: section2InView
+                  ? `${80 + index * 80}ms`
+                  : "0ms",
+              }}
+            >
+              {/* Accent line */}
+              <div
+                aria-hidden="true"
+                className={`pointer-events-none absolute inset-x-5 top-0 h-px bg-gradient-to-r from-transparent ${accent.line} to-transparent`}
+              />
 
-            <div className="mb-4 flex items-center gap-2">
-              <span className="h-px w-5 bg-blue-200/60" />
-              <span className={`text-[9px] font-semibold text-blue-100/70 ${isHeroRtl ? '' : 'uppercase tracking-[0.23em]'}`}>
-              {technologyText.cards[0].label}
-              </span>
-            </div>
+              {/* Restrained card glow */}
+              <div
+                aria-hidden="true"
+                className={`pointer-events-none absolute -right-20 -top-24 h-44 w-44 rounded-full blur-[80px] transition-colors duration-500 ${accent.glow}`}
+              />
 
-            <h3 className={`break-words text-xl font-medium leading-snug text-white ${isHeroRtl ? 'tracking-normal' : 'tracking-tight'}`}>
-              {technologyText.cards[0].title}
-            </h3>
+              {/* Card content */}
+              <div className="relative z-10 flex h-full flex-col">
+                <div className="flex items-center justify-between gap-3">
+                  <div
+                    className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border ${accent.icon}`}
+                  >
+                    <Icon
+                      aria-hidden="true"
+                      className="h-5 w-5"
+                      strokeWidth={1.8}
+                    />
+                  </div>
 
-            <p className="mt-4 text-sm leading-6 text-slate-400">
-              {technologyText.cards[0].description}
-            </p>
+                  <span
+                    className={`font-mono text-[11px] tracking-wider ${accent.number}`}
+                  >
+                    0{index + 1}
+                  </span>
+                </div>
 
-            <div className="mt-6 flex flex-wrap gap-2">
-              {technologyText.cards[0].tags.map((item) => (
-                <span
-                  key={item}
-                  className="rounded-full border border-white/[0.075] bg-white/[0.025] px-2.5 py-1.5 text-[10px] text-slate-400 transition-colors group-hover:border-blue-200/15 group-hover:text-slate-200"
+                <div className="mb-2 mt-7 flex items-center gap-2">
+                  <span
+                    aria-hidden="true"
+                    className={`h-px w-5 shrink-0 ${accent.rule}`}
+                  />
+                  <span
+                    className={`text-[10px] font-bold text-slate-300 ${
+                      isHeroRtl ? "" : "uppercase tracking-[0.15em]"
+                    }`}
+                  >
+                    {card.label}
+                  </span>
+                </div>
+
+                <h3
+                  className={`break-words text-lg font-bold leading-snug text-white sm:text-xl lg:text-lg xl:text-xl ${
+                    isHeroRtl ? "tracking-normal" : "tracking-[-0.025em]"
+                  }`}
                 >
-                  {item}
-                </span>
-              ))}
-            </div>
+                  {card.title}
+                </h3>
 
-            <div className="mt-7 flex items-center justify-between border-t border-white/[0.075] pt-4">
-              <span className="text-xs text-slate-500">{technologyText.cards[0].footer}</span>
-              <ArrowUpRight className={`h-4 w-4 text-slate-500 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-blue-200 ${isHeroRtl ? '-scale-x-100' : ''}`} />
-            </div>
-          </div>
-        </article>
+                <p className="mt-3 text-[13px] leading-6 text-slate-300 sm:text-sm sm:leading-7">
+                  {card.description}
+                </p>
 
-        {/* SERVICE 02 — DIGITAL PRODUCTS */}
-        <article
-          className={cn(
-            "group relative min-h-[320px] overflow-hidden rounded-[26px] border border-white/[0.085] bg-[#080d16]/95 p-6 shadow-[0_12px_50px_rgba(0,0,0,0.24)] backdrop-blur-md transition-all duration-700 hover:-translate-y-1 hover:border-cyan-300/35 hover:bg-[#0a1120] hover:shadow-[0_16px_55px_rgba(6,182,212,0.08)] sm:p-7",
-            section2InView
-              ? "translate-y-0 opacity-100"
-              : "translate-y-8 opacity-0",
-          )}
-          style={{ transitionDelay: section2InView ? "200ms" : "0ms" }}
-        >
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-cyan-200/50 to-transparent opacity-80" />
-          <div className="pointer-events-none absolute -right-20 -top-20 h-52 w-52 rounded-full bg-cyan-400/[0.045] blur-[75px] transition-colors duration-700 group-hover:bg-cyan-400/[0.11]" />
+                <div className="mt-5 flex flex-wrap gap-1.5">
+                  {card.tags.map((item) => (
+                    <span
+                      key={item}
+                      className={`rounded-md border border-white/[0.09] bg-white/[0.025] px-2.5 py-1.5 text-[10px] leading-4 text-slate-300 transition-colors duration-300 group-hover:text-slate-100 ${accent.tag}`}
+                    >
+                      {item}
+                    </span>
+                  ))}
+                </div>
 
-          <div className="relative z-10">
-            <div className="mb-8 flex items-start justify-between">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.06] text-cyan-200 transition-transform duration-500 group-hover:scale-105">
-                <Code2 className="h-6 w-6" />
+                <div className="mt-auto pt-6">
+                  <div className="mb-4 h-px w-full bg-white/[0.08]" />
+
+                  <div className="flex items-end justify-between gap-3">
+                    <span className="text-xs leading-5 text-slate-400">
+                      {card.footer}
+                    </span>
+
+                    <span
+                      aria-hidden="true"
+                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/[0.1] bg-white/[0.025] text-slate-300 transition-colors duration-300 group-hover:border-white/20 group-hover:text-white"
+                    >
+                      <ArrowUpRight
+                        className={`h-4 w-4 ${
+                          isHeroRtl ? "-scale-x-100" : ""
+                        }`}
+                      />
+                    </span>
+                  </div>
+                </div>
               </div>
-              <span className="font-mono text-xs text-slate-500">02</span>
-            </div>
-
-            <div className="mb-4 flex items-center gap-2">
-              <span className="h-px w-5 bg-cyan-200/60" />
-              <span className={`text-[9px] font-semibold text-cyan-100/70 ${isHeroRtl ? '' : 'uppercase tracking-[0.23em]'}`}>
-                {technologyText.cards[1].label}
-              </span>
-            </div>
-
-            <h3 className={`break-words text-xl font-medium leading-snug text-white ${isHeroRtl ? 'tracking-normal' : 'tracking-tight'}`}>
-              {technologyText.cards[1].title}
-            </h3>
-
-            <p className="mt-4 text-sm leading-6 text-slate-400">
-              {technologyText.cards[1].description}
-            </p>
-
-            <div className="mt-6 flex flex-wrap gap-2">
-              {technologyText.cards[1].tags.map((item) => (
-                <span
-                  key={item}
-                  className="rounded-full border border-white/[0.075] bg-white/[0.025] px-2.5 py-1.5 text-[10px] text-slate-400 transition-colors group-hover:border-cyan-200/15 group-hover:text-slate-200"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
-
-            <div className="mt-7 flex items-center justify-between border-t border-white/[0.075] pt-4">
-              <span className="text-xs text-slate-500">{technologyText.cards[1].footer}</span>
-              <ArrowUpRight className={`h-4 w-4 text-slate-500 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-cyan-200 ${isHeroRtl ? '-scale-x-100' : ''}`} />
-            </div>
-          </div>
-        </article>
-
-        {/* SERVICE 03 — BLOCKCHAIN */}
-        <article
-          className={cn(
-            "group relative min-h-[320px] overflow-hidden rounded-[26px] border border-white/[0.085] bg-[#080d16]/95 p-6 shadow-[0_12px_50px_rgba(0,0,0,0.24)] backdrop-blur-md transition-all duration-700 hover:-translate-y-1 hover:border-violet-300/35 hover:bg-[#0a1120] hover:shadow-[0_16px_55px_rgba(139,92,246,0.08)] sm:p-7",
-            section2InView
-              ? "translate-y-0 opacity-100"
-              : "translate-y-8 opacity-0",
-          )}
-          style={{ transitionDelay: section2InView ? "300ms" : "0ms" }}
-        >
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-violet-200/45 to-transparent opacity-80" />
-          <div className="pointer-events-none absolute -right-20 -top-20 h-52 w-52 rounded-full bg-violet-400/[0.045] blur-[75px] transition-colors duration-700 group-hover:bg-violet-400/[0.11]" />
-
-          <div className="relative z-10">
-            <div className="mb-8 flex items-start justify-between">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-violet-300/20 bg-violet-300/[0.06] text-violet-200 transition-transform duration-500 group-hover:scale-105">
-                <Blocks className="h-6 w-6" />
-              </div>
-              <span className="font-mono text-xs text-slate-500">03</span>
-            </div>
-
-            <div className="mb-4 flex items-center gap-2">
-              <span className="h-px w-5 bg-violet-200/60" />
-              <span className={`text-[9px] font-semibold text-violet-100/70 ${isHeroRtl ? '' : 'uppercase tracking-[0.23em]'}`}>
-                {technologyText.cards[2].label}
-              </span>
-            </div>
-
-            <h3 className={`break-words text-xl font-medium leading-snug text-white ${isHeroRtl ? 'tracking-normal' : 'tracking-tight'}`}>
-              {technologyText.cards[2].title}
-            </h3>
-
-            <p className="mt-4 text-sm leading-6 text-slate-400">
-              {technologyText.cards[2].description}
-            </p>
-
-            <div className="mt-6 flex flex-wrap gap-2">
-              {technologyText.cards[2].tags.map((item) => (
-                <span
-                  key={item}
-                  className="rounded-full border border-white/[0.075] bg-white/[0.025] px-2.5 py-1.5 text-[10px] text-slate-400 transition-colors group-hover:border-violet-200/15 group-hover:text-slate-200"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
-
-            <div className="mt-7 flex items-center justify-between border-t border-white/[0.075] pt-4">
-              <span className="text-xs text-slate-500">{technologyText.cards[2].footer}</span>
-              <ArrowUpRight className={`h-4 w-4 text-slate-500 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-violet-200 ${isHeroRtl ? '-scale-x-100' : ''}`} />
-            </div>
-          </div>
-        </article>
-
-        {/* SERVICE 04 — INFRASTRUCTURE */}
-        <article
-          className={cn(
-            "group relative min-h-[320px] overflow-hidden rounded-[26px] border border-white/[0.085] bg-[#080d16]/95 p-6 shadow-[0_12px_50px_rgba(0,0,0,0.24)] backdrop-blur-md transition-all duration-700 hover:-translate-y-1 hover:border-emerald-300/35 hover:bg-[#0a1120] hover:shadow-[0_16px_55px_rgba(16,185,129,0.075)] sm:p-7",
-            section2InView
-              ? "translate-y-0 opacity-100"
-              : "translate-y-8 opacity-0",
-          )}
-          style={{ transitionDelay: section2InView ? "400ms" : "0ms" }}
-        >
-          <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-200/45 to-transparent opacity-80" />
-          <div className="pointer-events-none absolute -right-20 -top-20 h-52 w-52 rounded-full bg-emerald-400/[0.04] blur-[75px] transition-colors duration-700 group-hover:bg-emerald-400/[0.10]" />
-
-          <div className="relative z-10">
-            <div className="mb-8 flex items-start justify-between">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-emerald-300/20 bg-emerald-300/[0.06] text-emerald-200 transition-transform duration-500 group-hover:scale-105">
-                <CloudCog className="h-6 w-6" />
-              </div>
-              <span className="font-mono text-xs text-slate-500">04</span>
-            </div>
-
-            <div className="mb-4 flex items-center gap-2">
-              <span className="h-px w-5 bg-emerald-200/60" />
-              <span className={`text-[9px] font-semibold text-emerald-100/70 ${isHeroRtl ? '' : 'uppercase tracking-[0.23em]'}`}>
-                {technologyText.cards[3].label}
-              </span>
-            </div>
-
-            <h3 className={`break-words text-xl font-medium leading-snug text-white ${isHeroRtl ? 'tracking-normal' : 'tracking-tight'}`}>
-              {technologyText.cards[3].title}
-            </h3>
-
-            <p className="mt-4 text-sm leading-6 text-slate-400">
-              {technologyText.cards[3].description}
-            </p>
-
-            <div className="mt-6 flex flex-wrap gap-2">
-              {technologyText.cards[3].tags.map((item) => (
-                <span
-                  key={item}
-                  className="rounded-full border border-white/[0.075] bg-white/[0.025] px-2.5 py-1.5 text-[10px] text-slate-400 transition-colors group-hover:border-emerald-200/15 group-hover:text-slate-200"
-                >
-                  {item}
-                </span>
-              ))}
-            </div>
-
-            <div className="mt-7 flex items-center justify-between border-t border-white/[0.075] pt-4">
-              <span className="text-xs text-slate-500">{technologyText.cards[3].footer}</span>
-              <ArrowUpRight className={`h-4 w-4 text-slate-500 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-emerald-200 ${isHeroRtl ? '-scale-x-100' : ''}`} />
-            </div>
-          </div>
-        </article>
+            </article>
+          );
+        })}
       </div>
     </div>
 
     {/* SECTION FOOTER */}
     <div
       className={cn(
-        "mt-14 flex flex-col gap-6 border-t border-white/[0.075] pt-7 transition-all delay-500 duration-700 sm:flex-row sm:items-center sm:justify-between",
+        "mt-12 flex flex-col gap-5 border-t border-white/[0.09] pt-7 transition-all delay-300 duration-700 sm:mt-14 sm:flex-row sm:items-center sm:justify-between sm:gap-8 motion-reduce:transition-none",
         section2InView
           ? "translate-y-0 opacity-100"
-          : "translate-y-5 opacity-0",
+          : "translate-y-3 opacity-0",
+        "motion-reduce:translate-y-0 motion-reduce:opacity-100",
       )}
     >
-      <div className="flex items-start gap-3">
-        <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-white/[0.08] bg-white/[0.025] text-cyan-200">
-          <Workflow className="h-4 w-4" />
+      <div className="flex min-w-0 items-start gap-3.5">
+        <div className="mt-0.5 flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-cyan-300/[0.14] bg-cyan-300/[0.04] text-cyan-200">
+          <Workflow aria-hidden="true" className="h-[18px] w-[18px]" />
         </div>
 
-        <div>
-          <p className="text-sm font-medium text-slate-200">
+        <div className="min-w-0">
+          <p className="text-sm font-bold text-white">
             {technologyText.footerHeading}
           </p>
-          <p className="mt-1 text-xs leading-5 text-slate-500">
+          <p className="mt-1 max-w-2xl text-xs leading-6 text-slate-400 sm:text-[13px]">
             {technologyText.footerDescription}
           </p>
         </div>
@@ -4241,41 +4126,38 @@ useLayoutEffect(() => {
 
       <a
         href="#contact"
-        className="group inline-flex w-fit items-center gap-3 rounded-full border border-white/[0.10] bg-white/[0.025] px-5 py-3 text-sm font-medium text-slate-200 transition-all duration-300 hover:border-cyan-200/25 hover:bg-cyan-300/[0.045] hover:text-white"
+        className="group inline-flex min-h-11 w-fit shrink-0 items-center justify-center gap-3 rounded-full border border-cyan-200/[0.2] bg-cyan-300/[0.045] px-5 py-3 text-sm font-semibold text-white transition-colors duration-300 hover:border-cyan-200/40 hover:bg-cyan-300/[0.09] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-200/70 focus-visible:ring-offset-2 focus-visible:ring-offset-[#05070d]"
       >
         {technologyText.footerCta}
-        <ArrowDownRight className={`h-4 w-4 text-cyan-200 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:translate-y-0.5 ${isHeroRtl ? '-scale-x-100' : ''}`} />
+
+        <ArrowDownRight
+          aria-hidden="true"
+          className={`h-4 w-4 text-cyan-200 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:translate-y-0.5 ${
+            isHeroRtl ? "-scale-x-100" : ""
+          }`}
+        />
       </a>
     </div>
   </div>
 </section>
 
+
+
+
+
 {/* SECTION 03 — ENGINEERING PHILOSOPHY */}
 <section
   id="engineering-section"
   lang={heroLanguage}
-  dir={isHeroRtl ? 'rtl' : 'ltr'}
+  dir={isHeroRtl ? "rtl" : "ltr"}
   data-disable-global-glow-cursor
   className="relative isolate overflow-hidden bg-[#050914]"
 >
-  <div className="absolute inset-0 z-0">
-    <CursorGrid
-      cellSize={60}
-      color={BrandGradient[0]}
-      gradientColors={BrandGradient}
-      radius={140}
-      holdTime={400}
-      fadeDuration={800}
-      fillOpacity={0.06}
-      gridOpacity={0.08}
-      clickPulse
-    />
-  </div>
-
-  <div className="relative z-10 h-full">
+  <div className="relative z-20">
     <EngineeringSection language={heroLanguage} />
   </div>
 </section>
+
 
 {/* ═══════════════════════════════════════════════════════════════════════
     STATS — Keep the dark environment continuous

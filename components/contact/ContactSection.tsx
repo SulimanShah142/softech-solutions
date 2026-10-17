@@ -4,6 +4,8 @@
 import { useState, type FormEvent } from 'react';
 import CrystalizedBall from '@/components/CrystalizedBall';
 import type { SiteLanguage } from '@/lib/site-language';
+import ConsultationBooking from '@/components/contact/ConsultationBooking';
+
 
 const translations = {
   en: {
@@ -522,6 +524,7 @@ export default function ContactSection({ language }: { language: SiteLanguage })
                 {copy.privacy}
               </p>
             </form>
+            <ConsultationBooking language={language} />
           </div>
         </div>
       </div>

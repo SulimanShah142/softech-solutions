@@ -1,6 +1,7 @@
+
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useId } from 'react';
 import {
   Activity,
   AppWindow,
@@ -10,684 +11,490 @@ import {
   Globe2,
   Server,
   ShieldCheck,
+  ArrowDown,
 } from 'lucide-react';
 import type { SiteLanguage } from '@/lib/site-language';
 
 const layers = [
   {
-    label: 'PRESENTATION',
-    detail: 'Web · Mobile · UI',
     icon: AppWindow,
     color: '#28D9A0',
-    width: '88%',
-    offset: '0%',
+    code: 'L01',
   },
   {
-    label: 'APPLICATION',
-    detail: 'Logic · Services',
     icon: Braces,
     color: '#60A5FA',
-    width: '94%',
-    offset: '3%',
+    code: 'L02',
   },
   {
-    label: 'DATA & SERVICES',
-    detail: 'APIs · Storage',
     icon: Database,
     color: '#28D9A0',
-    width: '100%',
-    offset: '0%',
+    code: 'L03',
   },
-];
+] as const;
 
 const modules = [
-  { label: 'CLIENTS', icon: Globe2, x: '8%', y: '17%' },
-  { label: 'API LAYER', icon: Server, x: '68%', y: '10%' },
-  { label: 'SECURITY', icon: ShieldCheck, x: '8%', y: '75%' },
-  { label: 'DATA FLOW', icon: Activity, x: '69%', y: '77%' },
-];
-
-function Signal({
-  delay,
-  duration,
-  color,
-  vertical = false,
-}: {
-  delay: string;
-  duration: string;
-  color: string;
-  vertical?: boolean;
-}) {
-  return (
-    <span
-      aria-hidden="true"
-      className={`architecture-signal ${
-        vertical ? 'architecture-signal-vertical' : ''
-      } absolute left-0 top-0 h-1 w-1 rounded-full`}
-      style={{
-        background: color,
-        boxShadow: `0 0 8px 2px ${color}90`,
-        animationDelay: delay,
-        animationDuration: duration,
-      }}
-    />
-  );
-}
+  { icon: Globe2, color: '#28D9A0', code: 'MOD.01' },
+  { icon: Server, color: '#60A5FA', code: 'MOD.02' },
+  { icon: ShieldCheck, color: '#60A5FA', code: 'MOD.03' },
+  { icon: Activity, color: '#28D9A0', code: 'MOD.04' },
+] as const;
 
 const architectureCopy = {
   en: {
-    ariaLabel: 'Layered software architecture connecting client interfaces, application services, APIs, security, and data',
-    systemMap: 'SYSTEM MAP',
-    layeredArchitecture: 'Layered architecture',
-    modularConnected: 'MODULAR / CONNECTED',
-    modules: ['CLIENTS', 'API LAYER', 'SECURITY', 'DATA FLOW'],
+    ariaLabel:
+      'Enterprise software architecture connecting presentation interfaces, application logic, APIs, security, and data services.',
+    systemMap: 'SYSTEM ARCHITECTURE',
+    layeredArchitecture: 'Enterprise platform topology',
+    modularConnected: 'MODULAR SYSTEM',
+    modules: ['CLIENT INTERFACES', 'API GATEWAY', 'SECURITY', 'DATA FLOW'],
     layers: [
-      ['PRESENTATION', 'Web · Mobile · UI'],
-      ['APPLICATION', 'Logic · Services'],
-      ['DATA & SERVICES', 'APIs · Storage'],
+      ['PRESENTATION', 'Web applications · Mobile · UI'],
+      ['APPLICATION', 'Business logic · Domain services'],
+      ['DATA & SERVICES', 'APIs · Databases · Integrations'],
     ],
-    flowActive: 'FLOW / ACTIVE',
-    modularByDesign: 'Modular by design',
+    flowActive: 'SYSTEM FLOW',
+    modularByDesign: 'Designed for separation of concerns',
+    moduleHeading: 'CONNECTED COMPONENTS',
+    moduleDescription:
+      'Independent modules, coordinated through defined interfaces.',
+    layerHeading: 'CORE ARCHITECTURE',
+    input: 'REQUEST',
+    output: 'RESPONSE',
+    secure: 'SECURE',
+    status: 'ARCHITECTURE / ONLINE',
+    footer: 'MODULAR BY DESIGN',
+    web: 'WEB',
+    api: 'API',
+    data: 'DATA',
   },
   'fa-AF': {
-    ariaLabel: 'معماری لایه‌ای نرم‌افزار که رابط‌های مشتری، خدمات برنامه، APIها، امنیت و داده را به‌هم پیوند می‌دهد',
-    systemMap: 'نقشه سیستم',
-    layeredArchitecture: 'معماری لایه‌ای',
-    modularConnected: 'ماژولار / پیوسته',
-    modules: ['مشتریان', 'لایه API', 'امنیت', 'جریان داده'],
+    ariaLabel:
+      'معماری سازمانی نرم‌افزار که رابط‌ها، منطق برنامه، APIها، امنیت و خدمات داده را به‌هم وصل می‌کند.',
+    systemMap: 'معماری سیستم',
+    layeredArchitecture: 'ساختار پلتفرم سازمانی',
+    modularConnected: 'سیستم ماژولار',
+    modules: ['رابط‌های کاربری', 'دروازه API', 'امنیت', 'جریان داده'],
     layers: [
-      ['ارائه', 'وب · موبایل · رابط'],
-      ['برنامه', 'منطق · خدمات'],
-      ['داده و خدمات', 'APIها · ذخیره‌سازی'],
+      ['لایه ارائه', 'برنامه‌های وب · موبایل · رابط'],
+      ['لایه برنامه', 'منطق تجاری · خدمات دامنه'],
+      ['داده و خدمات', 'APIها · پایگاه داده · یکپارچه‌سازی'],
     ],
-    flowActive: 'جریان / فعال',
-    modularByDesign: 'ماژولار از پایه',
+    flowActive: 'جریان سیستم',
+    modularByDesign: 'طراحی‌شده با تفکیک مسئولیت‌ها',
+    moduleHeading: 'اجزای متصل',
+    moduleDescription:
+      'ماژول‌های مستقل که از طریق رابط‌های تعریف‌شده هماهنگ می‌شوند.',
+    layerHeading: 'معماری اصلی',
+    input: 'درخواست',
+    output: 'پاسخ',
+    secure: 'امن',
+    status: 'معماری / فعال',
+    footer: 'ماژولار از پایه',
+    web: 'وب',
+    api: 'API',
+    data: 'داده',
   },
   ps: {
-    ariaLabel: 'د سافټویر پوړیز جوړښت چې د پېرودونکو مخونه، د اپلېکېشن خدمتونه، API ګانې، امنیت او معلومات نښلوي',
-    systemMap: 'د سیسټم نقشه',
-    layeredArchitecture: 'پوړیز جوړښت',
-    modularConnected: 'ماډیولر / تړلی',
-    modules: ['پېرودونکي', 'API پوړ', 'امنیت', 'د معلوماتو بهیر'],
+    ariaLabel:
+      'د سافټویر تصدۍ جوړښت چې د کارن مخونه، د اپلېکېشن منطق، API ګانې، امنیت او د معلوماتو خدمتونه نښلوي.',
+    systemMap: 'د سیسټم جوړښت',
+    layeredArchitecture: 'د تصدۍ پلاتفورم جوړښت',
+    modularConnected: 'ماډیولر سیسټم',
+    modules: ['د کارن مخونه', 'API دروازه', 'امنیت', 'د معلوماتو بهیر'],
     layers: [
-      ['وړاندې کول', 'وېب · موبایل · مخ'],
-      ['اپلېکېشن', 'منطق · خدمتونه'],
-      ['معلومات او خدمتونه', 'API ګانې · زېرمه'],
+      ['د وړاندې کولو پوړ', 'وېب · موبایل · کارن مخ'],
+      ['د اپلېکېشن پوړ', 'سوداګریز منطق · ډومېن خدمتونه'],
+      ['معلومات او خدمتونه', 'API ګانې · ډیټابېس · نښلونې'],
     ],
-    flowActive: 'بهیر / فعال',
-    modularByDesign: 'په اصل کې ماډیولر',
+    flowActive: 'د سیسټم بهیر',
+    modularByDesign: 'د مسئولیتونو د بېلتون لپاره طرحه شوی',
+    moduleHeading: 'نښلول شوې برخې',
+    moduleDescription:
+      'خپلواک ماډیولونه چې د ټاکل شويو رابطو له لارې همغږي کېږي.',
+    layerHeading: 'اصلي جوړښت',
+    input: 'غوښتنه',
+    output: 'ځواب',
+    secure: 'خوندي',
+    status: 'جوړښت / فعال',
+    footer: 'له پیله ماډیولر',
+    web: 'وېب',
+    api: 'API',
+    data: 'معلومات',
   },
-} satisfies Record<SiteLanguage, {
-  ariaLabel: string;
-  systemMap: string;
-  layeredArchitecture: string;
-  modularConnected: string;
-  modules: string[];
-  layers: [string, string][];
-  flowActive: string;
-  modularByDesign: string;
-}>;
+} satisfies Record<
+  SiteLanguage,
+  {
+    ariaLabel: string;
+    systemMap: string;
+    layeredArchitecture: string;
+    modularConnected: string;
+    modules: string[];
+    layers: [string, string][];
+    flowActive: string;
+    modularByDesign: string;
+    moduleHeading: string;
+    moduleDescription: string;
+    layerHeading: string;
+    input: string;
+    output: string;
+    secure: string;
+    status: string;
+    footer: string;
+    web: string;
+    api: string;
+    data: string;
+  }
+>;
 
-export default function ArchitectureVisual({ language }: { language: SiteLanguage }) {
+function ArchitectureModule({
+  icon: Icon,
+  label,
+  code,
+  color,
+  rtl,
+}: {
+  icon: typeof Globe2;
+  label: string;
+  code: string;
+  color: string;
+  rtl: boolean;
+}) {
+  return (
+    <div
+      className={`architecture-module group relative flex min-w-0 items-center gap-2.5 rounded-xl border border-white/[0.08] bg-[#081321]/95 px-3 py-3 sm:px-3.5 ${
+        rtl ? 'flex-row-reverse text-right' : ''
+      }`}
+      style={
+        {
+          '--module-accent': color,
+        } as React.CSSProperties
+      }
+    >
+      <span className="absolute inset-y-3 start-0 w-[2px] rounded-full bg-[var(--module-accent)] opacity-60 transition-opacity duration-300 group-hover:opacity-100" />
+
+      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/[0.07] bg-white/[0.025] text-[var(--module-accent)] transition-colors duration-300 group-hover:bg-white/[0.06]">
+        <Icon size={16} strokeWidth={1.7} />
+      </span>
+
+      <span className="min-w-0 flex-1">
+        <span className="block break-words text-[9px] font-semibold leading-relaxed tracking-[0.04em] text-slate-200 sm:text-[10px]">
+          {label}
+        </span>
+        <span
+          dir="ltr"
+          className="mt-1 block font-mono text-[8px] tracking-wider text-slate-600"
+        >
+          {code}
+        </span>
+      </span>
+
+      <span
+        aria-hidden="true"
+        className="hidden h-1.5 w-1.5 shrink-0 rounded-full bg-[var(--module-accent)] opacity-60 sm:block"
+      />
+    </div>
+  );
+}
+
+export default function ArchitectureVisual({
+  language,
+}: {
+  language: SiteLanguage;
+}) {
   const copy = architectureCopy[language];
-  const isRtl = language !== 'en';
-  const translatedLayers = layers.map((layer, index) => ({
-    ...layer,
-    label: copy.layers[index][0],
-    detail: copy.layers[index][1],
-  }));
-  const translatedModules = modules.map((module, index) => ({
-    ...module,
-    label: copy.modules[index],
-  }));
-  const [reducedMotion, setReducedMotion] = useState(false);
-  const [activeLayer, setActiveLayer] = useState<number | null>(null);
-  const [hoveredModule, setHoveredModule] = useState<string | null>(null);
-
-  useEffect(() => {
-    const media = window.matchMedia(
-      '(prefers-reduced-motion: reduce)',
-    );
-
-    const updateMotionPreference = () => {
-      setReducedMotion(media.matches);
-    };
-
-    updateMotionPreference();
-    media.addEventListener('change', updateMotionPreference);
-
-    return () => {
-      media.removeEventListener('change', updateMotionPreference);
-    };
-  }, []);
+  const rtl = language !== 'en';
+  const reactId = useId().replace(/:/g, '');
+  const greenGradientId = `architecture-green-${reactId}`;
+  const blueGradientId = `architecture-blue-${reactId}`;
 
   return (
     <div
       lang={language}
-      dir={isRtl ? 'rtl' : 'ltr'}
-      aria-label={copy.ariaLabel}
+      dir={rtl ? 'rtl' : 'ltr'}
       role="img"
-      className="architecture-enter relative mx-auto w-full max-w-[680px]"
+      aria-label={copy.ariaLabel}
+      className="architecture-enter mx-auto w-full max-w-[720px]"
     >
       <style>{`
-        @keyframes architectureEnter {
-          from {
-            opacity: 0;
-            transform: translate3d(26px, 0, 0);
-          }
-          to {
-            opacity: 1;
-            transform: translate3d(0, 0, 0);
-          }
+        @keyframes architecture-enter {
+          from { opacity: 0; transform: translateY(12px); }
+          to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes architectureSignalHorizontal {
-          0% {
-            transform: translateX(0);
-            opacity: 0;
-          }
-          12% {
-            opacity: 1;
-          }
-          85% {
-            opacity: 0.85;
-          }
-          100% {
-            transform: translateX(100%);
-            opacity: 0;
-          }
+        @keyframes architecture-data-flow {
+          0% { transform: translateY(-5px); opacity: 0; }
+          15% { opacity: 1; }
+          85% { opacity: .9; }
+          100% { transform: translateY(20px); opacity: 0; }
         }
 
-        @keyframes architectureSignalVertical {
-          0% {
-            transform: translateY(0);
-            opacity: 0;
-          }
-          12% {
-            opacity: 1;
-          }
-          85% {
-            opacity: 0.85;
-          }
-          100% {
-            transform: translateY(100%);
-            opacity: 0;
-          }
-        }
-
-        @keyframes architectureAmbient {
-          0%, 100% {
-            opacity: 0.55;
-          }
-          50% {
-            opacity: 1;
-          }
-        }
-
-        @keyframes architecturePulse {
-          0%, 100% {
-            opacity: 0.35;
-            transform: scale(1);
-          }
-          50% {
-            opacity: 0.9;
-            transform: scale(1.35);
-          }
+        @keyframes architecture-status {
+          0%, 100% { opacity: .5; }
+          50% { opacity: 1; }
         }
 
         .architecture-enter {
-          animation: architectureEnter 850ms cubic-bezier(0.2, 0.7, 0.2, 1)
-            both;
+          animation: architecture-enter 700ms cubic-bezier(.2,.7,.2,1) both;
         }
 
-        .architecture-signal {
-          animation-name: architectureSignalHorizontal;
-          animation-timing-function: linear;
-          animation-iteration-count: infinite;
-          animation-fill-mode: both;
+        .architecture-data-particle {
+          animation: architecture-data-flow 3.8s ease-in-out infinite;
         }
 
-        .architecture-signal-vertical {
-          animation-name: architectureSignalVertical;
-        }
-
-        .architecture-ambient {
-          animation: architectureAmbient 8s ease-in-out infinite;
-        }
-
-        .architecture-status-pulse {
-          animation: architecturePulse 3s ease-in-out infinite;
-        }
-
-        .architecture-layer {
-          transition:
-            transform 320ms cubic-bezier(0.2, 0.7, 0.2, 1),
-            border-color 320ms ease,
-            box-shadow 320ms ease,
-            opacity 320ms ease,
-            filter 320ms ease;
-          transform-origin: center;
-        }
-
-        .architecture-layer:hover,
-        .architecture-layer:focus-visible {
-          transform: translate3d(0, -5px, 0) scale(1.015);
-          z-index: 30;
+        .architecture-status-dot {
+          animation: architecture-status 3s ease-in-out infinite;
         }
 
         .architecture-module {
           transition:
-            transform 250ms ease,
-            border-color 250ms ease,
-            background-color 250ms ease,
-            box-shadow 250ms ease;
+            border-color 220ms ease,
+            background-color 220ms ease,
+            transform 220ms ease;
         }
 
         .architecture-module:hover {
-          transform: translate3d(0, -3px, 0);
-          box-shadow: 0 7px 22px rgba(0, 0, 0, 0.22);
+          border-color: color-mix(in srgb, var(--module-accent) 35%, transparent);
+          background-color: #0b1929;
+          transform: translateY(-2px);
         }
 
-        @media (hover: hover) and (pointer: fine) {
-          .architecture-canvas:has(.architecture-layer:hover)
-            .architecture-layer:not(:hover) {
-            opacity: 0.67;
-            filter: saturate(0.78);
-          }
+        .architecture-layer {
+          transition: border-color 220ms ease, background-color 220ms ease;
+        }
 
-          .architecture-canvas:has(.architecture-module:hover)
-            .architecture-module:not(:hover) {
-            opacity: 0.68;
-          }
+        .architecture-layer:hover {
+          border-color: var(--layer-accent);
+          background-color: #102033;
         }
 
         @media (prefers-reduced-motion: reduce) {
           .architecture-enter,
-          .architecture-signal,
-          .architecture-ambient,
-          .architecture-status-pulse {
+          .architecture-data-particle,
+          .architecture-status-dot {
             animation: none !important;
           }
 
-          .architecture-layer,
-          .architecture-module {
+          .architecture-module,
+          .architecture-layer {
             transition: none !important;
           }
         }
       `}</style>
 
-      {/* Main visual frame */}
-      <div className="relative overflow-hidden rounded-2xl border border-white/[0.09] bg-[#07101D]/90 shadow-[0_30px_100px_rgba(0,0,0,0.35)] transition-[border-color,box-shadow] duration-500 hover:border-[#28D9A0]/20 hover:shadow-[0_30px_100px_rgba(0,0,0,0.4),0_0_35px_rgba(40,217,160,0.035)]">
-        {/* Ambient light */}
+      <div className="relative overflow-hidden rounded-2xl border border-white/[0.09] bg-[#050B14] shadow-[0_28px_90px_rgba(0,0,0,0.34)]">
+        {/* Background lighting and technical grid */}
         <div
           aria-hidden="true"
-          className="architecture-ambient pointer-events-none absolute inset-0"
+          className="pointer-events-none absolute inset-0"
           style={{
             background:
-              'radial-gradient(ellipse at 50% 43%, rgba(40,217,160,0.09), transparent 52%), radial-gradient(ellipse at 80% 15%, rgba(96,165,250,0.07), transparent 42%)',
+              'radial-gradient(ellipse at 50% 38%, rgba(40,217,160,0.075), transparent 55%), radial-gradient(ellipse at 90% 8%, rgba(96,165,250,0.07), transparent 36%)',
           }}
         />
 
-        {/* Header */}
-        <div className={`relative z-10 flex items-center justify-between border-b border-white/[0.08] px-4 py-3.5 sm:px-5 ${isRtl ? 'flex-row-reverse' : ''}`}>
-          <div className={`flex items-center gap-2.5 ${isRtl ? 'flex-row-reverse' : ''}`}>
-            <div className="flex h-7 w-7 items-center justify-center rounded-lg border border-[#28D9A0]/20 bg-[#28D9A0]/[0.08] text-[#28D9A0] transition-colors duration-300 hover:border-[#28D9A0]/50 hover:bg-[#28D9A0]/[0.14]">
-              <Boxes size={14} />
-            </div>
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 opacity-[0.045]"
+          style={{
+            backgroundImage:
+              'linear-gradient(rgba(148,163,184,.55) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,.55) 1px, transparent 1px)',
+            backgroundSize: '24px 24px',
+            maskImage:
+              'linear-gradient(to bottom, black, transparent 92%)',
+            WebkitMaskImage:
+              'linear-gradient(to bottom, black, transparent 92%)',
+          }}
+        />
 
-            <div>
-              <p className={`text-[10px] font-semibold ${isRtl ? '' : 'tracking-[0.13em]'} text-slate-200`}>
-                {copy.systemMap}
-              </p>
-              <p className="mt-0.5 text-[9px] text-slate-500">
-                {copy.layeredArchitecture}
-              </p>
-            </div>
-          </div>
-
-          <div className={`flex items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.025] px-2.5 py-1.5 transition-colors duration-300 hover:border-[#28D9A0]/20 hover:bg-[#28D9A0]/[0.04] ${isRtl ? 'flex-row-reverse' : ''}`}>
-            <span className="relative flex h-1.5 w-1.5">
-              <span className="architecture-status-pulse absolute inset-0 rounded-full bg-[#28D9A0]" />
-              <span className="relative h-1.5 w-1.5 rounded-full bg-[#28D9A0]" />
+        {/* System header */}
+        <header
+          className={`relative z-10 flex flex-wrap items-center justify-between gap-3 border-b border-white/[0.08] px-4 py-4 sm:px-5 sm:py-[18px] ${
+            rtl ? 'flex-row-reverse' : ''
+          }`}
+        >
+          <div className={`flex min-w-0 items-center gap-3 ${rtl ? 'flex-row-reverse text-right' : ''}`}>
+            <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-[#28D9A0]/20 bg-[#28D9A0]/[0.07] text-[#28D9A0]">
+              <Boxes size={19} strokeWidth={1.6} />
             </span>
 
-            <span className="font-mono text-[9px] tracking-wide text-slate-400">
+            <span className="min-w-0">
+              <span className={`block text-[10px] font-semibold text-slate-100 sm:text-[11px] ${rtl ? '' : 'tracking-[0.12em]'}`}>
+                {copy.systemMap}
+              </span>
+              <span className="mt-1 block text-[10px] text-slate-500">
+                {copy.layeredArchitecture}
+              </span>
+            </span>
+          </div>
+
+          <div className={`flex items-center gap-2 rounded-full border border-[#28D9A0]/15 bg-[#28D9A0]/[0.045] px-3 py-2 ${rtl ? 'flex-row-reverse' : ''}`}>
+            <span className="relative flex h-2 w-2 shrink-0">
+              <span className="architecture-status-dot absolute inset-0 rounded-full bg-[#28D9A0]" />
+              <span className="relative m-auto h-1.5 w-1.5 rounded-full bg-[#28D9A0]" />
+            </span>
+            <span className="text-[8px] font-medium text-slate-400 sm:text-[9px]">
               {copy.modularConnected}
             </span>
           </div>
-        </div>
+        </header>
 
-        {/* Diagram canvas */}
-        <div className="architecture-canvas relative min-h-[390px] overflow-hidden px-3 py-5 sm:min-h-[445px] sm:px-5 sm:py-7">
-          {/* Fine technical grid */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 opacity-[0.055]"
-            style={{
-              backgroundImage:
-                'linear-gradient(rgba(148,163,184,0.45) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.45) 1px, transparent 1px)',
-              backgroundSize: '28px 28px',
-              maskImage:
-                'radial-gradient(ellipse at center, black 0%, transparent 82%)',
-              WebkitMaskImage:
-                'radial-gradient(ellipse at center, black 0%, transparent 82%)',
-            }}
-          />
+        {/* Diagram content */}
+        <div className="relative z-[1] px-3 py-5 sm:px-5 sm:py-6">
+          <div className={`mb-3 flex items-center justify-between gap-3 px-1 ${rtl ? 'flex-row-reverse' : ''}`}>
+            <span className={`text-[9px] font-semibold text-slate-400 ${rtl ? '' : 'tracking-[0.12em]'}`}>
+              {copy.moduleHeading}
+            </span>
+            <span className="font-mono text-[8px] text-slate-600">
+              04 MODULES
+            </span>
+          </div>
 
-          {/* Connector network */}
-          <svg
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0 h-full w-full"
-            viewBox="0 0 600 420"
-            preserveAspectRatio="none"
-            fill="none"
-          >
-            <defs>
-              <linearGradient id="arch-green-line">
-                <stop offset="0%" stopColor="#28D9A0" stopOpacity="0.06" />
-                <stop offset="50%" stopColor="#28D9A0" stopOpacity="0.65" />
-                <stop offset="100%" stopColor="#28D9A0" stopOpacity="0.06" />
-              </linearGradient>
+          <p className={`mb-4 px-1 text-[10px] leading-relaxed text-slate-500 ${rtl ? 'text-right' : ''}`}>
+            {copy.moduleDescription}
+          </p>
 
-              <linearGradient id="arch-blue-line">
-                <stop offset="0%" stopColor="#60A5FA" stopOpacity="0.05" />
-                <stop offset="50%" stopColor="#60A5FA" stopOpacity="0.6" />
-                <stop offset="100%" stopColor="#60A5FA" stopOpacity="0.05" />
-              </linearGradient>
-            </defs>
-
-            <path
-              d="M 95 95 L 150 95 L 180 145"
-              stroke="url(#arch-green-line)"
-              strokeWidth="1.2"
-            />
-            <path
-              d="M 510 70 L 460 70 L 425 145"
-              stroke="url(#arch-blue-line)"
-              strokeWidth="1.2"
-            />
-            <path
-              d="M 95 330 L 145 330 L 180 280"
-              stroke="url(#arch-blue-line)"
-              strokeWidth="1.2"
-            />
-            <path
-              d="M 510 335 L 460 335 L 425 280"
-              stroke="url(#arch-green-line)"
-              strokeWidth="1.2"
-            />
-
-            <path
-              d="M 300 172 L 300 196"
-              stroke="#28D9A0"
-              strokeOpacity="0.55"
-              strokeWidth="1.2"
-              strokeDasharray="3 5"
-            />
-            <path
-              d="M 300 246 L 300 270"
-              stroke="#60A5FA"
-              strokeOpacity="0.55"
-              strokeWidth="1.2"
-              strokeDasharray="3 5"
-            />
-
-            {[
-              [95, 95],
-              [180, 145],
-              [510, 70],
-              [425, 145],
-              [95, 330],
-              [180, 280],
-              [510, 335],
-              [425, 280],
-              [300, 172],
-              [300, 196],
-              [300, 246],
-              [300, 270],
-            ].map(([cx, cy], index) => (
-              <circle
-                key={index}
-                cx={cx}
-                cy={cy}
-                r="2.3"
-                fill={index % 2 === 0 ? '#28D9A0' : '#60A5FA'}
-                fillOpacity="0.85"
+          {/* Supporting modules */}
+          <div className="grid grid-cols-2 gap-2 sm:gap-3">
+            {modules.map((module, index) => (
+              <ArchitectureModule
+                key={module.code}
+                icon={module.icon}
+                label={copy.modules[index]}
+                code={module.code}
+                color={module.color}
+                rtl={rtl}
               />
             ))}
-          </svg>
+          </div>
 
-          {/* Floating connection modules */}
-          {translatedModules.map((module, index) => {
-            const Icon = module.icon;
-            const blue = index === 1 || index === 2;
-            const color = blue ? '#60A5FA' : '#28D9A0';
-            const isHovered = hoveredModule === module.label;
+          {/* Connection spine */}
+          <div className="relative flex h-12 items-center justify-center" aria-hidden="true">
+            <div className="h-full w-px bg-gradient-to-b from-[#28D9A0]/40 via-[#60A5FA]/50 to-[#28D9A0]/40" />
+            <span className="architecture-data-particle absolute top-2 h-1.5 w-1.5 rounded-full bg-[#28D9A0] shadow-[0_0_10px_2px_rgba(40,217,160,0.35)]" />
+            <span className="absolute left-1/2 top-1/2 flex h-6 w-6 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border border-white/[0.08] bg-[#07101D] text-slate-500">
+              <ArrowDown size={12} />
+            </span>
+          </div>
 
-            return (
-              <div
-                key={module.label}
-                className="absolute z-10"
-                style={{
-                  left: isRtl ? undefined : module.x,
-                  right: isRtl ? module.x : undefined,
-                  top: module.y,
-                }}
-              >
-                <div
-                  onMouseEnter={() => setHoveredModule(module.label)}
-                  onMouseLeave={() => setHoveredModule(null)}
-                  className={`architecture-module flex cursor-default items-center gap-1.5 rounded-md border px-2 py-1.5 backdrop-blur-sm sm:gap-2 sm:px-2.5 ${isRtl ? 'flex-row-reverse' : ''}`}
-                  style={{
-                    borderColor: isHovered ? `${color}80` : `${color}30`,
-                    background: isHovered
-                      ? `${color}12`
-                      : 'rgba(7,16,29,0.92)',
-                    color,
-                    boxShadow: isHovered
-                      ? `0 0 20px ${color}12`
-                      : 'none',
-                  }}
-                >
-                  <Icon size={11} />
+          {/* Core architecture */}
+          <div className="rounded-xl border border-white/[0.07] bg-black/20 p-2.5 sm:p-3.5">
+            <div className={`mb-3 flex items-center justify-between gap-3 px-1 ${rtl ? 'flex-row-reverse' : ''}`}>
+              <span className={`text-[9px] font-semibold text-slate-300 ${rtl ? '' : 'tracking-[0.12em]'}`}>
+                {copy.layerHeading}
+              </span>
+              <span className="font-mono text-[8px] text-slate-600">
+                03 LAYERS
+              </span>
+            </div>
 
-                  <span className="whitespace-nowrap font-mono text-[8px] tracking-[0.08em] sm:text-[9px]">
-                    {module.label}
-                  </span>
+            <div className="space-y-2">
+              {copy.layers.map(([label, detail], index) => {
+                const layer = layers[index];
+                const Icon = layer.icon;
 
-                  <span
-                    aria-hidden="true"
-                    className="ml-0.5 h-1 w-1 rounded-full transition-opacity duration-300"
-                    style={{
-                      background: color,
-                      opacity: isHovered ? 1 : 0.4,
-                    }}
-                  />
-                </div>
-              </div>
-            );
-          })}
-
-          {/* Architecture layers */}
-          <div className="absolute inset-x-0 top-1/2 z-20 flex -translate-y-1/2 flex-col items-center gap-2.5 px-5 sm:gap-3 sm:px-12">
-            {translatedLayers.map((layer, index) => {
-              const Icon = layer.icon;
-              const isActive = activeLayer === index;
-              const isOtherActive =
-                activeLayer !== null && activeLayer !== index;
-
-              return (
-                <div
-                  key={layer.label}
-                  className="architecture-layer relative"
-                  style={{
-                    width: layer.width,
-                    marginLeft: isRtl ? undefined : layer.offset,
-                    marginRight: isRtl ? layer.offset : undefined,
-                    opacity: isOtherActive ? 0.72 : 1,
-                  }}
-                  onMouseEnter={() => setActiveLayer(index)}
-                  onMouseLeave={() => setActiveLayer(null)}
-                >
-                  {/* Short connector */}
+                return (
                   <div
-                    aria-hidden="true"
-                    className="absolute -top-2 left-1/2 h-2 w-px transition-opacity duration-300"
-                    style={{
-                      background: `${layer.color}75`,
-                      opacity: index === 0 ? 0 : isActive ? 1 : 0.65,
-                    }}
-                  />
-
-                  <div
-                    className="relative overflow-hidden rounded-lg border backdrop-blur-md"
-                    style={{
-                      borderColor: isActive
-                        ? `${layer.color}95`
-                        : `${layer.color}35`,
-                      background: isActive
-                        ? 'linear-gradient(110deg, rgba(18,37,53,0.99), rgba(10,24,39,0.99))'
-                        : 'linear-gradient(110deg, rgba(13,27,43,0.97), rgba(9,18,32,0.94))',
-                      boxShadow: isActive
-                        ? `0 16px 42px rgba(0,0,0,0.32), 0 0 28px ${layer.color}13, inset 0 1px 0 ${layer.color}35`
-                        : `0 8px 32px rgba(0,0,0,0.18), inset 0 1px 0 ${layer.color}12`,
-                    }}
+                    key={layer.code}
+                    className={`architecture-layer group relative overflow-hidden rounded-lg border border-white/[0.08] bg-[#091422]/90 ${
+                      rtl ? 'text-right' : ''
+                    }`}
+                    style={
+                      {
+                        '--layer-accent': layer.color,
+                      } as React.CSSProperties
+                    }
                   >
-                    {/* Top-edge highlight */}
                     <div
                       aria-hidden="true"
-                      className="absolute inset-x-[12%] top-0 h-px transition-opacity duration-300"
+                      className="absolute inset-y-0 start-0 w-[2px]"
                       style={{
-                        background: `linear-gradient(90deg, transparent, ${layer.color}, transparent)`,
-                        opacity: isActive ? 1 : 0.55,
+                        background: layer.color,
+                        opacity: 0.75,
                       }}
                     />
 
-                    {/* Subtle hover wash */}
                     <div
                       aria-hidden="true"
-                      className="pointer-events-none absolute inset-0 transition-opacity duration-300"
+                      className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
                       style={{
-                        background: `linear-gradient(100deg, ${layer.color}09, transparent 60%)`,
-                        opacity: isActive ? 1 : 0,
+                        background: `linear-gradient(90deg, ${layer.color}0B, transparent 65%)`,
                       }}
                     />
 
-                    <div className={`relative flex min-h-[66px] items-center gap-3 px-3 py-3 sm:min-h-[74px] sm:gap-4 sm:px-4 ${isRtl ? 'flex-row-reverse' : ''}`}>
-                      <div
-                        className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border transition-[background-color,border-color,box-shadow] duration-300 sm:h-10 sm:w-10"
+                    <div className={`relative flex min-h-[68px] items-center gap-3 px-3 py-3 sm:min-h-[74px] sm:gap-3.5 sm:px-4 ${rtl ? 'flex-row-reverse' : ''}`}>
+                      <span
+                        className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg border"
                         style={{
-                          borderColor: isActive
-                            ? `${layer.color}75`
-                            : `${layer.color}30`,
-                          background: isActive
-                            ? `${layer.color}19`
-                            : `${layer.color}0D`,
                           color: layer.color,
-                          boxShadow: isActive
-                            ? `0 0 18px ${layer.color}15`
-                            : 'none',
+                          borderColor: `${layer.color}30`,
+                          background: `${layer.color}0D`,
                         }}
                       >
-                        <Icon size={17} strokeWidth={1.6} />
-                      </div>
+                        <Icon size={18} strokeWidth={1.65} />
+                      </span>
 
-                      <div className={`min-w-0 flex-1 ${isRtl ? 'text-right' : 'text-left'}`}>
-                        <p className={`text-[10px] font-semibold ${isRtl ? '' : 'tracking-[0.13em]'} text-slate-100 sm:text-[11px]`}>
-                          {layer.label}
-                        </p>
+                      <span className="min-w-0 flex-1">
+                        <span className={`block text-[10px] font-semibold text-slate-100 sm:text-[11px] ${rtl ? '' : 'tracking-[0.08em]'}`}>
+                          {label}
+                        </span>
+                        <span className="mt-1.5 block break-words text-[9px] leading-relaxed text-slate-500 sm:text-[10px]">
+                          {detail}
+                        </span>
+                      </span>
 
-                        <p className="mt-1 text-[9px] text-slate-500 transition-colors duration-300 sm:text-[10px]">
-                          {layer.detail}
-                        </p>
-                      </div>
-
-                      <div className="hidden shrink-0 items-center gap-1.5 sm:flex">
+                      <span className={`hidden shrink-0 flex-col items-end gap-1.5 sm:flex ${rtl ? 'items-start' : ''}`}>
                         <span
-                          className="h-1 w-1 rounded-full transition-shadow duration-300"
+                          className="h-1.5 w-1.5 rounded-full"
                           style={{
                             background: layer.color,
-                            boxShadow: isActive
-                              ? `0 0 8px ${layer.color}`
-                              : 'none',
+                            boxShadow: `0 0 8px ${layer.color}50`,
                           }}
                         />
-
-                        <span className="font-mono text-[8px] tracking-wider text-slate-500">
-                          L0{index + 1}
+                        <span
+                          dir="ltr"
+                          className="font-mono text-[8px] tracking-wider text-slate-600"
+                        >
+                          {layer.code}
                         </span>
-                      </div>
+                      </span>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
 
-          {/* Restrained data signals */}
-          {!reducedMotion && (
-            <>
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute left-[26%] top-[34%] h-px w-[36%] overflow-hidden"
-              >
-                <Signal
-                  delay="-2s"
-                  duration="8s"
-                  color="#28D9A0"
-                />
-              </div>
-
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute left-[49%] top-[38%] h-[26%] w-px overflow-hidden"
-              >
-                <Signal
-                  delay="-5s"
-                  duration="10s"
-                  color="#60A5FA"
-                  vertical
-                />
-              </div>
-
-              <div
-                aria-hidden="true"
-                className="pointer-events-none absolute left-[38%] top-[67%] h-px w-[32%] overflow-hidden"
-              >
-                <Signal
-                  delay="-4s"
-                  duration="9s"
-                  color="#60A5FA"
-                />
-              </div>
-            </>
-          )}
-
-          {/* Coordinate labels */}
-          <div className="absolute bottom-3 left-4 font-mono text-[8px] tracking-widest text-slate-700 sm:bottom-4 sm:left-5">
-            NODE / 01
-          </div>
-
-          <div className={`absolute bottom-3 right-4 font-mono text-[8px] ${isRtl ? '' : 'tracking-widest'} text-slate-700 sm:bottom-4 sm:right-5`}>
-            {copy.flowActive}
+          {/* Request / response boundary */}
+          <div className="mt-4 grid grid-cols-2 gap-2">
+            <div className={`flex items-center gap-2 rounded-lg border border-white/[0.06] bg-white/[0.018] px-3 py-2.5 ${rtl ? 'flex-row-reverse' : ''}`}>
+              <span className="h-1.5 w-1.5 rounded-full bg-[#60A5FA]" />
+              <span className="text-[9px] text-slate-400">{copy.input}</span>
+            </div>
+            <div className={`flex items-center justify-end gap-2 rounded-lg border border-white/[0.06] bg-white/[0.018] px-3 py-2.5 ${rtl ? 'flex-row-reverse' : ''}`}>
+              <span className="text-[9px] text-slate-400">{copy.output}</span>
+              <span className="h-1.5 w-1.5 rounded-full bg-[#28D9A0]" />
+            </div>
           </div>
         </div>
 
-        {/* Footer metadata */}
-        <div className="relative z-10 flex flex-wrap items-center justify-between gap-3 border-t border-white/[0.08] bg-black/10 px-4 py-3.5 sm:px-5">
-          <div className={`flex items-center gap-2 text-[10px] text-slate-500 ${isRtl ? 'flex-row-reverse' : ''}`}>
-            <span className="h-1 w-1 rounded-full bg-[#28D9A0]" />
-            <span>{copy.modularByDesign}</span>
+        {/* Footer */}
+        <footer className={`relative z-10 flex flex-wrap items-center justify-between gap-3 border-t border-white/[0.08] bg-black/20 px-4 py-3.5 sm:px-5 ${rtl ? 'flex-row-reverse' : ''}`}>
+          <div className={`flex items-center gap-2 ${rtl ? 'flex-row-reverse' : ''}`}>
+            <ShieldCheck size={13} className="shrink-0 text-[#28D9A0]" strokeWidth={1.7} />
+            <span className="text-[9px] text-slate-400">
+              {copy.modularByDesign}
+            </span>
           </div>
 
-          <div className="flex items-center gap-3 font-mono text-[9px] tracking-wider text-slate-600">
-            <span>WEB</span>
+          <div className={`flex items-center gap-2.5 font-mono text-[8px] text-slate-600 ${rtl ? 'flex-row-reverse' : ''}`}>
+            <span>{copy.web}</span>
             <span className="h-1 w-1 rounded-full bg-white/20" />
-            <span>API</span>
+            <span>{copy.api}</span>
             <span className="h-1 w-1 rounded-full bg-white/20" />
-            <span>DATA</span>
+            <span>{copy.data}</span>
           </div>
-        </div>
+        </footer>
       </div>
     </div>
   );

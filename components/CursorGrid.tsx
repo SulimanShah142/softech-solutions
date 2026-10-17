@@ -19,6 +19,7 @@ export interface CursorGridProps {
   cellRadius?: number;
   clickPulse?: boolean;
   pulseSpeed?: number;
+  ambientMotion?: boolean;
   className?: string;
 }
 
@@ -37,6 +38,7 @@ interface GridConfig {
   cellRadius: number;
   clickPulse: boolean;
   pulseSpeed: number;
+  ambientMotion: boolean;
 }
 
 interface Pulse {
@@ -89,6 +91,7 @@ const CursorGrid = ({
   cellRadius = 0,
   clickPulse = true,
   pulseSpeed = 600,
+  ambientMotion = false,
   className = ''
 }: CursorGridProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -110,7 +113,8 @@ const CursorGrid = ({
     gridOpacity,
     cellRadius,
     clickPulse,
-    pulseSpeed
+    pulseSpeed,
+    ambientMotion
   };
 
   useEffect(() => {
@@ -134,7 +138,9 @@ const CursorGrid = ({
     const pulses: Pulse[] = [];
     let raf = 0;
     let running = false;
+    let visible = true;
     let lastFrame = 0;
+    let ambientStart = 0;
     const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     let reduceMotion = motionQuery.matches;
 
@@ -197,6 +203,14 @@ const CursorGrid = ({
       lastFrame = now;
       ctx.clearRect(0, 0, w, h);
       const [cr, cg, cb] = hexToRgb(p.color);
+      const ambient = p.ambientMotion && !reduceMotion && visible;
+
+      if (ambient) {
+        const elapsed = (now - ambientStart) / 1000;
+        const x = w * (0.5 + 0.3 * Math.sin(elapsed * 0.2));
+        const y = h * (0.5 + 0.34 * Math.sin(elapsed * 0.15 + 1.1));
+        energize(x, y, 0.24);
+      }
 
       // Optional faint static lattice
       if (p.gridOpacity > 0) {
@@ -256,7 +270,7 @@ const CursorGrid = ({
         }
       }
 
-      let anyVisible = pulses.length > 0;
+      let anyVisible = pulses.length > 0 || ambient;
       const fadeStep = dt / Math.max(p.fadeDuration, 16);
       const half = p.cellSize / 2;
 
@@ -306,7 +320,7 @@ const CursorGrid = ({
     };
 
     const wake = () => {
-      if (running) return;
+      if (running || !visible) return;
       running = true;
       lastFrame = performance.now();
       raf = requestAnimationFrame(draw);
@@ -346,8 +360,22 @@ const CursorGrid = ({
       rebuild();
       wake();
     });
+    const visibilityObserver = new IntersectionObserver(([entry]) => {
+      const nextVisible = entry.isIntersecting;
+      if (visible === nextVisible) return;
+
+      visible = nextVisible;
+      if (visible) {
+        wake();
+      } else {
+        cancelAnimationFrame(raf);
+        running = false;
+      }
+    });
     ro.observe(container);
+    visibilityObserver.observe(container);
     rebuild();
+    ambientStart = performance.now();
     wake();
 
     const onWindowPointerMove = (event: PointerEvent) => {
@@ -385,12 +413,13 @@ const CursorGrid = ({
     return () => {
       cancelAnimationFrame(raf);
       ro.disconnect();
+      visibilityObserver.disconnect();
       window.removeEventListener('pointermove', onWindowPointerMove);
       window.removeEventListener('pointerdown', onWindowPointerDown);
       motionQuery.removeEventListener('change', onMotionPreferenceChange);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cellSize, gradientColors]);
+  }, [cellSize, gradientColors, ambientMotion]);
 
   // Repaint static layers when visual props change while idle
   useEffect(() => {

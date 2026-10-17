@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -5,633 +6,357 @@ import {
   Suspense,
   useCallback,
   useEffect,
-  useMemo,
   useRef,
   useState,
   type ErrorInfo,
   type ReactNode,
 } from "react";
-import Image from "next/image";
 import { Canvas } from "@react-three/fiber";
-import {
-  Float,
-  OrbitControls,
-  RoundedBox,
-  useTexture,
-} from "@react-three/drei";
+import { Float, Line, OrbitControls, RoundedBox } from "@react-three/drei";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import * as THREE from "three";
 import { RotateCcw } from "lucide-react";
 import type { SiteLanguage } from "@/lib/site-language";
 
-type DemoMode = "studio" | "software" | "ai";
+type SceneMode = "platform" | "integrations" | "delivery";
 
-const sceneTranslations: Record<
-  SiteLanguage,
-  {
-    studio: string;
-    software: string;
-    ai: string;
-    group: string;
-    preview: string;
-    studioOnline: string;
-    engineering: string;
-    previewLabel: string;
-    aiPreview: string;
-    softwarePreview: string;
-    studioPreview: string;
-    reset: string;
-    drag: string;
-    zoom: string;
-    fallback: string;
-    loading: string;
-  }
-> = {
-  en: {
-    studio: "Studio",
-    software: "Software",
-    ai: "AI",
-    group:
-      "Interactive SofTech workstation. Drag to rotate, scroll or pinch to zoom, or reset the view.",
-    preview: "Preview",
-    studioOnline: "Engineering studio · online",
-    engineering: "SofTech engineering",
-    previewLabel: "Workstation screen preview",
-    aiPreview: "AI and automation",
-    softwarePreview: "software engineering",
-    studioPreview: "SofTech studio",
-    reset: "Reset view",
-    drag: "Drag to rotate",
-    zoom: "Scroll or pinch to zoom",
-    fallback:
-      "The interactive 3D preview is unavailable. SofTech Solutions branding is shown instead.",
-    loading: "Loading the interactive SofTech workstation.",
-  },
-  "fa-AF": {
-    studio: "استودیو",
-    software: "نرم‌افزار",
-    ai: "هوش مصنوعی",
-    group: "ایستگاه کاری تعاملی سافت‌تک. برای چرخاندن بکشید، برای بزرگ‌نمایی پیمایش یا نیشگون کنید، یا نما را بازنشانی کنید.",
-    preview: "پیش‌نمایش",
-    studioOnline: "استودیوی انجنیری · آنلاین",
-    engineering: "انجنیری سافت‌تک",
-    previewLabel: "پیش‌نمایش صفحه ایستگاه کاری",
-    aiPreview: "هوش مصنوعی و خودکارسازی",
-    softwarePreview: "انجنیری نرم‌افزار",
-    studioPreview: "استودیوی سافت‌تک",
-    reset: "بازنشانی نما",
-    drag: "برای چرخاندن بکشید",
-    zoom: "برای بزرگ‌نمایی پیمایش یا نیشگون کنید",
-    fallback:
-      "پیش‌نمایش سه‌بعدی تعاملی در دسترس نیست. نشان تجاری سافت‌تک نمایش داده می‌شود.",
-    loading: "ایستگاه کاری تعاملی سافت‌تک در حال بارگذاری است.",
-  },
-  ps: {
-    studio: "سټوډیو",
-    software: "سافټویر",
-    ai: "مصنوعي ځیرکتیا",
-    group: "د سافټ‌ټېک متقابل کاري سټېشن. د تاوولو لپاره یې راکاږئ، د لویولو لپاره سکرول یا نیشگون وکاروئ، یا لید بېرته سم کړئ.",
-    preview: "مخکتنه",
-    studioOnline: "د انجینري سټوډیو · فعاله",
-    engineering: "د سافټ‌ټېک انجینري",
-    previewLabel: "د کاري سټېشن د پردې مخکتنه",
-    aiPreview: "مصنوعي ځیرکتیا او اتومات",
-    softwarePreview: "د سافټویر انجینري",
-    studioPreview: "د سافټ‌ټېک سټوډیو",
-    reset: "لید بېرته سمول",
-    drag: "د تاوولو لپاره یې راکاږئ",
-    zoom: "د لویولو لپاره سکرول یا نیشگون وکاروئ",
-    fallback:
-      "متقابل درې‌بعدي مخکتنه شتون نه لري. د سافټ‌ټېک نښه ښودل کېږي.",
-    loading: "د سافټ‌ټېک متقابل کاري سټېشن پرانیستل کېږي.",
-  },
-};
-
-const COLORS = {
+const C = {
   background: "#050914",
-  screen: "#07111c",
-  surface: "#0d1b2a",
-  blue: "#078df3",
-  cyan: "#23b9ff",
-  green: "#08d890",
+  blue: "#168df5",
+  cyan: "#42c7ff",
+  green: "#28d9a0",
   white: "#edf3fa",
   muted: "#91a5ba",
 };
 
-function createDemoScreen(
-  mode: Exclude<DemoMode, "studio">,
-  language: SiteLanguage,
-) {
-  if (typeof document === "undefined") return null;
+type SceneCopy = {
+  label: string;
+  platform: string;
+  integrations: string;
+  delivery: string;
+  eyebrow: string;
+  title: string;
+  description: string;
+  layers: [string, string, string];
+  interfaces: string[];
+  services: string[];
+  infrastructure: string[];
+  system: string;
+  reset: string;
+  rotate: string;
+  zoom: string;
+  fallback: string;
+  loading: string;
+};
 
-  const canvas = document.createElement("canvas");
-  canvas.width = 1440;
-  canvas.height = 900;
+const copy: Record<SiteLanguage, SceneCopy> = {
+  en: {
+    label: "Interactive software systems architecture",
+    platform: "Platform",
+    integrations: "Integrations",
+    delivery: "Delivery",
+    eyebrow: "SYSTEM ARCHITECTURE",
+    title: "Engineered as a system",
+    description:
+      "A conceptual view of how interfaces, application services and infrastructure fit together.",
+    layers: [
+      "USER INTERFACES",
+      "APPLICATION SERVICES",
+      "DATA & INFRASTRUCTURE",
+    ],
+    interfaces: ["Web platform", "Mobile apps", "Admin tools"],
+    services: ["Business logic", "APIs & security", "Workflows"],
+    infrastructure: ["Databases", "External services", "Cloud runtime"],
+    system: "SYSTEM DESIGN",
+    reset: "Reset view",
+    rotate: "Drag to explore",
+    zoom: "Scroll or pinch to zoom",
+    fallback: "Software systems architecture",
+    loading: "Loading the interactive systems visualization.",
+  },
+  "fa-AF": {
+    label: "معماری تعاملی سیستم‌های نرم‌افزاری",
+    platform: "پلتفرم",
+    integrations: "یکپارچه‌سازی",
+    delivery: "تحویل",
+    eyebrow: "معماری سیستم",
+    title: "طراحی‌شده به‌عنوان یک سیستم",
+    description:
+      "نمای مفهومی از ارتباط رابط‌ها، خدمات کاربردی و زیرساخت‌ها.",
+    layers: ["رابط‌های کاربری", "خدمات کاربردی", "داده و زیرساخت"],
+    interfaces: ["پلتفرم وب", "اپلیکیشن موبایل", "ابزارهای مدیریت"],
+    services: ["منطق تجاری", "API و امنیت", "جریان‌های کاری"],
+    infrastructure: ["پایگاه‌های داده", "خدمات بیرونی", "زیرساخت ابری"],
+    system: "طراحی سیستم",
+    reset: "بازنشانی نما",
+    rotate: "برای بررسی بکشید",
+    zoom: "برای بزرگ‌نمایی پیمایش یا نیشگون کنید",
+    fallback: "معماری سیستم‌های نرم‌افزاری",
+    loading: "نمایش تعاملی سیستم‌ها در حال بارگذاری است.",
+  },
+  ps: {
+    label: "د سافټویر سیسټمونو متقابل جوړښت",
+    platform: "پلېټفارم",
+    integrations: "یوځای کول",
+    delivery: "سپارنه",
+    eyebrow: "د سیسټم جوړښت",
+    title: "د یو سیسټم په توګه جوړ شوی",
+    description:
+      "د کارن مخونو، اپلېکېشن خدمتونو او زیربناوو ترمنځ د اړیکو مفهومي انځور.",
+    layers: ["د کارن مخونه", "د اپلېکېشن خدمتونه", "ډاټا او زیربنا"],
+    interfaces: ["وېب پلېټفارم", "موبایل اپلېکېشنونه", "مدیریتي وسایل"],
+    services: ["سوداګریز منطق", "API او امنیت", "کاري بهیرونه"],
+    infrastructure: ["ډېټابېسونه", "بهرني خدمتونه", "کلاوډ چاپېریال"],
+    system: "د سیسټم ډیزاین",
+    reset: "لید بېرته سمول",
+    rotate: "د کتلو لپاره یې راکاږئ",
+    zoom: "د لویولو لپاره سکرول یا نیشگون وکاروئ",
+    fallback: "د سافټویر سیسټمونو جوړښت",
+    loading: "د سیسټمونو متقابل انځور بار کېږي.",
+  },
+};
 
-  const ctx = canvas.getContext("2d");
-  if (!ctx) return null;
+const layerDefinitions = [
+  {
+    key: "interfaces",
+    y: 1.15,
+    color: C.cyan,
+    labelsKey: "interfaces",
+  },
+  {
+    key: "services",
+    y: 0,
+    color: C.blue,
+    labelsKey: "services",
+  },
+  {
+    key: "infrastructure",
+    y: -1.15,
+    color: C.green,
+    labelsKey: "infrastructure",
+  },
+] as const;
 
-  const software = mode === "software";
-  const rtl = language !== "en";
-  const copy = {
-    en: {
-      studioType: software ? "/ ENGINEERING STUDIO" : "/ APPLIED INTELLIGENCE",
-      online: "ALL SYSTEMS OPERATIONAL",
-      items: software
-        ? ["Overview", "Architecture", "Development", "Quality", "Deployment"]
-        : ["Overview", "Knowledge", "Automation", "Intelligence", "Analytics"],
-      title: software ? "Engineering overview" : "Intelligence overview",
-      subtitle: software
-        ? "A clear view of product delivery and engineering quality."
-        : "Connect data, workflows and practical automation.",
-      cards: software
-        ? [
-            ["BUILD STATUS", "Healthy", COLORS.green],
-            ["ACTIVE PROJECTS", "08", COLORS.cyan],
-            ["NEXT RELEASE", "In review", "#d9bc77"],
-          ]
-        : [
-            ["WORKFLOWS", "12 active", COLORS.cyan],
-            ["AUTOMATIONS", "08 running", COLORS.green],
-            ["DATA SOURCES", "Connected", "#d9bc77"],
-          ],
-      panel: software ? "Delivery pipeline" : "Workflow performance",
-      activity: "RECENT ACTIVITY",
-      weekdays: ["MON", "TUE", "WED", "THU", "FRI"],
-    },
-    "fa-AF": {
-      studioType: software ? "/ استودیوی انجنیری" : "/ هوشمندی کاربردی",
-      online: "همه سیستم‌ها فعال‌اند",
-      items: software
-        ? ["نمای کلی", "معماری", "توسعه", "کیفیت", "استقرار"]
-        : ["نمای کلی", "دانش", "خودکارسازی", "هوشمندی", "تحلیل"],
-      title: software ? "نمای کلی انجنیری" : "نمای کلی هوشمندی",
-      subtitle: software
-        ? "نمای روشن از تحویل محصول و کیفیت انجنیری."
-        : "داده‌ها، جریان‌های کاری و خودکارسازی عملی را پیوند دهید.",
-      cards: software
-        ? [
-            ["وضعیت ساخت", "سالم", COLORS.green],
-            ["پروژه‌های فعال", "۰۸", COLORS.cyan],
-            ["نسخه بعدی", "در حال بررسی", "#d9bc77"],
-          ]
-        : [
-            ["جریان‌های کاری", "۱۲ فعال", COLORS.cyan],
-            ["خودکارسازی‌ها", "۰۸ در حال اجرا", COLORS.green],
-            ["منابع داده", "متصل", "#d9bc77"],
-          ],
-      panel: software ? "خط لوله تحویل" : "کارکرد جریان‌های کاری",
-      activity: "فعالیت‌های اخیر",
-      weekdays: ["دوشنبه", "سه‌شنبه", "چهارشنبه", "پنجشنبه", "جمعه"],
-    },
-    ps: {
-      studioType: software ? "/ د انجینري سټوډیو" : "/ عملي هوښیارتیا",
-      online: "ټول سیسټمونه فعال دي",
-      items: software
-        ? ["لنډیز", "معماري", "پراختیا", "کیفیت", "ځای پرځای کول"]
-        : ["لنډیز", "پوهه", "اتومات", "هوښیارتیا", "شننه"],
-      title: software ? "د انجینري لنډیز" : "د هوښیارتیا لنډیز",
-      subtitle: software
-        ? "د محصول سپارلو او انجینري کیفیت روښانه لید."
-        : "ډاټا، کاري بهیرونه او عملي اتومات سره ونښلوئ.",
-      cards: software
-        ? [
-            ["د جوړولو حالت", "سم", COLORS.green],
-            ["فعالې پروژې", "۰۸", COLORS.cyan],
-            ["راتلونکی خپرون", "تر بیاکتنې لاندې", "#d9bc77"],
-          ]
-        : [
-            ["کاري بهیرونه", "۱۲ فعال", COLORS.cyan],
-            ["اتوماتونه", "۰۸ روان", COLORS.green],
-            ["د ډاټا سرچینې", "نښلول شوې", "#d9bc77"],
-          ],
-      panel: software ? "د سپارلو بهیر" : "د کاري بهیر فعالیت",
-      activity: "وروستي فعالیتونه",
-      weekdays: ["دوشنبه", "سه‌شنبه", "چهارشنبه", "پنجشنبه", "جمعه"],
-    },
-  }[language];
-  const drawText = (text: string, x: number, y: number) => {
-    ctx.direction = rtl ? "rtl" : "ltr";
-    ctx.textAlign = rtl ? "right" : "left";
-    ctx.fillText(text, x, y);
-    ctx.direction = "ltr";
-    ctx.textAlign = "left";
-  };
+const modulePositions = [-1.42, 0, 1.42] as const;
 
-  ctx.fillStyle = COLORS.background;
-  ctx.fillRect(0, 0, 1440, 900);
-
-  // Application header
-  ctx.fillStyle = "#0a1725";
-  ctx.fillRect(0, 0, 1440, 82);
-
-  ctx.fillStyle = COLORS.cyan;
-  ctx.fillRect(0, 80, 1440, 2);
-
-  ctx.fillStyle = COLORS.white;
-  ctx.font = "600 23px sans-serif";
-  ctx.fillText("SOFTECH", 42, 49);
-
-  ctx.fillStyle = COLORS.muted;
-  ctx.font = "17px sans-serif";
-  drawText(copy.studioType, rtl ? 500 : 154, 49);
-
-  ctx.fillStyle = COLORS.green;
-  ctx.beginPath();
-  ctx.arc(1270, 41, 5, 0, Math.PI * 2);
-  ctx.fill();
-
-  ctx.fillStyle = "#b5c7d9";
-  ctx.font = "15px sans-serif";
-  drawText(copy.online, 1400, 47);
-
-  // Navigation sidebar
-  ctx.fillStyle = "#091522";
-  ctx.fillRect(0, 82, 245, 818);
-
-  ctx.strokeStyle = "rgba(180, 207, 231, 0.12)";
-  ctx.beginPath();
-  ctx.moveTo(245, 82);
-  ctx.lineTo(245, 900);
-  ctx.stroke();
-
-  const items = copy.items;
-
-  ctx.font = "19px sans-serif";
-
-  items.forEach((item, index) => {
-    const y = 150 + index * 66;
-
-    if (index === 0) {
-      ctx.fillStyle = "rgba(7, 141, 243, 0.13)";
-      ctx.fillRect(18, y - 31, 208, 47);
-
-      ctx.fillStyle = COLORS.cyan;
-      ctx.fillRect(18, y - 31, 3, 47);
-      ctx.fillStyle = COLORS.white;
-    } else {
-      ctx.fillStyle = "#8499af";
-    }
-
-    drawText(item, rtl ? 220 : 39, y);
-  });
-
-  // Main heading
-  ctx.fillStyle = COLORS.white;
-  ctx.font = "600 35px sans-serif";
-  drawText(copy.title, rtl ? 1310 : 290, 151);
-
-  ctx.fillStyle = COLORS.muted;
-  ctx.font = "19px sans-serif";
-  drawText(copy.subtitle, rtl ? 1310 : 290, 190);
-
-  // Dashboard cards
-  const cards = copy.cards;
-
-  cards.forEach(([label, value, accent], index) => {
-    const x = 290 + index * 350;
-    const y = 236;
-    const w = 320;
-    const h = 145;
-
-    ctx.fillStyle = "#0c1a29";
-    ctx.fillRect(x, y, w, h);
-
-    ctx.strokeStyle = "rgba(180, 207, 231, 0.12)";
-    ctx.strokeRect(x, y, w, h);
-
-    ctx.fillStyle = accent;
-    ctx.fillRect(x, y, 3, h);
-
-    ctx.fillStyle = COLORS.muted;
-    ctx.font = "15px sans-serif";
-    drawText(label, rtl ? x + w - 22 : x + 22, y + 38);
-
-    ctx.fillStyle = COLORS.white;
-    ctx.font = "600 27px sans-serif";
-    drawText(value, rtl ? x + w - 22 : x + 22, y + 87);
-
-    ctx.fillStyle = accent;
-    ctx.fillRect(x + 22, y + 111, 65 + index * 24, 3);
-  });
-
-  // Performance / delivery panel
-  ctx.fillStyle = "#0b1927";
-  ctx.fillRect(290, 415, 1020, 410);
-
-  ctx.strokeStyle = "rgba(180, 207, 231, 0.12)";
-  ctx.strokeRect(290, 415, 1020, 410);
-
-  ctx.fillStyle = COLORS.white;
-  ctx.font = "600 20px sans-serif";
-  drawText(copy.panel, rtl ? 1280 : 320, 457);
-
-  ctx.fillStyle = COLORS.muted;
-  ctx.font = "15px sans-serif";
-  drawText(copy.activity, rtl ? 1280 : 320, 493);
-
-  // Chart grid
-  ctx.strokeStyle = "rgba(180, 207, 231, 0.10)";
-  ctx.lineWidth = 1;
-
-  for (let i = 0; i < 5; i++) {
-    const y = 535 + i * 53;
-
-    ctx.beginPath();
-    ctx.moveTo(320, y);
-    ctx.lineTo(1275, y);
-    ctx.stroke();
-  }
-
-  // Chart line
-  const accent = software ? COLORS.cyan : COLORS.green;
-
-  ctx.beginPath();
-  ctx.moveTo(335, 706);
-  ctx.bezierCurveTo(420, 690, 465, 620, 550, 650);
-  ctx.bezierCurveTo(640, 680, 690, 558, 785, 590);
-  ctx.bezierCurveTo(880, 622, 920, 542, 1015, 563);
-  ctx.bezierCurveTo(1100, 585, 1160, 510, 1260, 530);
-
-  ctx.strokeStyle = accent;
-  ctx.lineWidth = 4;
-  ctx.stroke();
-
-  // Chart points
-  [
-    [550, 650],
-    [785, 590],
-    [1015, 563],
-    [1260, 530],
-  ].forEach(([x, y]) => {
-    ctx.beginPath();
-    ctx.arc(x, y, 5, 0, Math.PI * 2);
-    ctx.fillStyle = accent;
-    ctx.fill();
-  });
-
-  ctx.fillStyle = COLORS.muted;
-  ctx.font = "15px sans-serif";
-  copy.weekdays.forEach((weekday, index) => {
-    const x = [330, 565, 800, 1035, 1250][index];
-    drawText(weekday, rtl ? x + 90 : x, 789);
-  });
-
-  const texture = new THREE.CanvasTexture(canvas);
-  texture.colorSpace = THREE.SRGBColorSpace;
-  texture.anisotropy = 4;
-
-  return texture;
-}
-
-function ComputerModel({
-  onReady,
+function ArchitectureModel({
+  mode,
   reducedMotion,
-  demoMode,
-  language,
 }: {
-  onReady: () => void;
+  mode: SceneMode;
   reducedMotion: boolean;
-  demoMode: DemoMode;
-  language: SiteLanguage;
 }) {
-  const logoTexture = useTexture("/softech-solutions-image.png");
-  const [hovered, setHovered] = useState(false);
-
-  const demoTexture = useMemo(
-    () =>
-      demoMode === "studio" ? null : createDemoScreen(demoMode, language),
-    [demoMode, language],
-  );
-
-  useEffect(() => {
-    logoTexture.colorSpace = THREE.SRGBColorSpace;
-    logoTexture.anisotropy = 8;
-    onReady();
-  }, [logoTexture, onReady]);
-
-  useEffect(() => {
-    return () => demoTexture?.dispose();
-  }, [demoTexture]);
+  const activeLayer =
+    mode === "platform" ? 0 : mode === "integrations" ? 1 : 2;
 
   return (
     <Float
-      speed={reducedMotion ? 0 : 0.65}
-      rotationIntensity={reducedMotion ? 0 : 0.012}
-      floatIntensity={reducedMotion ? 0 : 0.055}
+      speed={reducedMotion ? 0 : 0.3}
+      rotationIntensity={reducedMotion ? 0 : 0.018}
+      floatIntensity={reducedMotion ? 0 : 0.035}
     >
-      <group
-        position={[0, -0.06, 0]}
-        scale={hovered ? 1.012 : 1}
-        onPointerOver={() => setHovered(true)}
-        onPointerOut={() => setHovered(false)}
-      >
-        {/* Precision-machined monitor housing */}
-        <RoundedBox
-          args={[3.62, 2.22, 0.19]}
-          radius={0.105}
-          smoothness={6}
-          position={[0, 0.91, 0]}
-          castShadow
-          receiveShadow
-        >
-          <meshStandardMaterial
-            color="#293a4b"
-            metalness={0.82}
-            roughness={0.25}
-          />
-        </RoundedBox>
+      <group rotation={[0.035, -0.13, 0]}>
+        {/* Floating architectural planes, not physical shelves */}
+        {layerDefinitions.map((layer, layerIndex) => {
+          const isActive = activeLayer === layerIndex;
 
-        {/* Screen recess */}
-        <RoundedBox
-          args={[3.43, 2.03, 0.025]}
-          radius={0.065}
-          smoothness={5}
-          position={[0, 0.91, 0.103]}
-        >
-          <meshBasicMaterial color={COLORS.screen} />
-        </RoundedBox>
+          return (
+            <group key={layer.key} position={[0, layer.y, 0]}>
+              {/* Thin translucent system boundary */}
+              <mesh position={[0, 0, -0.12]}>
+                <boxGeometry args={[4.45, 0.018, 1.42]} />
+                <meshBasicMaterial
+                  color={layer.color}
+                  transparent
+                  opacity={isActive ? 0.13 : 0.045}
+                  depthWrite={false}
+                  toneMapped={false}
+                />
+              </mesh>
 
-        {/* Display surface */}
-        <mesh position={[0, 0.91, 0.119]}>
-          <planeGeometry args={[3.31, 1.91]} />
-          <meshBasicMaterial color="#081521" />
-        </mesh>
-
-        {/* Brand screen */}
-        {demoMode === "studio" ? (
-          <>
-            <mesh position={[0, 0.99, 0.126]}>
-              <planeGeometry args={[1.68, 1.12]} />
-              <meshBasicMaterial
-                map={logoTexture}
+              {/* Fine perimeter edges */}
+              <Line
+                points={[
+                  [-2.225, 0.01, -0.83],
+                  [2.225, 0.01, -0.83],
+                  [2.225, 0.01, 0.59],
+                  [-2.225, 0.01, 0.59],
+                  [-2.225, 0.01, -0.83],
+                ]}
+                color={layer.color}
+                lineWidth={isActive ? 1.1 : 0.65}
                 transparent
-                toneMapped={false}
+                opacity={isActive ? 0.6 : 0.19}
               />
-            </mesh>
 
-            {/* Minimal brand accent below the logo */}
-            <mesh position={[0, 0.34, 0.127]}>
-              <boxGeometry args={[0.46, 0.012, 0.004]} />
-              <meshBasicMaterial
-                color={COLORS.cyan}
-                toneMapped={false}
+              {/* A restrained depth cue along the front edge */}
+              <Line
+                points={[
+                  [-2.02, -0.025, 0.61],
+                  [2.02, -0.025, 0.61],
+                ]}
+                color={layer.color}
+                lineWidth={1}
+                transparent
+                opacity={isActive ? 0.7 : 0.22}
               />
-            </mesh>
-          </>
-        ) : (
-          <mesh position={[0, 0.91, 0.127]}>
-            <planeGeometry args={[3.31, 1.91]} />
-            <meshBasicMaterial
-              map={demoTexture ?? undefined}
-              color={COLORS.white}
-              toneMapped={false}
+
+              {/* Three independent software components */}
+              {modulePositions.map((x, moduleIndex) => (
+                <group
+                  key={moduleIndex}
+                  position={[x, 0.095, 0.02]}
+                >
+                  <RoundedBox
+                    args={[1.12, 0.19, 0.48]}
+                    radius={0.055}
+                    smoothness={5}
+                  >
+                    <meshPhysicalMaterial
+                      color={isActive ? "#122b40" : "#0b1728"}
+                      metalness={0.18}
+                      roughness={0.3}
+                      clearcoat={0.55}
+                      clearcoatRoughness={0.35}
+                      emissive={layer.color}
+                      emissiveIntensity={isActive ? 0.09 : 0.018}
+                    />
+                  </RoundedBox>
+
+                  {/* A precise, illuminated interface detail */}
+                  <mesh position={[0, 0.098, 0.015]}>
+                    <boxGeometry args={[0.52, 0.008, 0.012]} />
+                    <meshBasicMaterial
+                      color={layer.color}
+                      toneMapped={false}
+                    />
+                  </mesh>
+
+                  {/* Small status indicator */}
+                  <mesh position={[-0.43, 0.012, 0.252]}>
+                    <sphereGeometry args={[0.025, 12, 10]} />
+                    <meshBasicMaterial
+                      color={layer.color}
+                      toneMapped={false}
+                    />
+                  </mesh>
+                </group>
+              ))}
+            </group>
+          );
+        })}
+
+        {/* Data pathways between corresponding components */}
+        {modulePositions.map((x, index) => (
+          <group key={index}>
+            <Line
+              points={[
+                [x, 1.04, 0.12],
+                [x, 0.73, 0.12],
+                [x, 0.42, 0.12],
+              ]}
+              color={activeLayer === 0 ? C.cyan : "#31516a"}
+              lineWidth={1.15}
+              transparent
+              opacity={activeLayer === 0 ? 0.9 : 0.45}
             />
-          </mesh>
-        )}
 
-        {/* Camera and discreet status indicator */}
-        <mesh position={[0, 2.012, 0.105]}>
-          <sphereGeometry args={[0.018, 16, 12]} />
-          <meshBasicMaterial color="#101e2a" />
-        </mesh>
+            <Line
+              points={[
+                [x, -0.12, 0.12],
+                [x, -0.43, 0.12],
+                [x, -0.73, 0.12],
+              ]}
+              color={activeLayer === 1 ? C.blue : "#31516a"}
+              lineWidth={1.15}
+              transparent
+              opacity={activeLayer === 1 ? 0.9 : 0.45}
+            />
 
-        <mesh position={[1.52, -0.145, 0.105]}>
-          <sphereGeometry args={[0.022, 16, 12]} />
-          <meshBasicMaterial
-            color={hovered ? COLORS.cyan : COLORS.green}
-            toneMapped={false}
-          />
-        </mesh>
+            {/* Junctions indicate component boundaries */}
+            <mesh position={[x, 0.73, 0.13]}>
+              <sphereGeometry args={[0.032, 12, 10]} />
+              <meshBasicMaterial
+                color={C.cyan}
+                toneMapped={false}
+              />
+            </mesh>
 
-        {/* Rear support / stand */}
-        <RoundedBox
-          args={[0.32, 0.51, 0.27]}
-          radius={0.045}
-          smoothness={5}
-          position={[0, -0.49, -0.035]}
-          castShadow
-        >
-          <meshStandardMaterial
-            color="#34485a"
-            metalness={0.78}
-            roughness={0.27}
-          />
-        </RoundedBox>
+            <mesh position={[x, -0.43, 0.13]}>
+              <sphereGeometry args={[0.032, 12, 10]} />
+              <meshBasicMaterial
+                color={C.blue}
+                toneMapped={false}
+              />
+            </mesh>
+          </group>
+        ))}
 
-        {/* Weighted metal base */}
-        <RoundedBox
-          args={[1.43, 0.105, 0.78]}
-          radius={0.065}
-          smoothness={5}
-          position={[0, -0.785, 0.02]}
-          castShadow
-          receiveShadow
-        >
-          <meshStandardMaterial
-            color="#3a4b5d"
-            metalness={0.8}
-            roughness={0.24}
-          />
-        </RoundedBox>
+        {/* Subtle cross-layer paths suggest a connected system */}
+        <Line
+          points={[
+            [-1.42, 1.04, -0.25],
+            [-1.42, 0.6, -0.25],
+            [-0.72, 0.25, -0.25],
+            [-0.72, -0.24, -0.25],
+            [-1.42, -0.73, -0.25],
+          ]}
+          color={C.cyan}
+          lineWidth={0.8}
+          transparent
+          opacity={0.28}
+        />
 
-        {/* Desk surface */}
-        <mesh position={[0, -0.91, 0]} receiveShadow>
-          <boxGeometry args={[5.5, 0.09, 2.9]} />
-          <meshStandardMaterial
-            color="#0d1723"
-            metalness={0.36}
-            roughness={0.5}
-          />
-        </mesh>
-
-        {/* Minimal keyboard */}
-        <RoundedBox
-          args={[1.22, 0.045, 0.37]}
-          radius={0.035}
-          smoothness={4}
-          position={[-0.12, -0.84, 0.83]}
-          castShadow
-        >
-          <meshStandardMaterial
-            color="#172637"
-            metalness={0.38}
-            roughness={0.43}
-          />
-        </RoundedBox>
-
-        {/* Keyboard's subtle cyan light strip */}
-        <mesh position={[-0.12, -0.813, 0.83]}>
-          <boxGeometry args={[0.72, 0.006, 0.012]} />
-          <meshBasicMaterial
-            color={COLORS.cyan}
-            toneMapped={false}
-          />
-        </mesh>
-
-        {/* Minimal wireless mouse */}
-        <mesh position={[0.93, -0.81, 0.84]} castShadow>
-          <sphereGeometry args={[0.105, 24, 16]} />
-          <meshStandardMaterial
-            color="#1c2c3c"
-            metalness={0.36}
-            roughness={0.38}
-          />
-        </mesh>
+        <Line
+          points={[
+            [1.42, 1.04, -0.25],
+            [1.42, 0.58, -0.25],
+            [0.72, 0.22, -0.25],
+            [0.72, -0.25, -0.25],
+            [1.42, -0.73, -0.25],
+          ]}
+          color={C.blue}
+          lineWidth={0.8}
+          transparent
+          opacity={0.28}
+        />
       </group>
     </Float>
   );
 }
 
 function SceneContents({
-  onReady,
+  mode,
   reducedMotion,
-  demoMode,
-  language,
 }: {
-  onReady: () => void;
+  mode: SceneMode;
   reducedMotion: boolean;
-  demoMode: DemoMode;
-  language: SiteLanguage;
 }) {
   return (
     <>
-      <ambientLight intensity={0.8} />
+      <ambientLight intensity={1.05} />
 
       <directionalLight
-        position={[4, 6, 5]}
-        intensity={2.4}
-        color="#edf3fa"
-        castShadow
+        position={[4, 5, 6]}
+        intensity={1.7}
+        color="#e7f2ff"
       />
 
       <pointLight
-        position={[-3.5, 1.8, 2.6]}
-        intensity={13}
-        distance={9}
-        color="#078df3"
-      />
-
-      <pointLight
-        position={[3.2, 1.4, -1.7]}
-        intensity={9}
-        distance={8}
-        color="#23b9ff"
-      />
-
-      <pointLight
-        position={[0, -0.1, -3]}
+        position={[-3, 1.5, 3]}
         intensity={5}
-        distance={7}
-        color="#08d890"
+        distance={9}
+        color={C.blue}
       />
 
-      <ComputerModel
-        onReady={onReady}
-        reducedMotion={reducedMotion}
-        demoMode={demoMode}
-        language={language}
+      <pointLight
+        position={[3, -0.5, -1]}
+        intensity={2.2}
+        distance={7}
+        color={C.cyan}
       />
+
+      <ArchitectureModel mode={mode} reducedMotion={reducedMotion} />
     </>
   );
 }
@@ -655,112 +380,132 @@ class SceneErrorBoundary extends Component<
   }
 }
 
-function SceneFallback({
-  failed,
-  language,
+function ArchitectureFallback({
+  text,
 }: {
-  failed: boolean;
-  language: SiteLanguage;
+  text: SceneCopy;
 }) {
-  const text = sceneTranslations[language];
-
   return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-      <Image
-        src="/softech-solutions-image.png"
-        alt="SofTech Solutions"
-        width={300}
-        height={200}
-        className="h-auto w-44 opacity-80 sm:w-56"
-      />
+    <div className="absolute inset-x-[8%] top-1/2 -translate-y-1/2 space-y-3">
+      {text.layers.map((layer, index) => {
+        const accent =
+          index === 0
+            ? "#42c7ff"
+            : index === 1
+              ? "#168df5"
+              : "#28d9a0";
 
-      <p className="sr-only">
-        {failed ? text.fallback : text.loading}
-      </p>
+        return (
+          <div
+            key={layer}
+            className="relative flex min-h-[58px] items-center gap-3 border border-white/10 bg-[#0b1625]/80 p-3 backdrop-blur-md"
+          >
+            <span
+              className="h-7 w-0.5 shrink-0"
+              style={{ backgroundColor: accent }}
+            />
+            <div className="min-w-0 flex-1">
+              <p className="text-[9px] font-semibold tracking-[0.14em] text-slate-300">
+                {layer}
+              </p>
+              <div className="mt-2 flex gap-2">
+                {[0, 1, 2].map((item) => (
+                  <span
+                    key={item}
+                    className="h-1 flex-1 bg-white/[0.12]"
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }
 
-export default function ComputerScene({ language }: { language: SiteLanguage }) {
-  const [webglSupported, setWebglSupported] = useState<boolean | null>(null);
-  const [sceneReady, setSceneReady] = useState(false);
+export default function ComputerScene({
+  language,
+}: {
+  language: SiteLanguage;
+}) {
+  const [webglSupported, setWebglSupported] = useState<boolean | null>(
+    null,
+  );
   const [sceneFailed, setSceneFailed] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
-  const [demoMode, setDemoMode] = useState<DemoMode>("studio");
-  const text = sceneTranslations[language];
+  const [mode, setMode] = useState<SceneMode>("platform");
 
   const controlsRef = useRef<OrbitControlsImpl | null>(null);
+  const text = copy[language];
 
   useEffect(() => {
+    let supported = false;
+
     try {
       const canvas = document.createElement("canvas");
-      const context = canvas.getContext("webgl2");
+      const gl =
+        canvas.getContext("webgl2") || canvas.getContext("webgl");
 
-      setWebglSupported(Boolean(context));
-
-      context?.getExtension("WEBGL_lose_context")?.loseContext();
+      supported = Boolean(gl);
+      gl?.getExtension("WEBGL_lose_context")?.loseContext();
     } catch {
-      setWebglSupported(false);
+      supported = false;
     }
 
-    const motionPreference = window.matchMedia(
+    setWebglSupported(supported);
+
+    const preference = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     );
 
-    setReducedMotion(motionPreference.matches);
+    const updateMotion = () => setReducedMotion(preference.matches);
 
-    const updateMotionPreference = () => {
-      setReducedMotion(motionPreference.matches);
-    };
-
-    motionPreference.addEventListener("change", updateMotionPreference);
+    updateMotion();
+    preference.addEventListener("change", updateMotion);
 
     return () => {
-      motionPreference.removeEventListener("change", updateMotionPreference);
+      preference.removeEventListener("change", updateMotion);
     };
   }, []);
 
-  const handleSceneReady = useCallback(() => {
-    setSceneReady(true);
+  const handleError = useCallback(() => {
+    setSceneFailed(true);
   }, []);
 
-  const useFallback = webglSupported === false || sceneFailed;
-
-  const demoModes: { id: DemoMode; label: string }[] = [
-    { id: "studio", label: text.studio },
-    { id: "software", label: text.software },
-    { id: "ai", label: text.ai },
+  const modes: { id: SceneMode; label: string }[] = [
+    { id: "platform", label: text.platform },
+    { id: "integrations", label: text.integrations },
+    { id: "delivery", label: text.delivery },
   ];
+
+  const showCanvas = webglSupported === true && !sceneFailed;
 
   return (
     <div
       role="group"
-      aria-label={text.group}
+      aria-label={text.label}
+      dir={language === "en" ? "ltr" : "rtl"}
       className="relative isolate h-[390px] w-full overflow-hidden sm:h-[455px] lg:h-[520px]"
     >
-      {/* Studio atmosphere */}
+      {/* Cool, restrained architectural lighting */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 65% 62% at 50% 51%, rgba(7,141,243,0.16), transparent 72%), radial-gradient(ellipse 45% 27% at 50% 88%, rgba(35,185,255,0.07), transparent 76%)",
+            "radial-gradient(ellipse 66% 56% at 50% 46%, rgba(22,141,245,0.14), transparent 73%), radial-gradient(ellipse 44% 38% at 50% 48%, rgba(66,199,255,0.045), transparent 78%)",
         }}
       />
 
-      {/* Subtle technical framing */}
+      {/* Low-contrast technical grid */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-[7%] top-[11%] h-[73%] border-y border-white/[0.045]"
-      />
-
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-[12%] top-[16%] h-[63%] opacity-40"
+        className="pointer-events-none absolute inset-x-[9%] top-[13%] h-[68%] opacity-40"
         style={{
           backgroundImage:
             "linear-gradient(rgba(148,163,184,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.045) 1px, transparent 1px)",
-          backgroundSize: "34px 34px",
+          backgroundSize: "32px 32px",
           maskImage:
             "radial-gradient(ellipse at center, black, transparent 78%)",
           WebkitMaskImage:
@@ -768,81 +513,83 @@ export default function ComputerScene({ language }: { language: SiteLanguage }) 
         }}
       />
 
-      {webglSupported && !sceneFailed ? (
-        <SceneErrorBoundary onError={() => setSceneFailed(true)}>
+      {showCanvas ? (
+        <SceneErrorBoundary onError={handleError}>
           <Canvas
-            camera={{ position: [0, 0.9, 8.1], fov: 35 }}
+            camera={{ position: [0, 0.2, 7.8], fov: 37 }}
             dpr={[1, 1.35]}
-            shadows
             gl={{
               antialias: true,
               alpha: true,
               powerPreference: "high-performance",
             }}
             onCreated={({ gl }) => {
-              gl.setClearColor(COLORS.background, 0);
+              gl.setClearColor(C.background, 0);
               gl.outputColorSpace = THREE.SRGBColorSpace;
             }}
           >
             <Suspense fallback={null}>
-              <SceneContents
-                onReady={handleSceneReady}
-                reducedMotion={reducedMotion}
-                demoMode={demoMode}
-                language={language}
-              />
+              <SceneContents mode={mode} reducedMotion={reducedMotion} />
 
               <OrbitControls
                 ref={controlsRef}
                 makeDefault
-                target={[0, 0.18, 0]}
+                target={[0, -0.05, 0]}
                 enablePan={false}
                 enableZoom
-                minDistance={6.4}
-                maxDistance={9.4}
-                minPolarAngle={Math.PI / 3.1}
+                minDistance={6.2}
+                maxDistance={9}
+                minPolarAngle={Math.PI / 3.2}
                 maxPolarAngle={Math.PI / 1.85}
                 autoRotate={!reducedMotion}
-                autoRotateSpeed={0.28}
+                autoRotateSpeed={0.18}
                 enableDamping
-                dampingFactor={0.075}
+                dampingFactor={0.08}
               />
             </Suspense>
           </Canvas>
         </SceneErrorBoundary>
       ) : (
-        <SceneFallback failed={useFallback} language={language} />
+        <ArchitectureFallback text={text} />
       )}
 
-      {/* Studio status */}
-      <div className="absolute left-5 top-5 flex items-center gap-2.5 text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-400 sm:left-7">
-        <span className="h-1.5 w-1.5 rounded-full bg-[#08d890] shadow-[0_0_12px_rgba(8,216,144,0.5)]" />
-        {sceneReady && !sceneFailed
-          ? text.studioOnline
-          : text.engineering}
+      {/* Context label */}
+      <div className="absolute left-4 top-5 flex items-center gap-2.5 sm:left-7">
+        <span className="h-1.5 w-1.5 rounded-full bg-[#42c7ff]" />
+        <span className="text-[9px] font-semibold uppercase tracking-[0.18em] text-slate-400">
+          {text.eyebrow}
+        </span>
       </div>
 
-      {/* Screen demo controls */}
+      {/* Reset camera */}
+      {showCanvas && (
+        <button
+          type="button"
+          onClick={() => controlsRef.current?.reset()}
+          aria-label={text.reset}
+          className="absolute right-4 top-3 inline-flex min-h-9 items-center gap-2 border border-white/10 bg-[#07111b]/80 px-3 text-[10px] font-medium text-slate-400 transition-colors hover:border-[#42c7ff]/45 hover:text-[#42c7ff] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#42c7ff] sm:right-7"
+        >
+          <RotateCcw size={13} aria-hidden="true" />
+          {text.reset}
+        </button>
+      )}
+
+      {/* Architecture mode selector */}
       <div
         role="group"
-        aria-label={text.previewLabel}
-        className="absolute bottom-[3.65rem] left-1/2 z-10 flex -translate-x-1/2 items-center gap-1 border border-white/[0.11] bg-[#07111b]/90 p-1 shadow-[0_12px_32px_rgba(0,0,0,0.28)] backdrop-blur-md sm:bottom-[4.1rem]"
+        aria-label={text.system}
+        className="absolute bottom-[3.8rem] left-1/2 z-10 flex -translate-x-1/2 items-center gap-1 border border-white/[0.11] bg-[#07111b]/95 p-1 shadow-[0_12px_32px_rgba(0,0,0,0.24)] backdrop-blur-md sm:bottom-[4.1rem]"
       >
-        <span className="hidden px-2 text-[9px] font-semibold uppercase tracking-[0.14em] text-slate-500 md:inline">
-          {text.preview}
-        </span>
-
-        {demoModes.map(({ id, label }) => (
+        {modes.map(({ id, label }) => (
           <button
             key={id}
             type="button"
-            aria-pressed={demoMode === id}
-            disabled={useFallback}
-            onClick={() => setDemoMode(id)}
-            className={`min-h-9 min-w-[76px] px-3 text-[10px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#23b9ff] disabled:cursor-not-allowed disabled:opacity-50 sm:min-w-[84px] ${
-              demoMode === id
-                ? "bg-[#078df3]/20 text-[#dff5ff] shadow-[inset_0_-2px_0_#23b9ff]"
-                : "text-slate-400 hover:bg-white/[0.06] hover:text-white"
+            aria-pressed={mode === id}
+            onClick={() => setMode(id)}
+            className={`min-h-9 whitespace-nowrap px-3 text-[10px] font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#42c7ff] sm:px-4 ${
+              mode === id
+                ? "bg-[#168df5]/15 text-[#e4f5ff] shadow-[inset_0_-2px_0_#42c7ff]"
+                : "text-slate-400 hover:bg-white/[0.05] hover:text-white"
             }`}
           >
             {label}
@@ -850,44 +597,15 @@ export default function ComputerScene({ language }: { language: SiteLanguage }) 
         ))}
       </div>
 
-      <span className="sr-only" aria-live="polite">
-        {language === "fa-AF" ? "نمایش" : language === "ps" ? "ښودل کېږي" : "Showing"}{" "}
-        {demoMode === "ai"
-          ? text.aiPreview
-          : demoMode === "software"
-            ? text.softwarePreview
-            : text.studioPreview}{" "}
-        {text.preview.toLocaleLowerCase(language)}
-      </span>
-
-      {/* Reset camera */}
-      {webglSupported && !sceneFailed && (
-        <button
-          type="button"
-          onClick={() => controlsRef.current?.reset()}
-          aria-label={text.reset}
-          className="absolute right-5 top-4 inline-flex min-h-9 items-center gap-2 border border-white/10 bg-[#07111b]/75 px-3 text-[10px] font-medium text-slate-400 transition-colors hover:border-[#23b9ff]/45 hover:text-[#23b9ff] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#23b9ff] sm:right-7"
-        >
-          <RotateCcw size={13} aria-hidden="true" />
-          {text.reset}
-        </button>
-      )}
-
-      {/* Loading indicator */}
-      {!sceneReady && !useFallback && (
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 grid place-items-center bg-[#050914]/20"
-        >
-          <span className="h-5 w-5 animate-spin rounded-full border border-white/15 border-t-[#23b9ff]" />
-        </div>
-      )}
-
-      <p className="absolute bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap text-[9px] font-medium tracking-wide text-slate-500 sm:bottom-3 sm:text-[10px]">
-        {text.drag}
-        <span className="px-1.5 text-[#23b9ff]">·</span>
+      <p className="absolute bottom-2 left-1/2 -translate-x-1/2 whitespace-nowrap text-[9px] font-medium text-slate-500 sm:bottom-3 sm:text-[10px]">
+        {text.rotate}
+        <span className="px-1.5 text-[#42c7ff]">·</span>
         {text.zoom}
       </p>
+
+      <span className="sr-only" aria-live="polite">
+        {text.system}: {modes.find((item) => item.id === mode)?.label}
+      </span>
     </div>
   );
 }
