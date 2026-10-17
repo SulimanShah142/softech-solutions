@@ -300,49 +300,49 @@ const heroTranslations: Record<
   }
 > = {
   en: {
-    eyebrow: 'Independent software engineering studio',
-    headline: ['Ideas into', 'digital reality.'],
+    eyebrow: 'Enterprise AI engineering for web and mobile',
+    headline: ['AI, engineered for', 'web, mobile & on-device.'],
     description:
-      'We turn ambitious ideas into dependable software, modern digital products, and intelligent solutions built around real business needs.',
+      'We engineer secure, governed AI into web and mobile products—from on-device inference and orchestration to cloud-connected services.',
     startProject: 'Start a project',
     exploreServices: 'Explore our services',
-    buildHeading: 'What we build',
-    capabilities: ['Software', 'Web & Mobile', 'AI & Automation'],
-    signature: 'Thoughtful engineering. Practical results.',
+    buildHeading: 'AI for real products',
+    capabilities: ['AI Engineering', 'On-Device AI', 'Web & Mobile'],
+    signature: 'Secure by design. Useful at scale.',
     engineering: 'Engineering',
-    engineeringTagline: 'Built with purpose',
+    engineeringTagline: 'AI across web, mobile & device',
     systemsOnline: 'Systems online',
     workflowSummary: 'Design · Build · Deploy',
     workflow: ['Design', 'Build', 'Evolve'],
   },
   'fa-AF': {
-    eyebrow: 'استودیوی مستقل انجنیری نرم‌افزار',
-    headline: ['ایده‌ها را به', 'واقعیت دیجیتال تبدیل می‌کنیم'],
+    eyebrow: 'مهندسی هوش مصنوعی برای وب و موبایل',
+    headline: ['مهندسی هوش مصنوعی', 'برای وب، موبایل و دستگاه'],
     description:
-      'ایده‌های بزرگ را به نرم‌افزار قابل اعتماد، محصولات دیجیتال نوین و راهکارهای هوشمند متناسب با نیازهای واقعی کسب‌وکار تبدیل می‌کنیم.',
+      'هوش مصنوعی امن و قابل‌کنترول را در محصولات وب و موبایل ادغام می‌کنیم؛ از استنتاج و هماهنگی روی دستگاه تا خدمات متصل به ابر.',
     startProject: 'آغاز یک پروژه',
     exploreServices: 'دیدن خدمات ما',
-    buildHeading: 'ما چه می‌سازیم',
-    capabilities: ['نرم‌افزار', 'وب و موبایل', 'هوش مصنوعی و خودکارسازی'],
-    signature: 'انجنیری سنجیده. نتیجه‌های عملی.',
+    buildHeading: 'هوش مصنوعی برای محصولات واقعی',
+    capabilities: ['مهندسی هوش مصنوعی', 'هوش مصنوعی روی دستگاه', 'وب و موبایل'],
+    signature: 'امنیت از طراحی آغاز می‌شود؛ هوشمندی در خدمت محصول.',
     engineering: 'انجنیری',
-    engineeringTagline: 'با هدف ساخته شده',
+    engineeringTagline: 'هوش مصنوعی در وب، موبایل و دستگاه',
     systemsOnline: 'سیستم‌ها فعال‌اند',
     workflowSummary: 'طراحی · ساخت · راه‌اندازی',
     workflow: ['طراحی', 'ساخت', 'پیشرفت'],
   },
   ps: {
-    eyebrow: 'د سافټویر خپلواک انجینري سټوډیو',
-    headline: ['نظرونه په', 'ډیجیټلي واقعیت بدلوو'],
+    eyebrow: 'د وېب او موبایل لپاره د مصنوعي ځیرکتیا انجینري',
+    headline: ['د مصنوعي ځیرکتیا انجینري', 'د وېب، موبایل او وسیلې لپاره'],
     description:
-      'لوی نظرونه په باوري سافټویر، عصري ډیجیټلي محصولاتو او هوښیار حللارو بدلوو چې د سوداګرۍ له واقعي اړتیاوو سره برابر وي.',
+      'موږ خوندي او د اصولو له مخې اداره کېدونکې مصنوعي ځیرکتیا د وېب او موبایل محصولاتو کې ورګډوو؛ له پر وسیله استنتاج او همغږۍ څخه تر کلاوډ سره نښلول شویو خدمتونو پورې.',
     startProject: 'یوه پروژه پیل کړئ',
     exploreServices: 'زموږ خدمتونه وګورئ',
-    buildHeading: 'موږ څه جوړوو',
-    capabilities: ['سافټویر', 'وېب او موبایل', 'مصنوعي ځیرکتیا او اتومات'],
-    signature: 'دقیق انجینري. عملي پایلې.',
+    buildHeading: 'د واقعي محصولاتو لپاره مصنوعي ځیرکتیا',
+    capabilities: ['د مصنوعي ځیرکتیا انجینري', 'پر وسیله مصنوعي ځیرکتیا', 'وېب او موبایل'],
+    signature: 'امنیت په طرحه کې؛ هوښیارتیا د محصول لپاره.',
     engineering: 'انجینري',
-    engineeringTagline: 'په موخه جوړه شوې',
+    engineeringTagline: 'په وېب، موبایل او وسیله کې مصنوعي ځیرکتیا',
     systemsOnline: 'سیسټمونه فعال دي',
     workflowSummary: 'ډیزاین · جوړول · خپرول',
     workflow: ['ډیزاین', 'جوړول', 'پرمختګ'],
@@ -353,7 +353,7 @@ const technologyTranslations: Record<
   SiteLanguage,
   {
     eyebrow: string;
-    heading: [string, string, string];
+    heading: [string, string, string, string];
     description: string;
     cards: {
       label: string;
@@ -368,135 +368,135 @@ const technologyTranslations: Record<
   }
 > = {
   en: {
-    eyebrow: 'The Technology Studio',
-    heading: ['Beyond', 'conventional', 'software.'],
+    eyebrow: 'Enterprise AI Engineering',
+    heading: ['AI for', 'products,', 'from device', 'to cloud.'],
     description:
-      'We engineer intelligent systems, digital products, and next-generation experiences for businesses ready to move forward.',
+      'We build secure, governed AI into web and mobile products, coordinating on-device inference with cloud services, integrations, and the controls production systems need.',
     cards: [
       {
-        label: 'Intelligence',
-        title: 'AI, ML & Intelligent Systems',
+        label: 'AI engineering',
+        title: 'On-Device AI & Product Orchestration',
         description:
-          'Turn complex workflows and valuable data into smarter, more capable business systems.',
-        tags: ['Applied AI', 'Automation', 'AI Integration'],
-        footer: 'Intelligent by design',
+          'Design AI features for web and mobile products, with on-device inference, deliberate orchestration, and cloud-connected options where they fit.',
+        tags: ['On-Device Inference', 'AI Orchestration', 'Governance'],
+        footer: 'Intelligence, thoughtfully placed',
       },
       {
-        label: 'Digital experiences',
-        title: 'Web, Mobile & 3D Experiences',
+        label: 'Product engineering',
+        title: 'Secure Web & Mobile Platforms',
         description:
-          'Build polished digital products, from business platforms and mobile apps to immersive interactive websites.',
-        tags: ['Web Platforms', 'Mobile Apps', 'UI / UX', '3D Web'],
-        footer: 'Built for people',
+          'Engineer dependable web and mobile experiences with clear service boundaries, secure integrations, and architecture designed to evolve.',
+        tags: ['Web Platforms', 'Mobile Apps', 'Secure APIs', 'Cloud Services'],
+        footer: 'Designed for real-world use',
       },
       {
-        label: 'Connected systems',
+        label: 'Supporting capability',
         title: 'Blockchain & Financial Technology',
         description:
-          'Engineer transaction workflows, connected financial software, and applications built around distributed systems.',
+          'Build connected blockchain and fintech software with considered smart-contract, integration, security, and operational requirements.',
         tags: ['Blockchain', 'Smart Contracts', 'FinTech'],
-        footer: 'Systems that connect',
+        footer: 'Connected by design',
       },
       {
-        label: 'Digital foundations',
-        title: 'Cloud, Infrastructure & Digital Systems',
+        label: 'Enterprise foundations',
+        title: 'Cloud, Security & System Governance',
         description:
-          'Connect services, streamline operations, and build reliable software foundations that can grow with your business.',
-        tags: ['Backend & APIs', 'Cloud Systems', 'Business Software'],
-        footer: 'Designed to scale',
+          'Connect services with clear access boundaries, operational visibility, and resilient foundations built to support changing product needs.',
+        tags: ['Backend & APIs', 'Cloud Systems', 'Security Controls'],
+        footer: 'Governed to grow',
       },
     ],
-    footerHeading: 'Different disciplines. One engineering mindset.',
+    footerHeading: 'AI at the core. Engineering across the stack.',
     footerDescription:
-      'Practical solutions shaped around your business, not the other way around.',
+      'From on-device intelligence to cloud-connected platforms, we shape the architecture around your product and its operating needs.',
     footerCta: 'Discuss your project',
   },
   'fa-AF': {
-    eyebrow: 'استودیوی فناوری',
-    heading: ['فراتر از', 'نرم‌افزارهای', 'معمول'],
+    eyebrow: 'مهندسی سازمانی هوش مصنوعی',
+    heading: ['هوش مصنوعی', 'برای محصولات،', 'از دستگاه', 'تا ابر.'],
     description:
-      'برای کسب‌وکارهایی که آماده پیشرفت‌اند، سیستم‌های هوشمند، محصولات دیجیتال و تجربه‌های نسل نو می‌سازیم.',
+      'هوش مصنوعی امن و تحت حاکمیت را در محصولات وب و موبایل می‌سازیم؛ با هماهنگی استنتاج روی دستگاه، خدمات ابری، یکپارچه‌سازی‌ها و کنترل‌های لازم برای سیستم‌های تولیدی.',
     cards: [
       {
-        label: 'هوشمندی',
-        title: 'هوش مصنوعی، یادگیری ماشین و سیستم‌های هوشمند',
+        label: 'مهندسی هوش مصنوعی',
+        title: 'هوش مصنوعی روی دستگاه و هماهنگی محصول',
         description:
-          'فرایندهای پیچیده و داده‌های ارزشمند را به سیستم‌های تجاری هوشمندتر و توانمندتر تبدیل می‌کنیم.',
-        tags: ['هوش مصنوعی کاربردی', 'خودکارسازی', 'یکپارچه‌سازی هوش مصنوعی'],
-        footer: 'هوشمندی در طراحی',
+          'قابلیت‌های هوش مصنوعی را برای محصولات وب و موبایل طراحی می‌کنیم؛ با استنتاج روی دستگاه، هماهنگی سنجیده و گزینه‌های متصل به ابر در جای مناسب.',
+        tags: ['استنتاج روی دستگاه', 'هماهنگی هوش مصنوعی', 'حاکمیت'],
+        footer: 'هوشمندی با جای‌گذاری سنجیده',
       },
       {
-        label: 'تجربه‌های دیجیتال',
-        title: 'تجربه‌های وب، موبایل و سه‌بعدی',
+        label: 'مهندسی محصول',
+        title: 'پلتفرم‌های امن وب و موبایل',
         description:
-          'محصولات دیجیتال سنجیده می‌سازیم؛ از پلتفرم‌های تجاری و اپلیکیشن‌های موبایل تا وب‌سایت‌های تعاملی و فراگیر.',
-        tags: ['پلتفرم‌های وب', 'اپلیکیشن‌های موبایل', 'رابط و تجربه کاربری', 'وب سه‌بعدی'],
-        footer: 'ساخته‌شده برای مردم',
+          'تجربه‌های قابل اعتماد وب و موبایل را با مرزهای روشن خدمات، یکپارچه‌سازی امن و معماری تکامل‌پذیر مهندسی می‌کنیم.',
+        tags: ['پلتفرم‌های وب', 'اپلیکیشن‌های موبایل', 'APIهای امن', 'خدمات ابری'],
+        footer: 'طراحی‌شده برای کاربرد واقعی',
       },
       {
-        label: 'سیستم‌های پیوسته',
+        label: 'توانایی مکمل',
         title: 'بلاک‌چین و فناوری مالی',
         description:
-          'گردش‌کارهای تراکنش، نرم‌افزارهای مالی پیوسته و برنامه‌های مبتنی بر سیستم‌های توزیع‌شده را مهندسی می‌کنیم.',
+          'نرم‌افزارهای پیوسته بلاک‌چین و فناوری مالی را با توجه به قراردادهای هوشمند، یکپارچه‌سازی، امنیت و نیازهای عملیاتی می‌سازیم.',
         tags: ['بلاک‌چین', 'قراردادهای هوشمند', 'فناوری مالی'],
-        footer: 'سیستم‌هایی برای پیوند',
+        footer: 'پیوستگی در طراحی',
       },
       {
-        label: 'زیرساخت‌های دیجیتال',
-        title: 'ابر، زیرساخت و سیستم‌های دیجیتال',
+        label: 'پایه‌های سازمانی',
+        title: 'ابر، امنیت و حاکمیت سیستم',
         description:
-          'خدمات را به هم وصل می‌کنیم، عملیات را ساده می‌سازیم و زیربناهای نرم‌افزاری پایداری می‌سازیم که همراه کسب‌وکار شما رشد کنند.',
-        tags: ['بخش پشتی و APIها', 'سیستم‌های ابری', 'نرم‌افزارهای تجاری'],
-        footer: 'آماده گسترش',
+          'خدمات را با مرزهای روشن دسترسی، دید عملیاتی و پایه‌های پایدار برای نیازهای در حال تغییر محصول به‌هم وصل می‌کنیم.',
+        tags: ['بخش پشتی و APIها', 'سیستم‌های ابری', 'کنترول‌های امنیتی'],
+        footer: 'حاکمیت برای رشد',
       },
     ],
-    footerHeading: 'رشته‌های گوناگون؛ یک نگرش مهندسی.',
+    footerHeading: 'هوش مصنوعی در هسته؛ مهندسی در سراسر پشته.',
     footerDescription:
-      'راهکارهای عملی بر پایه نیازهای کسب‌وکار شما، نه برعکس.',
+      'از هوشمندی روی دستگاه تا پلتفرم‌های متصل به ابر، معماری را بر پایه محصول و نیازهای عملیاتی آن شکل می‌دهیم.',
     footerCta: 'درباره پروژه‌تان گفت‌وگو کنیم',
   },
   ps: {
-    eyebrow: 'د ټکنالوژۍ سټوډیو',
-    heading: ['له دودیز', 'سافټویر', 'څخه هاخوا'],
+    eyebrow: 'د تصدۍ کچې مصنوعي ځیرکتیا انجینري',
+    heading: ['مصنوعي ځیرکتیا', 'د محصولاتو لپاره،', 'له وسیلې', 'تر کلاوډ پورې.'],
     description:
-      'د هغو سوداګریو لپاره هوښیار سیسټمونه، ډیجیټلي محصولات او د راتلونکي نسل تجربې جوړوو چې پرمختګ ته چمتو دي.',
+      'موږ خوندي او د اصولو له مخې اداره کېدونکې مصنوعي ځیرکتیا د وېب او موبایل محصولاتو کې جوړوو؛ د وسیلې دننه استنتاج، کلاوډ خدمتونه، نښلونې او د تولیدي سیسټمونو اړین کنټرولونه همغږي کوو.',
     cards: [
       {
-        label: 'هوښیارتیا',
-        title: 'مصنوعي ځیرکتیا، ماشیني زده‌کړه او هوښیار سیسټمونه',
+        label: 'د مصنوعي ځیرکتیا انجینري',
+        title: 'پر وسیله مصنوعي ځیرکتیا او د محصول همغږي',
         description:
-          'پېچلي کاري بهیرونه او ارزښتناک معلومات په لا هوښیار او پیاوړو سوداګریزو سیسټمونو بدلوو.',
-        tags: ['عملي مصنوعي ځیرکتیا', 'اتومات کول', 'د ځیرکتیا یوځای کول'],
-        footer: 'په ډیزاین کې هوښیارتیا',
+          'د وېب او موبایل محصولاتو لپاره د مصنوعي ځیرکتیا ځانګړنې طرحه کوو؛ د وسیلې دننه استنتاج، سنجول شوې همغږي او د اړتیا پر مهال له کلاوډ سره نښلېدونکي انتخابونه.',
+        tags: ['د وسیلې دننه استنتاج', 'د ځیرکتیا همغږي', 'حاکمیت'],
+        footer: 'ځیرکتیا په سنجول شوي ځای کې',
       },
       {
-        label: 'ډیجیټلي تجربې',
-        title: 'وېب، موبایل او درې‌بعدي تجربې',
+        label: 'د محصول انجینري',
+        title: 'خوندي وېب او موبایل پلېټفارمونه',
         description:
-          'ښکلي ډیجیټلي محصولات جوړوو؛ له سوداګریزو پلېټفارمونو او موبایل اپلېکېشنونو نیولې تر متقابلو وېبپاڼو پورې.',
-        tags: ['وېب پلېټفارمونه', 'موبایل اپلېکېشنونه', 'د کارن تجربه', 'درې‌بعدي وېب'],
-        footer: 'د خلکو لپاره جوړ شوی',
+          'د روښانه خدمت‌پولو، خوندي نښلونې او د ودې وړ جوړښت په مټ باوري وېب او موبایل تجربې انجینري کوو.',
+        tags: ['وېب پلېټفارمونه', 'موبایل اپلېکېشنونه', 'خوندي APIګانې', 'کلاوډ خدمتونه'],
+        footer: 'د واقعي کارونې لپاره طرحه شوی',
       },
       {
-        label: 'نښتي سیسټمونه',
+        label: 'ملاتړې وړتیا',
         title: 'بلاکچېن او مالي ټکنالوژي',
         description:
-          'د راکړې ورکړې کاري بهیرونه، سره تړلي مالي سافټویرونه او پر وېشل شوو سیسټمونو ولاړ اپلېکېشنونه جوړوو.',
-        tags: ['بلاکچېن', 'ځیرک قراردادونه', 'مالي ټکنالوژي'],
-        footer: 'د نښلونکو سیسټمونو جوړول',
+          'د سمارټ قراردادونو، نښلونې، امنیت او عملیاتي اړتیاوو په پام کې نیولو سره تړلی بلاکچېن او مالي سافټویر جوړوو.',
+        tags: ['بلاکچېن', 'سمارټ قراردادونه', 'مالي ټکنالوژي'],
+        footer: 'له پیله نښلول شوی',
       },
       {
-        label: 'ډیجیټلي بنسټونه',
-        title: 'کلاوډ، زېربنا او ډیجیټلي سیسټمونه',
+        label: 'د تصدۍ بنسټونه',
+        title: 'کلاوډ، امنیت او د سیسټم حاکمیت',
         description:
-          'خدمتونه نښلوو، چارې اسانوو او داسې باوري سافټویري بنسټونه جوړوو چې ستاسو له سوداګرۍ سره وده وکړي.',
-        tags: ['شاتني سیسټمونه او APIګانې', 'کلاوډ سیسټمونه', 'سوداګریز سافټویر'],
-        footer: 'د پراختیا لپاره طرحه شوی',
+          'خدمتونه د لاسرسي په روښانه پولو، عملیاتي لید او پیاوړو بنسټونو نښلوو، څو د محصول له بدلېدونکو اړتیاوو سره مرسته وکړي.',
+        tags: ['شاتني سیسټمونه او APIګانې', 'کلاوډ سیسټمونه', 'امنیتي کنټرولونه'],
+        footer: 'د ودې لپاره اداره شوی',
       },
     ],
-    footerHeading: 'بېلابېلې څانګې؛ یوه انجینري لیدلوری.',
+    footerHeading: 'ځیرکتیا په هسته کې؛ په ټول سافټویر کې انجینري.',
     footerDescription:
-      'عملي حللارې ستاسو د سوداګرۍ د اړتیاوو له مخې جوړېږي، نه برعکس.',
+      'له وسیلې دننه ځیرکتیا څخه تر کلاوډ سره نښلول شویو پلېټفارمونو پورې، جوړښت ستاسو د محصول او عملیاتي اړتیاوو له مخې طرحه کوو.',
     footerCta: 'د خپلې پروژې په اړه خبرې وکړئ',
   },
 };
@@ -1939,51 +1939,33 @@ const securityFeatures = [
 const testimonials = [
   {
     name: 'Ahmad K.',
-    role: 'Kabul',
-    amount: '+$12,400',
-    date: '2 days ago',
-    rating: 5,
-    text: 'AtlasPay made it so easy to send money to my family in Herat. Instant and secure.',
+    role: 'Illustrative sample · Web AI',
+    text: 'AI feels most useful when it fits naturally into the product and keeps the web experience clear.',
   },
   {
     name: 'Fatima M.',
-    role: 'Mazar-i-Sharif',
-    amount: '+$8,200',
-    date: '1 week ago',
-    rating: 5,
-    text: 'Finally a platform I can trust. The wallet feature is exactly what I needed for my business.',
+    role: 'Illustrative sample · Mobile',
+    text: 'A thoughtful mobile experience can make complex work feel more approachable without hiding important steps.',
   },
   {
     name: 'Omar S.',
-    role: 'Herat',
-    amount: '+$23,100',
-    date: '3 days ago',
-    rating: 5,
-    text: 'The crypto trading is smooth and the prices are always up to date. Best app in Afghanistan.',
+    role: 'Illustrative sample · On-device AI',
+    text: 'On-device AI can keep selected interactions responsive while giving teams more control over data flow.',
   },
   {
     name: 'Zarina H.',
-    role: 'Kandahar',
-    amount: '+$5,600',
-    date: '5 days ago',
-    rating: 5,
-    text: 'I use AtlasPay daily for my remittance business. The fees are unbeatable and transfers are instant.',
+    role: 'Illustrative sample · Integrations',
+    text: 'Well-planned integrations can make web and mobile workflows feel connected while keeping each service understandable.',
   },
   {
     name: 'Mohammad R.',
-    role: 'Balkh',
-    amount: '+$31,200',
-    date: '1 day ago',
-    rating: 5,
-    text: 'The dual-currency wallet changed everything. I can hold USD and AFN and trade whenever I want.',
+    role: 'Illustrative sample · Architecture',
+    text: 'A modular architecture brings security boundaries and governance into view early in product design.',
   },
   {
     name: 'Lailuma N.',
-    role: 'Herat',
-    amount: '+$3,800',
-    date: '2 weeks ago',
-    rating: 5,
-    text: 'As a small business owner, AtlasPay helps me accept crypto payments from overseas clients seamlessly.',
+    role: 'Illustrative sample · Delivery',
+    text: 'A transparent delivery rhythm keeps decisions, trade-offs, and next steps visible as a product evolves.',
   },
 ];
 
@@ -1993,54 +1975,130 @@ const testimonialTranslations: Record<
     eyebrow: string;
     heading: [string, string];
     description: string;
+    sampleDisclosure: string;
     cta: string;
+    pauseMotion: string;
+    resumeMotion: string;
     empty: string;
     perspective: string;
-    quotes: Record<string, { text: string; date: string }>;
+    quotes: Record<string, { role: string; text: string }>;
   }
 > = {
   en: {
-    eyebrow: 'What our clients say',
-    heading: ['Good work speaks.', 'Our clients speak louder.'],
+    eyebrow: 'Illustrative sample stories',
+    heading: ['Product perspectives,', 'shown as examples.'],
     description:
-      'The best measure of our work is the experience of the people we build it for. Explore feedback from clients who have worked with SofTech.',
+      'These sample scenarios illustrate the kinds of product experiences and engineering choices a project may explore.',
+    sampleDisclosure:
+      'Illustrative sample testimonials — these are not verified customer endorsements.',
     cta: 'Discuss your project',
-    empty: 'Client feedback will be featured here soon.',
-    perspective: 'Client perspective',
-    quotes: {},
+    pauseMotion: 'Pause testimonials',
+    resumeMotion: 'Resume testimonials',
+    empty: 'Illustrative sample stories will appear here.',
+    perspective: 'Sample scenario',
+    quotes: {
+      'Ahmad K.': {
+        role: 'Illustrative sample · Web AI',
+        text: 'AI feels most useful when it fits naturally into the product and keeps the web experience clear.',
+      },
+      'Fatima M.': {
+        role: 'Illustrative sample · Mobile',
+        text: 'A thoughtful mobile experience can make complex work feel more approachable without hiding important steps.',
+      },
+      'Omar S.': {
+        role: 'Illustrative sample · On-device AI',
+        text: 'On-device AI can keep selected interactions responsive while giving teams more control over data flow.',
+      },
+      'Zarina H.': {
+        role: 'Illustrative sample · Integrations',
+        text: 'Well-planned integrations can make web and mobile workflows feel connected while keeping each service understandable.',
+      },
+      'Mohammad R.': {
+        role: 'Illustrative sample · Architecture',
+        text: 'A modular architecture brings security boundaries and governance into view early in product design.',
+      },
+      'Lailuma N.': {
+        role: 'Illustrative sample · Delivery',
+        text: 'A transparent delivery rhythm keeps decisions, trade-offs, and next steps visible as a product evolves.',
+      },
+    },
   },
   'fa-AF': {
-    eyebrow: 'دیدگاه مشتریان ما',
-    heading: ['کار خوب خود گویای همه‌چیز است.', 'مشتریان ما گویاترند.'],
+    eyebrow: 'داستان‌های نمونه و نمایشی',
+    heading: ['دیدگاه‌هایی درباره محصول،', 'در قالب نمونه.'],
     description:
-      'بهترین معیار کار ما تجربه کسانی است که برای‌شان می‌سازیم. دیدگاه مشتریانی را بخوانید که با SofTech همکاری کرده‌اند.',
+      'این سناریوهای نمونه، گونه‌هایی از تجربه محصول و انتخاب‌های مهندسی را نشان می‌دهند که ممکن است در یک پروژه بررسی شوند.',
+    sampleDisclosure:
+      'دیدگاه‌های نمونه و نمایشی‌اند؛ این متن‌ها تأییدیهٔ مشتریان واقعی نیستند.',
     cta: 'درباره پروژه‌تان گفتگو کنید',
-    empty: 'دیدگاه مشتریان به‌زودی در اینجا نمایش داده می‌شود.',
-    perspective: 'دیدگاه مشتری',
+    pauseMotion: 'توقف حرکت دیدگاه‌ها',
+    resumeMotion: 'ادامه حرکت دیدگاه‌ها',
+    empty: 'داستان‌های نمونه به‌زودی در اینجا نمایش داده می‌شوند.',
+    perspective: 'سناریوی نمونه',
     quotes: {
-      'Ahmad K.': { text: 'AtlasPay فرستادن پول برای خانواده‌ام در هرات را بسیار آسان کرد. فوری و امن است.', date: '۲ روز پیش' },
-      'Fatima M.': { text: 'سرانجام پلتفرمی که می‌توانم به آن اعتماد کنم. قابلیت کیف پول دقیقاً همان چیزی است که برای کسب‌وکارم نیاز داشتم.', date: '۱ هفته پیش' },
-      'Omar S.': { text: 'معامله رمزارز روان است و قیمت‌ها همیشه به‌روز اند. بهترین اپلیکیشن در افغانستان.', date: '۳ روز پیش' },
-      'Zarina H.': { text: 'هر روز برای کسب‌وکار حواله‌ام از AtlasPay استفاده می‌کنم. کارمزدها بی‌رقیب و انتقال‌ها فوری اند.', date: '۵ روز پیش' },
-      'Mohammad R.': { text: 'کیف پول دوارزی همه‌چیز را تغییر داد. می‌توانم دالر و افغانی نگه دارم و هر زمان بخواهم معامله کنم.', date: '۱ روز پیش' },
-      'Lailuma N.': { text: 'به‌عنوان صاحب یک کسب‌وکار کوچک، AtlasPay کمک می‌کند پرداخت‌های رمزارزی مشتریان خارج از کشور را به‌آسانی بپذیرم.', date: '۲ هفته پیش' },
+      'Ahmad K.': {
+        role: 'نمونهٔ نمایشی · هوش مصنوعی در وب',
+        text: 'هوش مصنوعی زمانی بیشترین فایده را دارد که به‌گونه‌ای طبیعی در محصول جا بگیرد و تجربهٔ وب را روشن و ساده نگه دارد.',
+      },
+      'Fatima M.': {
+        role: 'نمونهٔ نمایشی · موبایل',
+        text: 'یک تجربهٔ سنجیدهٔ موبایل می‌تواند کارهای پیچیده را آسان‌تر کند، بی‌آن‌که مراحل مهم پنهان شوند.',
+      },
+      'Omar S.': {
+        role: 'نمونهٔ نمایشی · هوش مصنوعی روی دستگاه',
+        text: 'هوش مصنوعی روی دستگاه می‌تواند برخی تعامل‌ها را پاسخ‌گو نگه دارد و در عین حال کنترول بیشتری بر جریان داده فراهم کند.',
+      },
+      'Zarina H.': {
+        role: 'نمونهٔ نمایشی · یکپارچه‌سازی',
+        text: 'یکپارچه‌سازی سنجیده، روندهای وب و موبایل را پیوسته می‌سازد و در عین حال نقش هر خدمت را روشن نگه می‌دارد.',
+      },
+      'Mohammad R.': {
+        role: 'نمونهٔ نمایشی · معماری',
+        text: 'معماری ماژولار، مرزهای امنیتی و حاکمیت سیستم را از آغاز طراحی محصول روشن می‌سازد.',
+      },
+      'Lailuma N.': {
+        role: 'نمونهٔ نمایشی · تحویل محصول',
+        text: 'روند شفاف تحویل، تصمیم‌ها، بده‌بستان‌ها و گام‌های بعدی را در مسیر تکامل محصول آشکار نگه می‌دارد.',
+      },
     },
   },
   ps: {
-    eyebrow: 'زموږ پېرودونکي څه وایي',
-    heading: ['ښه کار خپله خبرې کوي.', 'زموږ پېرودونکي لا ډېرې خبرې کوي.'],
+    eyebrow: 'د بېلګې لپاره جوړې شوې کیسې',
+    heading: ['د محصول د کارونې لیدلوري،', 'د نمونې په توګه.'],
     description:
-      'زموږ د کار تر ټولو ښه معیار د هغو خلکو تجربه ده چې موږ ورته محصولات جوړوو. د هغو پېرودونکو نظرونه وګورئ چې له SofTech سره یې کار کړی دی.',
+      'دا بېلګې هغه ډول د محصول تجربې او انجینري پرېکړې ښيي چې په یوه پروژه کې څېړل کېدای شي.',
+    sampleDisclosure:
+      'دا د بېلګې لپاره لیکل شوي نظرونه دي؛ د تایید شویو پېرودونکو سپارښتنې نه دي.',
     cta: 'د خپلې پروژې په اړه خبرې وکړئ',
-    empty: 'د پېرودونکو نظرونه به ژر دلته خپاره شي.',
-    perspective: 'د پېرودونکي نظر',
+    pauseMotion: 'د نظرونو خوځښت ودروئ',
+    resumeMotion: 'د نظرونو خوځښت بیا پیل کړئ',
+    empty: 'د بېلګې کیسې به ژر دلته ښکاره شي.',
+    perspective: 'د بېلګې سناریو',
     quotes: {
-      'Ahmad K.': { text: 'AtlasPay په هرات کې خپلې کورنۍ ته د پیسو لېږل راته ډېر اسانه کړل. لېږدونه فوري او خوندي دي.', date: '۲ ورځې مخکې' },
-      'Fatima M.': { text: 'بالاخره داسې پلاتفورم چې باور پرې کولی شم. د والټ ځانګړنه زما د سوداګرۍ لپاره بالکل اړینه وه.', date: '۱ اونۍ مخکې' },
-      'Omar S.': { text: 'د کریپټو سوداګري اسانه ده او بیې تل تازه وي. په افغانستان کې تر ټولو ښه اپلېکېشن دی.', date: '۳ ورځې مخکې' },
-      'Zarina H.': { text: 'زه هره ورځ د حوالې سوداګرۍ لپاره AtlasPay کاروم. فیسونه یې بې سیاله او پیسې سمدستي لېږدول کېږي.', date: '۵ ورځې مخکې' },
-      'Mohammad R.': { text: 'د دوو اسعارو والټ هر څه بدل کړل. ډالر او افغانۍ ساتلی شم او هر وخت سوداګري کولی شم.', date: '۱ ورځ مخکې' },
-      'Lailuma N.': { text: 'د یوې کوچنۍ سوداګرۍ د خاوندې په توګه، AtlasPay راسره مرسته کوي چې له بهرنیو پېرودونکو د کریپټو پیسې په اسانۍ ومنم.', date: '۲ اونۍ مخکې' },
+      'Ahmad K.': {
+        role: 'د بېلګې سناریو · د وېب مصنوعي ځیرکتیا',
+        text: 'مصنوعي ځیرکتیا هغه وخت ډېره ګټوره وي چې د محصول طبیعي برخه شي او د وېب کارونه روښانه وساتي.',
+      },
+      'Fatima M.': {
+        role: 'د بېلګې سناریو · موبایل',
+        text: 'سنجول شوې موبایل تجربه پېچلي کارونه اسانه کولای شي، پرته له دې چې مهم ګامونه پټ کړي.',
+      },
+      'Omar S.': {
+        role: 'د بېلګې سناریو · پر وسیله ځیرکتیا',
+        text: 'پر وسیله مصنوعي ځیرکتیا ځینې کارونه چټک ځوابوونکي ساتلای شي او د معلوماتو پر بهیر د ټیم واک پیاوړی کولای شي.',
+      },
+      'Zarina H.': {
+        role: 'د بېلګې سناریو · نښلونې',
+        text: 'ښه طرحه شوې نښلونې د وېب او موبایل کاري بهیرونه سره تړي او د هر خدمت دنده روښانه ساتي.',
+      },
+      'Mohammad R.': {
+        role: 'د بېلګې سناریو · جوړښت',
+        text: 'ماډیولر جوړښت د محصول د طرحې له پیله امنیتي پولې او د سیسټم حاکمیت روښانه کوي.',
+      },
+      'Lailuma N.': {
+        role: 'د بېلګې سناریو · د محصول سپارنه',
+        text: 'روڼ د سپارنې بهیر د محصول د پرمختګ پر مهال پرېکړې، بدیلونه او راتلونکي ګامونه ښکاره ساتي.',
+      },
     },
   },
 };
@@ -2799,17 +2857,6 @@ export function StatsSection({ stats }: StatsSectionProps) {
 /* ─────────────────────────────────────────────────────────────
    TestimonialAvatar Component
 ───────────────────────────────────────────────────────────── */
-interface TestimonialCardProps {
-  name: string;
-  role: string;
-  amount: string;
-  date: string;
-  rating: number;
-  text: string;
-  index?: number;
-}
-
-
 /* ─────────────────────────────────────────────────────────────
    SofTech Testimonials
 ───────────────────────────────────────────────────────────── */
@@ -2818,13 +2865,7 @@ export interface TestimonialData {
   name: string;
   role: string;
   text: string;
-  date?: string;
   project?: string;
-
-  // Optional legacy fields so existing data can be migrated gradually.
-  // These are deliberately not displayed in the new design.
-  amount?: string;
-  rating?: number;
 }
 
 /* ── Client Avatar ── */
@@ -2860,7 +2901,6 @@ export function TestimonialCard({
   name,
   role,
   text,
-  date,
   project,
   language = 'en',
 }: TestimonialData & { index?: number; language?: SiteLanguage }) {
@@ -2909,15 +2949,9 @@ export function TestimonialCard({
           </p>
 
           <p className="mt-1 truncate text-xs text-slate-500">
-            <bdi>{role}</bdi>
+            <bdi>{localizedQuote?.role ?? role}</bdi>
           </p>
         </div>
-
-        {date ? (
-          <span className="shrink-0 text-[10px] text-slate-600">
-            {localizedQuote?.date ?? date}
-          </span>
-        ) : null}
       </div>
     </article>
   );
@@ -2930,11 +2964,13 @@ export function MarqueeRow({
   direction = "left",
   speed = 36,
   language = 'en',
+  paused = false,
 }: {
   items: TestimonialData[];
   direction?: "left" | "right";
   speed?: number;
   language?: SiteLanguage;
+  paused?: boolean;
 }) {
   const isRtl = language !== 'en';
   const safeItems = Array.isArray(items) ? items : [];
@@ -2943,8 +2979,22 @@ export function MarqueeRow({
     return null;
   }
 
-  // Duplicate the sequence to create a continuous scrolling track.
-  const repeatedItems = [...safeItems, ...safeItems];
+  const renderItems = (isDuplicate: boolean) => (
+    <div
+      aria-hidden={isDuplicate || undefined}
+      className="softech-testimonial-lane flex w-max gap-5"
+      style={{ paddingInlineEnd: '1.25rem' }}
+    >
+      {safeItems.map((item, index) => (
+        <div
+          key={`${item.name}-${index}`}
+          className="w-[300px] shrink-0 sm:w-[350px]"
+        >
+          <TestimonialCard {...item} language={language} />
+        </div>
+      ))}
+    </div>
+  );
 
   return (
     <div className="group/marquee relative w-full overflow-hidden">
@@ -2954,9 +3004,14 @@ export function MarqueeRow({
           to   { transform: translateX(-50%); }
         }
 
+        .group\\/marquee:hover .softech-testimonial-track,
+        .group\\/marquee:focus-within .softech-testimonial-track {
+          animation-play-state: paused !important;
+        }
+
         @media (prefers-reduced-motion: reduce) {
           .softech-testimonial-track {
-            animation-play-state: paused !important;
+            animation: none !important;
             transform: none !important;
           }
         }
@@ -2974,23 +3029,18 @@ export function MarqueeRow({
       />
 
       <div
-        className="softech-testimonial-track flex w-max gap-5 group-hover/marquee:[animation-play-state:paused]"
+        className="softech-testimonial-track flex w-max"
         style={{
           animationName: "softechTestimonialScroll",
           animationDuration: `${Math.max(1, speed)}s`,
           animationTimingFunction: "linear",
           animationIterationCount: "infinite",
           animationDirection: (direction === "right") !== isRtl ? "reverse" : "normal",
+          animationPlayState: paused ? "paused" : "running",
         }}
       >
-        {repeatedItems.map((item, index) => (
-          <div
-            key={`${item.name}-${index}`}
-            className="w-[300px] shrink-0 sm:w-[350px]"
-          >
-            <TestimonialCard {...item} language={language} />
-          </div>
-        ))}
+        {renderItems(false)}
+        {renderItems(true)}
       </div>
     </div>
   );
@@ -3001,6 +3051,7 @@ export function MarqueeRow({
 export function TestimonialsSection({ language }: { language: SiteLanguage }) {
   const copy = testimonialTranslations[language];
   const isRtl = language !== 'en';
+  const [marqueePaused, setMarqueePaused] = useState(false);
   const safeTestimonials = Array.isArray(testimonials)
     ? testimonials
     : [];
@@ -3058,24 +3109,41 @@ export function TestimonialsSection({ language }: { language: SiteLanguage }) {
             <p className="mt-5 max-w-2xl text-sm leading-7 text-slate-400 sm:text-base">
               {copy.description}
             </p>
+
           </div>
 
-          <Link
-            href="/#contact"
-            className={`inline-flex w-fit items-center gap-2 border-b border-[#28D9A0]/40 pb-2 text-sm font-medium text-white transition-colors hover:border-[#28D9A0] hover:text-[#28D9A0] ${isRtl ? 'flex-row-reverse' : ''}`}
-          >
-            {copy.cta}
-            <ArrowRight size={15} className={isRtl ? 'rotate-180' : ''} />
-          </Link>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-4">
+            <Link
+              href="/#contact"
+              className={`inline-flex w-fit items-center gap-2 border-b border-[#28D9A0]/40 pb-2 text-sm font-medium text-white transition-colors hover:border-[#28D9A0] hover:text-[#28D9A0] ${isRtl ? 'flex-row-reverse' : ''}`}
+            >
+              {copy.cta}
+              <ArrowRight size={15} className={isRtl ? 'rotate-180' : ''} />
+            </Link>
+
+         
+          </div>
         </div>
       </div>
 
       {safeTestimonials.length > 0 ? (
         <div className="relative z-10 flex flex-col gap-5">
-          <MarqueeRow items={row1} direction="left" speed={42} language={language} />
+          <MarqueeRow
+            items={row1}
+            direction="left"
+            speed={42}
+            language={language}
+            paused={marqueePaused}
+          />
 
           {row2.length > 0 ? (
-            <MarqueeRow items={row2} direction="right" speed={48} language={language} />
+            <MarqueeRow
+              items={row2}
+              direction="right"
+              speed={48}
+              language={language}
+              paused={marqueePaused}
+            />
           ) : null}
         </div>
       ) : (
@@ -3547,8 +3615,8 @@ useLayoutEffect(() => {
         id="hero-heading"
         className={`w-full font-semibold leading-[1.12] sm:leading-[1.07] ${
           isHeroRtl
-            ? "text-right text-[clamp(2.15rem,6.4vw,4.65rem)] tracking-normal"
-            : "text-left text-[clamp(2.45rem,5.6vw,5.1rem)] tracking-[-0.03em]"
+            ? "text-right text-[clamp(1.6rem,6.5vw,2.5rem)] tracking-normal"
+            : "text-left text-[clamp(1.75rem,7.5vw,3rem)] tracking-[-0.03em]"
         }`}
       >
         <SplitText
@@ -3884,25 +3952,27 @@ useLayoutEffect(() => {
             <>
               <h2
                 id="technology-heading"
+                aria-label={technologyText.heading.join(" ")}
                 dir="rtl"
                 className={cn(
-                  "col-start-2 row-start-1 rounded-xl bg-[#05070d]/35 py-1 text-left text-3xl font-extrabold leading-[1.2] tracking-normal text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.8)] sm:text-5xl md:text-6xl lg:text-7xl",
+                  "col-start-2 row-start-1 rounded-xl bg-[#05070d]/35 py-1 text-left text-[clamp(1.75rem,7vw,3rem)] font-extrabold leading-[1.2] tracking-normal text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.8)]",
                   section2InView
                     ? "translate-x-0 opacity-100"
                     : "translate-x-3 opacity-0",
                   "motion-reduce:translate-x-0 motion-reduce:opacity-100",
                 )}
               >
-                {technologyText.heading[0]}
-                <span className="mt-1 block text-white">
+                <span className="block">{technologyText.heading[0]}</span>
+                <span className="block text-white">
                   {technologyText.heading[1]}
                 </span>
               </h2>
 
               <div
                 dir="rtl"
+                aria-hidden="true"
                 className={cn(
-                  `col-start-1 row-start-1 rounded-xl bg-[#05070d]/35 py-1 text-3xl font-extrabold leading-[1.2] text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.8)] sm:text-5xl md:text-6xl lg:text-7xl ${
+                  `col-start-1 row-start-1 rounded-xl bg-[#05070d]/35 py-1 text-[clamp(1.75rem,7vw,3rem)] font-extrabold leading-[1.2] text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.8)] ${
                     heroLanguage === "fa-AF" ? "text-right" : "text-left"
                   }`,
                   section2InView
@@ -3911,8 +3981,11 @@ useLayoutEffect(() => {
                   "motion-reduce:translate-x-0 motion-reduce:opacity-100",
                 )}
               >
-                <span className="bg-gradient-to-br from-cyan-200 via-blue-200 to-indigo-200 bg-clip-text text-transparent">
+                <span className="block bg-gradient-to-br from-cyan-200 via-blue-200 to-indigo-200 bg-clip-text text-transparent">
                   {technologyText.heading[2]}
+                </span>
+                <span className="block bg-gradient-to-br from-cyan-200 via-blue-200 to-indigo-200 bg-clip-text text-transparent">
+                  {technologyText.heading[3]}
                 </span>
               </div>
             </>
@@ -3920,31 +3993,36 @@ useLayoutEffect(() => {
             <>
               <h2
                 id="technology-heading"
+                aria-label={technologyText.heading.join(" ")}
                 className={cn(
-                  "col-start-1 row-start-1 rounded-xl bg-[#05070d]/35 py-1 text-right text-3xl font-extrabold leading-[1.08] tracking-[-0.04em] text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.8)] sm:text-5xl md:text-6xl lg:text-7xl",
+                  "col-start-1 row-start-1 rounded-xl bg-[#05070d]/35 py-1 text-right text-[clamp(1.75rem,7vw,3rem)] font-extrabold leading-[1.08] tracking-[-0.04em] text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.8)]",
                   section2InView
                     ? "translate-x-0 opacity-100"
                     : "-translate-x-3 opacity-0",
                   "motion-reduce:translate-x-0 motion-reduce:opacity-100",
                 )}
               >
-                {technologyText.heading[0]}
-                <span className="mt-1 block text-white">
+                <span className="block">{technologyText.heading[0]}</span>
+                <span className="block text-white">
                   {technologyText.heading[1]}
                 </span>
               </h2>
 
               <div
+                aria-hidden="true"
                 className={cn(
-                  "col-start-2 row-start-1 rounded-xl bg-[#05070d]/35 py-1 text-left text-3xl font-extrabold leading-[1.08] tracking-[-0.04em] text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.8)] sm:text-5xl md:text-6xl lg:text-7xl",
+                  "col-start-2 row-start-1 rounded-xl bg-[#05070d]/35 py-1 text-left text-[clamp(1.75rem,7vw,3rem)] font-extrabold leading-[1.08] tracking-[-0.04em] text-white [text-shadow:0_2px_24px_rgba(0,0,0,0.8)]",
                   section2InView
                     ? "translate-x-0 opacity-100"
                     : "translate-x-3 opacity-0",
                   "motion-reduce:translate-x-0 motion-reduce:opacity-100",
                 )}
               >
-                <span className="bg-gradient-to-br from-cyan-200 via-blue-200 to-indigo-200 bg-clip-text text-transparent">
+                <span className="block bg-gradient-to-br from-cyan-200 via-blue-200 to-indigo-200 bg-clip-text text-transparent">
                   {technologyText.heading[2]}
+                </span>
+                <span className="block bg-gradient-to-br from-cyan-200 via-blue-200 to-indigo-200 bg-clip-text text-transparent">
+                  {technologyText.heading[3]}
                 </span>
               </div>
             </>

@@ -32,49 +32,64 @@ interface CapabilityPanelProps {
 
 const artworkCopy = {
   en: {
-    engineering: "Software engineering illustration with component structure",
-    integration: "Diagram illustrating connected services and data",
-    automation: "Workflow automation illustration from input to action",
-    components: "COMPONENTS / STRUCTURE",
-    ready: "READY",
-    synchronized: "SERVICES / SYNCHRONIZED",
+    engineering: "On-device AI engineering for web and mobile products",
+    integration: "Governed cloud and blockchain integrations across services",
+    automation: "On-device AI orchestration with cloud-connected workflows",
+    components: "ON-DEVICE AI / WEB + MOBILE",
+    ready: "POLICY CONTROLS",
+    synchronized: "GOVERNED SERVICES / SYNCHRONIZED",
     linked: "LINKED",
-    workflow: "WORKFLOW ENGINE",
-    processing: "PROCESSING",
-    inputInsightAction: "INPUT → INSIGHT → ACTION",
-    active: "ACTIVE",
-    engineered: "ENGINEERED",
-    realWorld: "Built for real-world use",
+    workflow: "AI ORCHESTRATION",
+    integrationLabel: "NETWORK / 02",
+    workflowLabel: "ORCHESTRATION / 03",
+    inputLabel: "INPUT",
+    logicLabel: "AI LOGIC",
+    outputLabel: "OUTPUT",
+    processing: "ON-DEVICE",
+    inputInsightAction: "INPUT → ON-DEVICE AI → ACTION",
+    active: "POLICY READY",
+    engineered: "GOVERNED",
+    realWorld: "Secure, governed AI for products",
   },
   "fa-AF": {
-    engineering: "نمایش انجنیری نرم‌افزار و ساختار اجزا",
-    integration: "نمودار پیوند خدمات و داده‌ها",
-    automation: "نمایش روند خودکار از ورودی تا اقدام",
-    components: "اجزا / ساختار",
-    ready: "آماده",
-    synchronized: "خدمات / هماهنگ",
+    engineering: "مهندسی هوش مصنوعی روی دستگاه برای محصولات وب و موبایل",
+    integration: "یکپارچه‌سازی‌های تحت حاکمیت ابر و بلاک‌چین میان خدمات",
+    automation: "هماهنگی هوش مصنوعی روی دستگاه با روندهای متصل به ابر",
+    components: "هوش مصنوعی روی دستگاه / وب و موبایل",
+    ready: "کنترول‌های سیاستی",
+    synchronized: "خدمات تحت حاکمیت / هماهنگ",
     linked: "پیوسته",
-    workflow: "موتور روند کاری",
-    processing: "در حال پردازش",
-    inputInsightAction: "ورودی ← بینش ← اقدام",
-    active: "فعال",
-    engineered: "مهندسی‌شده",
-    realWorld: "ساخته‌شده برای استفاده واقعی",
+    workflow: "هماهنگی هوش مصنوعی",
+    integrationLabel: "شبکه / ۰۲",
+    workflowLabel: "هماهنگی / ۰۳",
+    inputLabel: "ورودی",
+    logicLabel: "منطق هوش مصنوعی",
+    outputLabel: "خروجی",
+    processing: "روی دستگاه",
+    inputInsightAction: "ورودی ← هوش مصنوعی روی دستگاه ← اقدام",
+    active: "کنترول‌های سیاستی آماده",
+    engineered: "تحت حاکمیت",
+    realWorld: "هوش مصنوعی امن و تحت حاکمیت برای محصولات",
   },
   ps: {
-    engineering: "د سافټویر انجینري او د برخو جوړښت انځور",
-    integration: "د نښلول شویو خدمتونو او معلوماتو انځور",
-    automation: "له ننوتنې تر عمله د اتومات کاري بهیر انځور",
-    components: "برخې / جوړښت",
-    ready: "چمتو",
-    synchronized: "خدمتونه / همغږي",
+    engineering: "د وېب او موبایل محصولاتو لپاره د وسیلې دننه د ځیرکتیا انجینري",
+    integration: "د کلاوډ او بلاکچېن د اداره شویو خدمتونو نښلونې",
+    automation: "د کلاوډ له نښلول شويو کاري بهیرونو سره د وسیلې دننه همغږي",
+    components: "پر وسیله ځیرکتیا / وېب او موبایل",
+    ready: "د تګلارې کنټرولونه",
+    synchronized: "اداره شوي خدمتونه / همغږي",
     linked: "نښلول شوی",
-    workflow: "د کاري بهیر انجن",
-    processing: "پروسس کېږي",
-    inputInsightAction: "ننوتنه ← پوهه ← عمل",
-    active: "فعال",
-    engineered: "انجینري شوی",
-    realWorld: "د واقعي کارونې لپاره جوړ شوی",
+    workflow: "د مصنوعي ځیرکتیا همغږي",
+    integrationLabel: "شبکه / ۰۲",
+    workflowLabel: "همغږي / ۰۳",
+    inputLabel: "ننوتنه",
+    logicLabel: "د ځیرکتیا منطق",
+    outputLabel: "وتنه",
+    processing: "پر وسیله",
+    inputInsightAction: "ننوتنه ← پر وسیله ځیرکتیا ← عمل",
+    active: "تګلاره چمتو ده",
+    engineered: "اداره شوی",
+    realWorld: "د محصولاتو لپاره خوندي او اداره شوې ځیرکتیا",
   },
 } satisfies Record<SiteLanguage, Record<string, string>>;
 
@@ -424,7 +439,7 @@ function IntegrationsVisual({
 
       <div className="absolute left-3 top-3 flex items-center gap-2">
         <span className="font-mono text-[8px] tracking-[0.15em] text-slate-500">
-          NETWORK / 02
+          {copy.integrationLabel}
         </span>
       </div>
 
@@ -583,7 +598,7 @@ function AutomationVisual({
         }`}
       >
         <span className="font-mono text-[8px] tracking-[0.15em] text-slate-500">
-          WORKFLOW / 03
+          {copy.workflowLabel}
         </span>
 
         <span
@@ -646,9 +661,9 @@ function AutomationVisual({
           isRtl ? "flex-row-reverse" : ""
         }`}
       >
-        <span>01 / INPUT</span>
-        <span>02 / LOGIC</span>
-        <span>03 / OUTPUT</span>
+        <span>01 / {copy.inputLabel}</span>
+        <span>02 / {copy.logicLabel}</span>
+        <span>03 / {copy.outputLabel}</span>
       </div>
 
       <div

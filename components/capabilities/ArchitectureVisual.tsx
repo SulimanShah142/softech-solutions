@@ -43,81 +43,87 @@ const modules = [
 const architectureCopy = {
   en: {
     ariaLabel:
-      'Enterprise software architecture connecting presentation interfaces, application logic, APIs, security, and data services.',
-    systemMap: 'SYSTEM ARCHITECTURE',
-    layeredArchitecture: 'Enterprise platform topology',
-    modularConnected: 'MODULAR SYSTEM',
-    modules: ['CLIENT INTERFACES', 'API GATEWAY', 'SECURITY', 'DATA FLOW'],
+      'Enterprise AI product architecture connecting web and mobile interfaces, on-device orchestration, governance, cloud services, and blockchain integrations.',
+    systemMap: 'AI PRODUCT ARCHITECTURE',
+    layeredArchitecture: 'Governed web & mobile systems',
+    modularConnected: 'MODULAR / GOVERNED',
+    modules: ['WEB & MOBILE', 'ON-DEVICE AI', 'GOVERNANCE', 'CLOUD & BLOCKCHAIN'],
     layers: [
-      ['PRESENTATION', 'Web applications · Mobile · UI'],
-      ['APPLICATION', 'Business logic · Domain services'],
-      ['DATA & SERVICES', 'APIs · Databases · Integrations'],
+      ['PRODUCT EXPERIENCE', 'Web apps · Mobile apps · AI features'],
+      ['AI ORCHESTRATION', 'On-device inference · APIs · Policy controls'],
+      ['PLATFORM SERVICES', 'Cloud · Data · Blockchain integrations'],
     ],
-    flowActive: 'SYSTEM FLOW',
-    modularByDesign: 'Designed for separation of concerns',
-    moduleHeading: 'CONNECTED COMPONENTS',
+    flowActive: 'GOVERNED AI FLOW',
+    modularByDesign: 'Clear boundaries, coordinated services',
+    moduleHeading: 'COORDINATED CAPABILITIES',
     moduleDescription:
-      'Independent modules, coordinated through defined interfaces.',
-    layerHeading: 'CORE ARCHITECTURE',
+      'Product interfaces, on-device AI, policy controls, and connected services.',
+    moduleCount: '04 MODULES',
+    layerHeading: 'PRODUCT SYSTEM LAYERS',
+    layerCount: '03 LAYERS',
     input: 'REQUEST',
     output: 'RESPONSE',
     secure: 'SECURE',
     status: 'ARCHITECTURE / ONLINE',
-    footer: 'MODULAR BY DESIGN',
+    footer: 'AI / SECURE / GOVERNED',
     web: 'WEB',
     api: 'API',
     data: 'DATA',
   },
   'fa-AF': {
     ariaLabel:
-      'معماری سازمانی نرم‌افزار که رابط‌ها، منطق برنامه، APIها، امنیت و خدمات داده را به‌هم وصل می‌کند.',
-    systemMap: 'معماری سیستم',
-    layeredArchitecture: 'ساختار پلتفرم سازمانی',
-    modularConnected: 'سیستم ماژولار',
-    modules: ['رابط‌های کاربری', 'دروازه API', 'امنیت', 'جریان داده'],
+      'معماری سازمانی محصول هوش مصنوعی که رابط‌های وب و موبایل، هماهنگی روی دستگاه، حاکمیت، خدمات ابری و یکپارچه‌سازی‌های بلاک‌چین را پیوند می‌دهد.',
+    systemMap: 'معماری محصول هوش مصنوعی',
+    layeredArchitecture: 'سیستم‌های تحت حاکمیت وب و موبایل',
+    modularConnected: 'ماژولار / تحت حاکمیت',
+    modules: ['وب و موبایل', 'هوش مصنوعی روی دستگاه', 'حاکمیت', 'ابر و بلاک‌چین'],
     layers: [
-      ['لایه ارائه', 'برنامه‌های وب · موبایل · رابط'],
-      ['لایه برنامه', 'منطق تجاری · خدمات دامنه'],
-      ['داده و خدمات', 'APIها · پایگاه داده · یکپارچه‌سازی'],
+      ['تجربه محصول', 'برنامه‌های وب · موبایل · قابلیت‌های هوش مصنوعی'],
+      ['هماهنگی هوش مصنوعی', 'استنتاج روی دستگاه · APIها · کنترل‌های سیاستی'],
+      ['خدمات پلتفرم', 'ابر · داده · یکپارچه‌سازی بلاک‌چین'],
     ],
-    flowActive: 'جریان سیستم',
-    modularByDesign: 'طراحی‌شده با تفکیک مسئولیت‌ها',
-    moduleHeading: 'اجزای متصل',
+    flowActive: 'جریان تحت حاکمیت هوش مصنوعی',
+    modularByDesign: 'مرزهای روشن و خدمات هماهنگ',
+    moduleHeading: 'توانایی‌های هماهنگ',
     moduleDescription:
-      'ماژول‌های مستقل که از طریق رابط‌های تعریف‌شده هماهنگ می‌شوند.',
-    layerHeading: 'معماری اصلی',
+      'رابط‌های محصول، هوش مصنوعی روی دستگاه، کنترل‌های سیاستی و خدمات متصل.',
+    moduleCount: '۰۴ ماژول',
+    layerHeading: 'لایه‌های سیستم محصول',
+    layerCount: '۰۳ لایه',
     input: 'درخواست',
     output: 'پاسخ',
     secure: 'امن',
     status: 'معماری / فعال',
-    footer: 'ماژولار از پایه',
+    footer: 'هوش مصنوعی / امن / تحت حاکمیت',
     web: 'وب',
     api: 'API',
     data: 'داده',
   },
   ps: {
     ariaLabel:
-      'د سافټویر تصدۍ جوړښت چې د کارن مخونه، د اپلېکېشن منطق، API ګانې، امنیت او د معلوماتو خدمتونه نښلوي.',
-    systemMap: 'د سیسټم جوړښت',
-    layeredArchitecture: 'د تصدۍ پلاتفورم جوړښت',
-    modularConnected: 'ماډیولر سیسټم',
-    modules: ['د کارن مخونه', 'API دروازه', 'امنیت', 'د معلوماتو بهیر'],
+      'د مصنوعي ځیرکتیا د محصول تصدۍ جوړښت چې د وېب او موبایل مخونه، پر وسیله همغږي، حاکمیت، کلاوډ خدمتونه او د بلاکچېن نښلونې سره تړي.',
+    systemMap: 'د ځیرک محصول جوړښت',
+    layeredArchitecture: 'اداره شوي وېب او موبایل سیسټمونه',
+    modularConnected: 'ماډیولر / اداره شوی',
+    modules: ['وېب او موبایل', 'پر وسیله ځیرکتیا', 'حاکمیت', 'کلاوډ او بلاکچېن'],
     layers: [
-      ['د وړاندې کولو پوړ', 'وېب · موبایل · کارن مخ'],
-      ['د اپلېکېشن پوړ', 'سوداګریز منطق · ډومېن خدمتونه'],
-      ['معلومات او خدمتونه', 'API ګانې · ډیټابېس · نښلونې'],
+      ['د محصول تجربه', 'وېب · موبایل · د ځیرکتیا ځانګړنې'],
+      ['د ځیرکتیا همغږي', 'پر وسیله استنتاج · APIګانې · د تګلارو کنټرول'],
+      ['د پلېټفارم خدمتونه', 'کلاوډ · معلومات · د بلاکچېن نښلونې'],
     ],
-    flowActive: 'د سیسټم بهیر',
-    modularByDesign: 'د مسئولیتونو د بېلتون لپاره طرحه شوی',
-    moduleHeading: 'نښلول شوې برخې',
+    flowActive: 'د اداره شوې ځیرکتیا بهیر',
+    modularByDesign: 'روښانه پولې، همغږي خدمتونه',
+    moduleHeading: 'همغږي شوې وړتیاوې',
     moduleDescription:
-      'خپلواک ماډیولونه چې د ټاکل شويو رابطو له لارې همغږي کېږي.',
-    layerHeading: 'اصلي جوړښت',
+      'د محصول مخونه، پر وسیله ځیرکتیا، د تګلارو کنټرول او نښلول شوي خدمتونه.',
+    moduleCount: '۰۴ ماډیولونه',
+    layerHeading: 'د محصول سیسټم پوړونه',
+    layerCount: '۰۳ پوړونه',
     input: 'غوښتنه',
     output: 'ځواب',
     secure: 'خوندي',
     status: 'جوړښت / فعال',
-    footer: 'له پیله ماډیولر',
+    footer: 'ځیرکتیا / خوندي / اداره شوی',
     web: 'وېب',
     api: 'API',
     data: 'معلومات',
@@ -135,7 +141,9 @@ const architectureCopy = {
     modularByDesign: string;
     moduleHeading: string;
     moduleDescription: string;
+    moduleCount: string;
     layerHeading: string;
+    layerCount: string;
     input: string;
     output: string;
     secure: string;
@@ -346,7 +354,7 @@ export default function ArchitectureVisual({
               {copy.moduleHeading}
             </span>
             <span className="font-mono text-[8px] text-slate-600">
-              04 MODULES
+              {copy.moduleCount}
             </span>
           </div>
 
@@ -384,7 +392,7 @@ export default function ArchitectureVisual({
                 {copy.layerHeading}
               </span>
               <span className="font-mono text-[8px] text-slate-600">
-                03 LAYERS
+                {copy.layerCount}
               </span>
             </div>
 

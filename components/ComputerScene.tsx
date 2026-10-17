@@ -486,7 +486,7 @@ export default function ComputerScene({
       role="group"
       aria-label={text.label}
       dir={language === "en" ? "ltr" : "rtl"}
-      className="relative isolate h-[390px] w-full overflow-hidden sm:h-[455px] lg:h-[520px]"
+      className="relative isolate mx-auto h-[390px] w-full overflow-hidden sm:h-[455px] lg:h-[520px] lg:max-w-[720px]"
     >
       {/* Cool, restrained architectural lighting */}
       <div
@@ -494,14 +494,14 @@ export default function ComputerScene({
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 66% 56% at 50% 46%, rgba(22,141,245,0.14), transparent 73%), radial-gradient(ellipse 44% 38% at 50% 48%, rgba(66,199,255,0.045), transparent 78%)",
+            "radial-gradient(ellipse 48% 40% at 50% 46%, rgba(22,141,245,0.14), transparent 73%), radial-gradient(ellipse 32% 27% at 50% 48%, rgba(66,199,255,0.045), transparent 78%)",
         }}
       />
 
       {/* Low-contrast technical grid */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute inset-x-[9%] top-[13%] h-[68%] opacity-40"
+        className="pointer-events-none absolute inset-x-[16%] top-[18%] h-[60%] opacity-40"
         style={{
           backgroundImage:
             "linear-gradient(rgba(148,163,184,0.045) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.045) 1px, transparent 1px)",
