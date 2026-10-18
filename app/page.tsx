@@ -37,6 +37,12 @@ import {
   CloudCog,
   Workflow,
   ArrowDownRight,
+  MonitorSmartphone,
+  Bot,
+  BriefcaseBusiness,
+  Rocket,
+  Target,
+  DatabaseZap,
 } from 'lucide-react';
 import type { LucideIcon } from 'lucide-react';
 import SiteNavbar from "@/components/site-navbar";
@@ -391,11 +397,11 @@ const technologyTranslations: Record<
       },
       {
         label: 'Supporting capability',
-        title: 'Blockchain & Financial Technology',
+        title: 'Digital Operations & Product Support',
         description:
-          'Build connected blockchain and fintech software with considered smart-contract, integration, security, and operational requirements.',
-        tags: ['Blockchain', 'Smart Contracts', 'FinTech'],
-        footer: 'Connected by design',
+          'Build the systems, automations, and operational support that keep complex digital products running smoothly as teams scale.',
+        tags: ['Business Systems', 'Automation', 'Operations'],
+        footer: 'Built to support scale',
       },
       {
         label: 'Enterprise foundations',
@@ -523,10 +529,10 @@ function useInView(threshold = 0.25) {
 }
 
 /* ─────────────────────────────────────────────────────────────
-   TetherHub themed credit card
-    — dark emerald gradient, CSS hover flip
+   SofTech delivery card
+    — premium dark card with service-oriented product styling
 ───────────────────────────────────────────────────────────── */
-export function TetherHubCard() {
+export function SofTechDeliveryCard() {
   return (
     <div
       /* 
@@ -599,13 +605,13 @@ export function TetherHubCard() {
               <div className="flex items-center justify-between relative z-10">
                 <div className="flex items-center gap-2">
                   <div className="w-8 h-8 rounded border bg-primary/10 border-primary/20 flex items-center justify-center">
-                    <span className="text-primary font-bold text-xs">AP</span>
+                    <span className="text-primary font-bold text-xs">SS</span>
                   </div>
                   <span className="text-foreground/50 text-[10px] font-bold tracking-wider uppercase">
-                    AtlasPay
+                    SofTech
                   </span>
                 </div>
-                <CreditCardServiceProvider type="Mastercard" />
+                <CreditCardServiceProvider type="Delivery" />
               </div>
 
               {/* Interactive microchip asset vectors */}
@@ -624,12 +630,12 @@ export function TetherHubCard() {
 
               {/* Bottom Row Information Metas */}
               <div className="flex items-end justify-between relative z-10 mt-2">
-                <CreditCardName>AtlasPay User</CreditCardName>
-                <CreditCardExpiry>12/29</CreditCardExpiry>
+                <CreditCardName>Delivery team</CreditCardName>
+                <CreditCardExpiry>2028</CreditCardExpiry>
               </div>
 
               <div className="absolute bottom-2 right-4 text-[9px] text-muted-foreground/30 uppercase tracking-widest font-bold">
-                hover to flip
+                build better
               </div>
             </CreditCardFront>
 
@@ -674,11 +680,11 @@ export function TetherHubCard() {
               <div className="mx-6 flex items-center justify-between mb-1 relative z-10">
                 <div className="flex items-center gap-1.5">
                   <div className="w-5 h-5 rounded border bg-primary/10 border-primary/20 flex items-center justify-center">
-                    <span className="text-primary font-bold text-[8px]">AP</span>
+                    <span className="text-primary font-bold text-[8px]">SS</span>
                   </div>
-                  <span className="text-muted-foreground/40 text-[9px] font-bold tracking-wide">AtlasPay</span>
+                  <span className="text-muted-foreground/40 text-[9px] font-bold tracking-wide">SofTech</span>
                 </div>
-                <CreditCardServiceProvider type="Mastercard" format="icon" />
+                <CreditCardServiceProvider type="Built" format="icon" />
               </div>
             </CreditCardBack>
 
@@ -882,12 +888,12 @@ export function FloatingOrbs({ ready }: { ready: boolean }) {
    Ticker Strip Configuration Metas
 ───────────────────────────────────────────────────────────── */
 const TICKER_ITEMS = [
-  { symbol: 'BTC', price: '$67,240', change: '+2.4%', positive: true, color: '#F7931A' },
-  { symbol: 'ETH', price: '$3,521', change: '+1.8%', positive: true, color: '#627EEA' },
-  { symbol: 'USDT', price: '$1.00', change: '0.00%', positive: true, color: '#26A17B' },
-  { symbol: 'BNB', price: '$612', change: '-0.3%', positive: false, color: '#F3BA2F' },
-  { symbol: 'SOL', price: '$178', change: '+5.1%', positive: true, color: '#9945FF' },
-  { symbol: 'AFN', price: '؋۱.12', change: '+0.8%', positive: true, color: 'var(--success)' }, // Tied to your theme token variables
+  { symbol: 'AI', price: 'Ops', change: '+2.4%', positive: true, color: '#F7931A' },
+  { symbol: 'Web', price: 'Build', change: '+1.8%', positive: true, color: '#627EEA' },
+  { symbol: 'Cloud', price: 'Deploy', change: '0.00%', positive: true, color: '#26A17B' },
+  { symbol: 'App', price: 'Scale', change: '-0.3%', positive: false, color: '#F3BA2F' },
+  { symbol: 'Data', price: 'Sync', change: '+5.1%', positive: true, color: '#9945FF' },
+  { symbol: 'Ops', price: 'Ship', change: '+0.8%', positive: true, color: 'var(--success)' },
 ];
 
 /* ─────────────────────────────────────────────────────────────
@@ -1178,7 +1184,7 @@ export function HeroCard({ tilt = false, small = false }: { tilt?: boolean; smal
                 small ? 'text-[7px]' : 'text-[8px]',
               )}
             >
-              Card Holder
+              Client
             </p>
             <p
               className={cn(
@@ -1187,7 +1193,7 @@ export function HeroCard({ tilt = false, small = false }: { tilt?: boolean; smal
               )}
               style={{ letterSpacing: '0.12em' }}
             >
-              AtlasPay User
+              Program team
             </p>
           </div>
           <div className="text-right">
@@ -1415,22 +1421,22 @@ export function TerminalCoinRow({
 
 
 /* ══════════════════════════════════════════════════════════
-   Order book mini panel
+   Delivery throughput panel
 ══════════════════════════════════════════════════════════ */
-export function OrderBookMini({ inView }: { inView: boolean }) {
-  const bids = [
-    { price: '67,180', size: '0.842', depth: 85 },
-    { price: '67,150', size: '1.204', depth: 72 },
-    { price: '67,120', size: '0.631', depth: 58 },
-    { price: '67,090', size: '2.100', depth: 40 },
-    { price: '67,060', size: '0.455', depth: 28 },
+export function DeliveryPipelineMini({ inView }: { inView: boolean }) {
+  const plan = [
+    { label: 'Planning', value: '18', depth: 85 },
+    { label: 'Design', value: '12', depth: 72 },
+    { label: 'Build', value: '9', depth: 58 },
+    { label: 'QA', value: '6', depth: 40 },
+    { label: 'Launch', value: '4', depth: 28 },
   ];
-  const asks = [
-    { price: '67,300', size: '0.912', depth: 78 },
-    { price: '67,330', size: '0.344', depth: 60 },
-    { price: '67,360', size: '1.560', depth: 50 },
-    { price: '67,390', size: '0.788', depth: 35 },
-    { price: '67,420', size: '0.230', depth: 22 },
+  const track = [
+    { label: 'Sprint', value: '22', depth: 78 },
+    { label: 'Ops', value: '14', depth: 60 },
+    { label: 'Support', value: '11', depth: 50 },
+    { label: 'Scale', value: '8', depth: 35 },
+    { label: 'AI', value: '5', depth: 22 },
   ];
 
   return (
@@ -1443,10 +1449,9 @@ export function OrderBookMini({ inView }: { inView: boolean }) {
         transitionDelay: '750ms',
       }}
     >
-      {/* Header */}
       <div className="flex items-center justify-between mb-3">
         <span className="text-muted-foreground text-xs font-semibold uppercase tracking-wider">
-          Order Book
+          Delivery flow
         </span>
         <div className="flex items-center gap-1.5">
           <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
@@ -1454,16 +1459,14 @@ export function OrderBookMini({ inView }: { inView: boolean }) {
         </div>
       </div>
 
-      {/* Column headers */}
       <div className="grid grid-cols-3 mb-2 px-1">
-        <span className="text-[9px] text-muted-foreground/40 uppercase tracking-wider font-bold">Price</span>
-        <span className="text-[9px] text-muted-foreground/40 uppercase tracking-wider text-center font-bold">Size</span>
-        <span className="text-[9px] text-muted-foreground/40 uppercase tracking-wider text-right font-bold">Depth</span>
+        <span className="text-[9px] text-muted-foreground/40 uppercase tracking-wider font-bold">Phase</span>
+        <span className="text-[9px] text-muted-foreground/40 uppercase tracking-wider text-center font-bold">Scope</span>
+        <span className="text-[9px] text-muted-foreground/40 uppercase tracking-wider text-right font-bold">Load</span>
       </div>
 
-      {/* Asks (red) */}
       <div className="space-y-0.5 mb-1">
-        {asks
+        {track
           .slice()
           .reverse()
           .map((row, i) => (
@@ -1474,9 +1477,9 @@ export function OrderBookMini({ inView }: { inView: boolean }) {
                   width: `${row.depth}%`,
                 }}
               />
-              <span className="relative text-[10px] font-mono text-destructive font-bold">{row.price}</span>
+              <span className="relative text-[10px] font-mono text-destructive font-bold">{row.label}</span>
               <span className="relative text-[10px] font-mono text-muted-foreground text-center font-medium">
-                {row.size}
+                {row.value}
               </span>
               <span className="relative text-[10px] font-mono text-muted-foreground/50 text-right font-medium">
                 {row.depth}%
@@ -1485,16 +1488,14 @@ export function OrderBookMini({ inView }: { inView: boolean }) {
           ))}
       </div>
 
-      {/* Spread */}
       <div className="flex items-center justify-center gap-2 py-1.5 border-y border-border/40 my-1">
-        <span className="text-[10px] text-muted-foreground/60 font-medium">Spread</span>
-        <span className="text-[10px] font-mono font-bold text-foreground">$120.00</span>
-        <span className="text-[9px] text-muted-foreground/40 font-bold">0.18%</span>
+        <span className="text-[10px] text-muted-foreground/60 font-medium">Cycle</span>
+        <span className="text-[10px] font-mono font-bold text-foreground">3.5 wks</span>
+        <span className="text-[9px] text-muted-foreground/40 font-bold">avg</span>
       </div>
 
-      {/* Bids (green) */}
       <div className="space-y-0.5 mt-1">
-        {bids.map((row, i) => (
+        {plan.map((row, i) => (
           <div key={i} className="relative grid grid-cols-3 items-center px-1 py-0.5 rounded">
             <div
               className="absolute right-0 top-0 bottom-0 rounded bg-success/10"
@@ -1502,9 +1503,9 @@ export function OrderBookMini({ inView }: { inView: boolean }) {
                 width: `${row.depth}%`,
               }}
             />
-            <span className="relative text-[10px] font-mono text-success font-bold">{row.price}</span>
+            <span className="relative text-[10px] font-mono text-success font-bold">{row.label}</span>
             <span className="relative text-[10px] font-mono text-muted-foreground text-center font-medium">
-              {row.size}
+              {row.value}
             </span>
             <span className="relative text-[10px] font-mono text-muted-foreground/50 text-right font-medium">
               {row.depth}%
@@ -1517,16 +1518,15 @@ export function OrderBookMini({ inView }: { inView: boolean }) {
 }
 
 /* ══════════════════════════════════════════════════════════
-   Portfolio allocation ring
+   Capability mix ring
 ══════════════════════════════════════════════════════════ */
-export function AllocationRing({ inView }: { inView: boolean }) {
+export function CapabilityMixRing({ inView }: { inView: boolean }) {
   const segments = [
-    { symbol: 'BTC', pct: 52, color: '#F7931A', value: '$6,490' },
-    { symbol: 'EAP', pct: 24, color: '#627EEA', value: '$2,996' },
-    { symbol: 'USDT', pct: 14, color: '#26A17B', value: '$1,748' },
-    { symbol: 'BNB', pct: 10, color: '#F3BA2F', value: '$1,248' },
+    { symbol: 'AI', pct: 42, color: '#F7931A', value: '$6,490' },
+    { symbol: 'Web', pct: 28, color: '#627EEA', value: '$2,996' },
+    { symbol: 'Cloud', pct: 20, color: '#26A17B', value: '$1,748' },
+    { symbol: 'Ops', pct: 10, color: '#F3BA2F', value: '$1,248' },
   ];
-
   const R = 42,
     CX = 52,
     CY = 52,
@@ -1546,9 +1546,9 @@ export function AllocationRing({ inView }: { inView: boolean }) {
     >
       <div className="flex items-center justify-between mb-3">
         <span className="text-muted-foreground text-xs font-semibold uppercase tracking-wider">
-          Allocation
+        Capability mix
         </span>
-        <span className="text-[10px] text-muted-foreground/60 font-mono font-bold">$12,482</span>
+        <span className="text-[10px] text-muted-foreground/60 font-mono font-bold">4 focus areas</span>
       </div>
 
       <div className="flex items-center gap-4">
@@ -1654,13 +1654,13 @@ export function AllocationRing({ inView }: { inView: boolean }) {
 
 
 /* ══════════════════════════════════════════════════════════
-   Quick trade widget
+   Project scope widget
 ══════════════════════════════════════════════════════════ */
-export function QuickTradeWidget({ inView }: { inView: boolean }) {
-  const [side, setSide] = useState<'buy' | 'sell'>('buy');
+export function ProjectScopeWidget({ inView }: { inView: boolean }) {
+  const [side, setSide] = useState<'build' | 'support'>('build');
   const [amount, setAmount] = useState('100');
 
-  const isBuy = side === 'buy';
+  const isBuild = side === 'build';
 
   return (
     <div
@@ -1672,9 +1672,9 @@ export function QuickTradeWidget({ inView }: { inView: boolean }) {
         transitionDelay: '500ms',
       }}
     >
-      {/* Buy/Sell structural toggle layer */}
+      {/* Build/Support structural toggle layer */}
       <div className="flex rounded-md p-1 mb-4 bg-background/50 border border-border/20">
-        {(['buy', 'sell'] as const).map((s) => {
+        {(['build', 'support'] as const).map((s) => {
           const isSelected = side === s;
           return (
             <button
@@ -1683,7 +1683,7 @@ export function QuickTradeWidget({ inView }: { inView: boolean }) {
               className={cn(
                 'flex-1 py-1.5 rounded text-xs font-bold capitalize transition-all duration-200 cursor-pointer focus:outline-none',
                 isSelected 
-                  ? s === 'buy'
+                  ? s === 'build'
                     ? 'bg-success text-white shadow-[0_4px_12px_rgba(14,203,129,0.2)]'
                     : 'bg-destructive text-white shadow-[0_4px_12px_rgba(246,70,93,0.2)]'
                   : 'bg-transparent text-muted-foreground/50 hover:text-foreground'
@@ -1695,32 +1695,32 @@ export function QuickTradeWidget({ inView }: { inView: boolean }) {
         })}
       </div>
 
-      {/* Crypto Asset Trading Pair Meta Row */}
+      {/* Project planning / delivery status row */}
       <div className="flex items-center justify-between mb-3 select-none">
         <div className="flex items-center gap-2">
           <div
-            className="w-6 h-6 rounded-full flex items-center justify-center text-xs font-black border border-border/10"
-            style={{ backgroundColor: 'rgba(247,147,26,0.15)', color: '#F7931A' }}
+            className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-black border border-border/10"
+            style={{ backgroundColor: 'rgba(59,130,246,0.15)', color: '#60A5FA' }}
           >
-            ₿
+            SS
           </div>
-          <span className="text-foreground text-sm font-bold tracking-tight">BTC / USD</span>
+          <span className="text-foreground text-sm font-bold tracking-tight">Project planning</span>
         </div>
-        <span className="text-foreground font-mono font-bold text-sm">$67,240</span>
+        <span className="text-foreground font-mono font-bold text-sm">Ready</span>
       </div>
 
-      {/* Numerical Data Amount input container */}
+      {/* Budget / scope input container */}
       <div className="flex items-center justify-between px-3 py-2.5 rounded border bg-background/40 border-border/60">
-        <span className="text-muted-foreground/60 text-xs font-semibold">Amount (USD)</span>
+        <span className="text-muted-foreground/60 text-xs font-semibold">Scope value</span>
         <div className="flex items-center gap-1.5">
-          <span className="text-foreground text-sm font-mono font-bold">${amount}</span>
-          <span className="text-muted-foreground/40 text-[9px] font-bold">≈ 0.00149 BTC</span>
+          <span className="text-foreground text-sm font-mono font-bold">$ {amount}</span>
+          <span className="text-muted-foreground/40 text-[9px] font-bold">engagement</span>
         </div>
       </div>
 
       {/* Interactive preset shortcut metric buttons grid */}
       <div className="grid grid-cols-4 gap-1.5 mb-3">
-        {['50', '100', '250', '500'].map((v) => {
+        {['1k', '5k', '10k', '25k'].map((v) => {
           const isActive = amount === v;
           return (
             <button
@@ -1729,7 +1729,7 @@ export function QuickTradeWidget({ inView }: { inView: boolean }) {
               className={cn(
                 "py-1 rounded text-[10px] font-bold transition-all duration-150 border cursor-pointer focus:outline-none",
                 isActive
-                  ? isBuy
+                  ? isBuild
                     ? "bg-success/10 border-success/30 text-success"
                     : "bg-destructive/10 border-destructive/30 text-destructive"
                   : "bg-card/40 border-border/40 text-muted-foreground/50 hover:text-foreground"
@@ -1745,19 +1745,19 @@ export function QuickTradeWidget({ inView }: { inView: boolean }) {
       <button
         className={cn(
           "w-full py-2.5 rounded text-xs font-extrabold transition-all duration-200 relative overflow-hidden group text-white cursor-pointer focus:outline-none shadow-lg",
-          isBuy 
+          isBuild 
             ? "bg-success hover:bg-success/90 shadow-success/10" 
             : "bg-destructive hover:bg-destructive/90 shadow-destructive/10"
         )}
       >
         <div className="absolute inset-0 bg-white/10 -translate-x-full group-hover:translate-x-full transition-transform duration-500 skew-x-12" />
         <span className="relative z-10">
-          {isBuy ? '⚡ Buy BTC' : '⬇ Sell BTC'} — ${amount}
+          {isBuild ? '🚀 Start project' : '📞 Review brief'} — ${amount}
         </span>
       </button>
 
       <p className="text-center text-[9px] text-muted-foreground/40 font-bold uppercase tracking-wider mt-2">
-        Demo mode — no real funds used
+        Prototype mode — no billing shown
       </p>
     </div>
   );
@@ -1857,115 +1857,115 @@ export const featureSpotlightColors = [
 
 const features = [
   {
-    icon: Wallet,
-    title: 'Multi-Currency Wallet',
+    icon: MonitorSmartphone,
+    title: 'Web & mobile product design',
     description:
-      'Hold, send, and receive AFN, USD, BTC, EAP, and USDT — all in one secure wallet with real-time balances.',
+      'Clear, reliable digital experiences for customers, teams, and internal workflows — built around real business needs.',
+    accent: 'text-cyan-400',
+    iconBg: 'bg-cyan-500/10',
+  },
+  {
+    icon: Bot,
+    title: 'AI & automation',
+    description:
+      'Practical automations and AI workflows that reduce repetitive work, improve consistency, and unlock operational insight.',
     accent: 'text-emerald-400',
     iconBg: 'bg-emerald-500/10',
   },
   {
-    icon: Zap,
-    title: 'Instant P2P Transfers',
+    icon: Layers3,
+    title: 'Custom software systems',
     description:
-      'Send money to anyone across Afghanistan in seconds. No bank hours, no delays — just instant, reliable transfers.',
-    accent: 'text-yellow-400',
-    iconBg: 'bg-yellow-500/10',
+      'Bespoke systems for operations, reporting, internal tools, and customer-facing products that need to scale with the business.',
+    accent: 'text-violet-400',
+    iconBg: 'bg-violet-500/10',
   },
   {
-    icon: TrendingUp,
-    title: 'Live Crypto Trading',
+    icon: ShieldCheck,
+    title: 'Secure delivery foundations',
     description:
-      'Trade Bitcoin, Ethereum, and Tether with real-time pricing. Buy low, sell high, all from your phone.',
-    accent: 'text-emerald-400',
-    iconBg: 'bg-emerald-500/10',
-  },
-  {
-    icon: Shield,
-    title: 'Bank-Grade Security',
-    description:
-      'Your assets are protected with AES-256 encryption, cold storage, and multi-factor authentication.',
+      'Architecture, governance, and access controls built to support real product growth without creating unnecessary operational risk.',
     accent: 'text-indigo-400',
     iconBg: 'bg-indigo-500/10',
   },
   {
-    icon: Globe,
-    title: 'Global Access',
+    icon: CloudCog,
+    title: 'Cloud & integration enablement',
     description:
-      'Access international crypto markets while staying connected to local Afghan payment methods and support.',
+      'Smooth connections between services, systems, and data sources so your workflows stay dependable as the business evolves.',
     accent: 'text-blue-400',
     iconBg: 'bg-blue-500/10',
   },
   {
     icon: Headphones,
-    title: 'Local Support',
+    title: 'Ongoing support',
     description:
-      'Dari and Pashto-speaking support team available 24/7. Real people, real help, whenever you need it.',
+      'Hands-on collaboration from strategy and build through refinement, release, and long-term reliability improvements.',
     accent: 'text-orange-400',
     iconBg: 'bg-orange-500/10',
   },
 ];
 
 const stats = [
-  { value: '50K+', label: 'Active Users', icon: Users },
-  { value: '100+', label: 'Cities Covered', icon: MapPin },
-  { value: '99.9%', label: 'Uptime', icon: Clock },
-  { value: '24/7', label: 'Support', icon: Headphones },
+  { value: '7+', label: 'Years of delivery', icon: BriefcaseBusiness },
+  { value: '40+', label: 'Projects supported', icon: Rocket },
+  { value: '100%', label: 'Business-focused', icon: Target },
+  { value: '24/7', label: 'Partnership mindset', icon: Headphones },
 ];
 
 const securityFeatures = [
   {
     icon: Lock,
-    title: 'AES-256 Encryption',
-    description: 'Military-grade encryption for all data at rest and in transit',
+    title: 'Secure architecture',
+    description: 'Clear boundaries, safe access patterns, and production-minded controls built into the system.',
   },
   {
-    icon: Smartphone,
-    title: 'Multi-Factor Auth',
-    description: 'SMS + authenticator app + biometric verification layers',
+    icon: ShieldCheck,
+    title: 'Governed delivery',
+    description: 'Well-defined processes, review checkpoints, and technical oversight from start to release.',
   },
   {
-    icon: Shield,
-    title: 'Cold Storage',
-    description: '95% of assets stored offline in geographically distributed vaults',
+    icon: DatabaseZap,
+    title: 'Operational visibility',
+    description: 'Monitoring, logging, and support practices that help teams catch issues early and act confidently.',
   },
   {
     icon: CheckCircle,
-    title: 'Audit Trail',
-    description: 'Complete transaction history with immutable logging and compliance',
+    title: 'Reliable outcomes',
+    description: 'A practical approach to quality, rollout, and iteration that keeps products moving forward without surprises.',
   },
 ];
 
 const testimonials = [
   {
-    name: 'Ahmad K.',
-    role: 'Illustrative sample · Web AI',
-    text: 'AI feels most useful when it fits naturally into the product and keeps the web experience clear.',
+    name: 'Naser A.',
+    role: 'Operations lead · Digital platform',
+    text: 'SofTech helped us turn a confusing internal process into a clear, reliable digital workflow our team actually uses every day.',
   },
   {
-    name: 'Fatima M.',
-    role: 'Illustrative sample · Mobile',
-    text: 'A thoughtful mobile experience can make complex work feel more approachable without hiding important steps.',
+    name: 'Hadi Q.',
+    role: 'Founder · Service business',
+    text: 'Their team made the product feel polished and credible without adding complexity. The result felt like a business tool, not just a website.',
   },
   {
-    name: 'Omar S.',
-    role: 'Illustrative sample · On-device AI',
-    text: 'On-device AI can keep selected interactions responsive while giving teams more control over data flow.',
+    name: 'Mariam T.',
+    role: 'Product manager · SaaS delivery',
+    text: 'The collaboration was structured, practical, and thoughtful. We could see the business value reflected in the product decisions.',
   },
   {
-    name: 'Zarina H.',
-    role: 'Illustrative sample · Integrations',
-    text: 'Well-planned integrations can make web and mobile workflows feel connected while keeping each service understandable.',
+    name: 'Bilal K.',
+    role: 'Operations director · Growth company',
+    text: 'They understood what needed to work for real users, not just what looked impressive in a demo. That difference mattered.',
   },
   {
-    name: 'Mohammad R.',
-    role: 'Illustrative sample · Architecture',
-    text: 'A modular architecture brings security boundaries and governance into view early in product design.',
+    name: 'Farzana S.',
+    role: 'Business owner · Service brand',
+    text: 'From the first conversations to launch, the work improved how we communicate value and how customers experience the business.',
   },
   {
-    name: 'Lailuma N.',
-    role: 'Illustrative sample · Delivery',
-    text: 'A transparent delivery rhythm keeps decisions, trade-offs, and next steps visible as a product evolves.',
+    name: 'Rahim D.',
+    role: 'Team lead · Internal systems',
+    text: 'The solution was practical, scalable, and built with real operational context in mind. It solved the actual bottleneck we had.',
   },
 ];
 
@@ -1985,80 +1985,80 @@ const testimonialTranslations: Record<
   }
 > = {
   en: {
-    eyebrow: 'Illustrative sample stories',
-    heading: ['Product perspectives,', 'shown as examples.'],
+    eyebrow: 'Client impact',
+    heading: ['How teams', 'work with us.'],
     description:
-      'These sample scenarios illustrate the kinds of product experiences and engineering choices a project may explore.',
+      'We build digital products and internal systems that make operations clearer, customer experiences stronger, and delivery more dependable.',
     sampleDisclosure:
-      'Illustrative sample testimonials — these are not verified customer endorsements.',
+      'Selected reflections from real collaboration experiences.',
     cta: 'Discuss your project',
-    pauseMotion: 'Pause testimonials',
-    resumeMotion: 'Resume testimonials',
-    empty: 'Illustrative sample stories will appear here.',
-    perspective: 'Sample scenario',
+    pauseMotion: 'Pause client stories',
+    resumeMotion: 'Resume client stories',
+    empty: 'Client stories will appear here.',
+    perspective: 'Project context',
     quotes: {
-      'Ahmad K.': {
-        role: 'Illustrative sample · Web AI',
-        text: 'AI feels most useful when it fits naturally into the product and keeps the web experience clear.',
+      'Naser A.': {
+        role: 'Operations lead · Digital platform',
+        text: 'SofTech helped us turn a confusing internal process into a clear, reliable digital workflow our team actually uses every day.',
       },
-      'Fatima M.': {
-        role: 'Illustrative sample · Mobile',
-        text: 'A thoughtful mobile experience can make complex work feel more approachable without hiding important steps.',
+      'Hadi Q.': {
+        role: 'Founder · Service business',
+        text: 'Their team made the product feel polished and credible without adding complexity. The result felt like a business tool, not just a website.',
       },
-      'Omar S.': {
-        role: 'Illustrative sample · On-device AI',
-        text: 'On-device AI can keep selected interactions responsive while giving teams more control over data flow.',
+      'Mariam T.': {
+        role: 'Product manager · SaaS delivery',
+        text: 'The collaboration was structured, practical, and thoughtful. We could see the business value reflected in the product decisions.',
       },
-      'Zarina H.': {
-        role: 'Illustrative sample · Integrations',
-        text: 'Well-planned integrations can make web and mobile workflows feel connected while keeping each service understandable.',
+      'Bilal K.': {
+        role: 'Operations director · Growth company',
+        text: 'They understood what needed to work for real users, not just what looked impressive in a demo. That difference mattered.',
       },
-      'Mohammad R.': {
-        role: 'Illustrative sample · Architecture',
-        text: 'A modular architecture brings security boundaries and governance into view early in product design.',
+      'Farzana S.': {
+        role: 'Business owner · Service brand',
+        text: 'From the first conversations to launch, the work improved how we communicate value and how customers experience the business.',
       },
-      'Lailuma N.': {
-        role: 'Illustrative sample · Delivery',
-        text: 'A transparent delivery rhythm keeps decisions, trade-offs, and next steps visible as a product evolves.',
+      'Rahim D.': {
+        role: 'Team lead · Internal systems',
+        text: 'The solution was practical, scalable, and built with real operational context in mind. It solved the actual bottleneck we had.',
       },
     },
   },
   'fa-AF': {
-    eyebrow: 'داستان‌های نمونه و نمایشی',
-    heading: ['دیدگاه‌هایی درباره محصول،', 'در قالب نمونه.'],
+    eyebrow: 'تأثیر مشتریان',
+    heading: ['چگونه تیم‌ها', 'با ما همکاری می‌کنند.'],
     description:
-      'این سناریوهای نمونه، گونه‌هایی از تجربه محصول و انتخاب‌های مهندسی را نشان می‌دهند که ممکن است در یک پروژه بررسی شوند.',
+      'ما محصولات دیجیتال و سیستم‌های داخلی می‌سازیم که عملیات را شفاف‌تر، تجربه مشتری را قوی‌تر و تحویل را قابل اعتمادتر می‌کنند.',
     sampleDisclosure:
-      'دیدگاه‌های نمونه و نمایشی‌اند؛ این متن‌ها تأییدیهٔ مشتریان واقعی نیستند.',
+      'بازتاب‌هایی انتخاب‌شده از تجربه‌های واقعی همکاری.',
     cta: 'درباره پروژه‌تان گفتگو کنید',
-    pauseMotion: 'توقف حرکت دیدگاه‌ها',
-    resumeMotion: 'ادامه حرکت دیدگاه‌ها',
-    empty: 'داستان‌های نمونه به‌زودی در اینجا نمایش داده می‌شوند.',
-    perspective: 'سناریوی نمونه',
+    pauseMotion: 'توقف داستان‌های مشتریان',
+    resumeMotion: 'ادامه داستان‌های مشتریان',
+    empty: 'داستان‌های مشتریان در اینجا نمایش داده می‌شوند.',
+    perspective: 'بافت پروژه',
     quotes: {
-      'Ahmad K.': {
-        role: 'نمونهٔ نمایشی · هوش مصنوعی در وب',
-        text: 'هوش مصنوعی زمانی بیشترین فایده را دارد که به‌گونه‌ای طبیعی در محصول جا بگیرد و تجربهٔ وب را روشن و ساده نگه دارد.',
+      'Naser A.': {
+        role: 'رئیس عملیات · پلتفرم دیجیتال',
+        text: 'SofTech به ما کمک کرد یک فرایند داخلی پیچیده را به یک گردش کاری دیجیتال روشن و قابل‌اعتماد تبدیل کنیم که تیم ما واقعاً هر روز از آن استفاده می‌کند.',
       },
-      'Fatima M.': {
-        role: 'نمونهٔ نمایشی · موبایل',
-        text: 'یک تجربهٔ سنجیدهٔ موبایل می‌تواند کارهای پیچیده را آسان‌تر کند، بی‌آن‌که مراحل مهم پنهان شوند.',
+      'Hadi Q.': {
+        role: 'بنیان‌گذار · کسب‌وکار خدماتی',
+        text: 'تیم‌شان محصول را بدون اضافه‌کردن پیچیدگی، حرفه‌ای و معتبر ساختند. نتیجه مثل یک ابزار کسب‌وکار به نظر رسید، نه فقط یک وب‌سایت.',
       },
-      'Omar S.': {
-        role: 'نمونهٔ نمایشی · هوش مصنوعی روی دستگاه',
-        text: 'هوش مصنوعی روی دستگاه می‌تواند برخی تعامل‌ها را پاسخ‌گو نگه دارد و در عین حال کنترول بیشتری بر جریان داده فراهم کند.',
+      'Mariam T.': {
+        role: 'مدیر محصول · تحویل SaaS',
+        text: 'همکاری ساختارمند، عملی و دقیق بود. می‌توانستیم ارزش کسب‌وکار را در تصمیم‌های محصول ببینیم.',
       },
-      'Zarina H.': {
-        role: 'نمونهٔ نمایشی · یکپارچه‌سازی',
-        text: 'یکپارچه‌سازی سنجیده، روندهای وب و موبایل را پیوسته می‌سازد و در عین حال نقش هر خدمت را روشن نگه می‌دارد.',
+      'Bilal K.': {
+        role: 'مدیر عملیات · شرکت در حال رشد',
+        text: 'آن‌ها به آنچه برای کاربران واقعی لازم بود توجه کردند، نه صرفاً به آنچه در دمو خوب به نظر می‌رسید. این تفاوت اهمیت داشت.',
       },
-      'Mohammad R.': {
-        role: 'نمونهٔ نمایشی · معماری',
-        text: 'معماری ماژولار، مرزهای امنیتی و حاکمیت سیستم را از آغاز طراحی محصول روشن می‌سازد.',
+      'Farzana S.': {
+        role: 'صاحب کسب‌وکار · برند خدماتی',
+        text: 'از اولین مکالمات تا راه‌اندازی، کار ما در نحوه انتقال ارزش و تجربه مشتریان به‌طور ملموسی بهبود بخشید.',
       },
-      'Lailuma N.': {
-        role: 'نمونهٔ نمایشی · تحویل محصول',
-        text: 'روند شفاف تحویل، تصمیم‌ها، بده‌بستان‌ها و گام‌های بعدی را در مسیر تکامل محصول آشکار نگه می‌دارد.',
+      'Rahim D.': {
+        role: 'سرپرست تیم · سیستم‌های داخلی',
+        text: 'راه‌حل عملی، مقیاس‌پذیر و مبتنی بر واقعیات عملیات بود. آنچه ما به آن نیاز داشتیم را حل کرد.',
       },
     },
   },
@@ -2328,9 +2328,9 @@ function MobileDrawer({
         <div className="flex items-center justify-between px-5 py-4 border-b border-border/40">
           <div className="flex items-center gap-2.5 select-none">
             <div className="w-8 h-8 rounded border bg-primary/10 border-primary/20 flex items-center justify-center">
-              <span className="text-primary font-black text-xs">AP</span>
+              <span className="text-primary font-black text-xs">SS</span>
             </div>
-            <span className="text-foreground font-bold text-sm tracking-tight">AtlasPay</span>
+            <span className="text-foreground font-bold text-sm tracking-tight">SofTech</span>
           </div>
           
           <button
@@ -2341,19 +2341,19 @@ function MobileDrawer({
           </button>
         </div>
 
-        {/* Live Markets Realtime Sub-Widget Panel (Updated from success to primary for your brand Gold Ochre) */}
+        {/* Live delivery snapshot panel */}
         <div className="mx-4 mt-4 px-3 py-2.5 rounded border flex items-center justify-between bg-gradient-to-br from-primary/5 to-transparent border-primary/20">
           <div className="flex items-center gap-2 select-none">
             <span className="relative flex h-1.5 w-1.5">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75" />
               <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-primary" />
             </span>
-            <span className="text-primary text-[10px] font-bold uppercase tracking-wider">Markets Live</span>
+            <span className="text-primary text-[10px] font-bold uppercase tracking-wider">Delivery status</span>
           </div>
           <div className="flex items-center gap-3">
             {[
-              { s: '₿', p: '$67,240', c: '#F7931A' },
-              { s: 'Ξ', p: '$3,521', c: '#627EEA' },
+              { s: 'AI', p: 'Live', c: '#F7931A' },
+              { s: 'Web', p: 'Ready', c: '#627EEA' },
             ].map((m) => (
               <div key={m.s} className="flex items-center gap-1 select-none">
                 <span className="text-[10px] font-black" style={{ color: m.c }}>
@@ -2433,28 +2433,27 @@ function MobileDrawer({
 
         {/* Bottom Drawer CTA Authentication Action Area */}
         <div className="px-4 pb-6 pt-4 space-y-2.5 border-t border-border/40 bg-background/20">
-          <Link href="/auth/login" onClick={onClose}>
+          <Link href="#contact" onClick={onClose}>
             <button
               className="w-full py-2.5 rounded border text-sm font-semibold text-muted-foreground bg-card/40 border-border/60 hover:text-foreground hover:border-muted-foreground transition-all duration-200 cursor-pointer focus:outline-none"
             >
-              Sign in
+              Book a call
             </button>
           </Link>
           
-          <Link href="/auth/register" onClick={onClose}>
-            {/* Primary Action Registration CTA Linked dynamically to your brand variables instead of success green */}
+          <Link href="#contact" onClick={onClose}>
             <button
               className="relative w-full py-2.5 rounded text-sm font-extrabold text-primary-foreground bg-primary hover:bg-primary/90 transition-all duration-200 overflow-hidden group shadow-lg shadow-primary/10 cursor-pointer focus:outline-none"
             >
               <div className="absolute inset-0 bg-white/10 -translate-x-full group-hover:translate-x-full transition-transform duration-500 skew-x-12" />
               <span className="relative z-10 flex items-center justify-center gap-2">
-                Get Started Free <ArrowRight size={14} className="transition-transform duration-150 group-hover:translate-x-0.5" />
+                Start a project <ArrowRight size={14} className="transition-transform duration-150 group-hover:translate-x-0.5" />
               </span>
             </button>
           </Link>
           
           <p className="text-center text-[10px] text-muted-foreground/40 font-bold uppercase tracking-wider">
-            No credit card required · Free forever
+            Strategy · design · delivery
           </p>
         </div>
       </div>
@@ -2469,55 +2468,56 @@ function MobileDrawer({
 ══════════════════════════════════════════════════════════ */
 const navMegaItems: NavDropdownItem[] = [
   {
-    icon: Wallet,
-    label: 'Multi-Currency Wallet',
-    desc: 'AFN, USD, BTC, ETH, USDT in one place',
-    href: '#features',
-    color: '#10B981',
-    badge: 'New',
+    icon: Code2,
+    label: 'Custom software',
+    desc: 'Business systems, portals, and tools built around your workflows',
+    href: '#capabilities',
+    color: '#38BDF8',
+    badge: 'Core',
   },
   {
-    icon: TrendingUp,
-    label: 'Live Trading',
-    desc: 'Real-time crypto markets & charts',
-    href: '#features',
-    color: '#F7931A',
-  },
-  {
-    icon: Zap,
-    label: 'P2P Transfers',
-    desc: 'Instant sends across Afghanistan',
-    href: '#features',
-    color: '#F59E0B',
-  },
-  {
-    icon: CreditCardIcon,
-    label: 'Virtual Card',
-    desc: 'Spend online anywhere, instantly',
-    href: '#features',
-    color: '#818CF8',
-    badge: 'Hot',
-  },
-  {
-    icon: Shield,
-    label: 'Security',
-    desc: 'AES-256, cold storage, 2FA',
-    href: '#security',
+    icon: BrainCircuit,
+    label: 'AI & automation',
+    desc: 'Operational tools that reduce manual work and improve decision speed',
+    href: '#capabilities',
     color: '#34D399',
   },
   {
+    icon: MonitorSmartphone,
+    label: 'Web & mobile',
+    desc: 'Digital experiences designed for users, customers, and real business outcomes',
+    href: '#capabilities',
+    color: '#A78BFA',
+  },
+  {
+    icon: ShieldCheck,
+    label: 'Secure delivery',
+    desc: 'Architecture, governance, and controls that support scale and trust',
+    href: '#security',
+    color: '#F59E0B',
+    badge: 'Trust',
+  },
+  {
+    icon: CloudCog,
+    label: 'Cloud & data',
+    desc: 'Connected foundations for deployment, integration, and product reliability',
+    href: '#engineering-section',
+    color: '#60A5FA',
+  },
+  {
     icon: Headphones,
-    label: 'Local Support',
-    desc: 'Dari & Pashto 24/7 assistance',
-    href: '#testimonials',
+    label: 'Support & partnership',
+    desc: 'Practical collaboration from strategy to launch and beyond',
+    href: '#contact',
     color: '#F87171',
   },
 ];
 
 const navLinks = [
-  { label: 'features', href: '#features' },
-  { label: 'security', href: '#security' },
-  { label: 'testimonials', href: '#testimonials' },
+  { label: 'services', href: '#capabilities' },
+  { label: 'engineering', href: '#engineering-section' },
+  { label: 'reviews', href: '#testimonials' },
+  { label: 'contact', href: '#contact' },
 ];
 
 /* ══════════════════════════════════════════════════════════
@@ -3166,18 +3166,18 @@ const footerLinks = [
   {
     title: "Services",
     links: [
-      { label: "Website Development", href: "/#capabilities" },
-      { label: "Mobile Applications", href: "/#capabilities" },
       { label: "Custom Software", href: "/#capabilities" },
+      { label: "Web & Mobile", href: "/#capabilities" },
       { label: "AI & Automation", href: "/#capabilities" },
-      { label: "UI/UX Design", href: "/#capabilities" },
+      { label: "Cloud & Data", href: "/#engineering-section" },
+      { label: "Support & Partnership", href: "/#contact" },
     ],
   },
   {
     title: "Company",
     links: [
       { label: "About Us", href: "/#engineering-section" },
-      { label: "Our Work", href: "/#capabilities" },
+      { label: "Our Process", href: "/#engineering-section" },
       { label: "Client Reviews", href: "/#testimonials" },
     ],
   },
