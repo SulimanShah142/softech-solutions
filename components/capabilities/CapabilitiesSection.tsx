@@ -60,39 +60,42 @@ const translations = {
     sectionLabel: '04 / Technical Capabilities',
     heading: ['AI engineering,', 'built for products.'],
     introduction:
-      'We design secure, governed AI systems for web and mobile products, from on-device orchestration to cloud-connected services and the architecture around them.',
-    connected: 'Secure, governed systems across web & mobile',
+      'We build AI features and web and mobile products, choosing where processing happens to suit each use.',
+    connected: 'Web, mobile & connected services',
     architecture: '01 / AI Product Architecture',
     structureFlowScale: 'ON-DEVICE / WEB / MOBILE / CLOUD',
     foundationEyebrow: 'AI, placed with purpose',
     foundationHeading: ['On-device when it fits.', 'Connected when it helps.'],
     foundationDescription:
-      'We shape AI features around product needs: on-device inference, clear data boundaries, policy controls, and coordinated web and mobile services. Cloud services join the system where they add value.',
-    principles: ['On-device inference', 'Governed data flows', 'Cloud-connected by choice'],
-    architectureTagline: 'Privacy-aware orchestration',
-    architectureStatus: 'AI / WEB / MOBILE / GOVERNANCE',
+      'Choose where an AI feature runs based on its purpose and the information it needs. Some tasks can happen on the device; others may use a cloud service.',
+    exampleLabel: 'A product example',
+    example:
+      'A notes app could summarize a note on the device without sending the note to a server.',
+    principles: ['On-device AI when it fits', 'Clear service boundaries', 'Cloud services when useful'],
+    architectureTagline: 'Choose processing for the task',
+    architectureStatus: 'AI / WEB / MOBILE / CLOUD',
     moreCapabilities: 'More ways we engineer value',
     capabilityLabel: 'CAPABILITIES',
-    transition: 'AI at the core, engineered across the product.',
+    transition: 'Choose product technology for the work it needs to do.',
     built: 'Engineered with intent',
     cards: [
       {
         eyebrow: 'AI ENGINEERING',
-        title: 'Orchestrate AI close to the user.',
+        title: 'Place AI where it fits.',
         description:
-          'Plan on-device inference and web/mobile AI experiences with explicit data boundaries, policy controls, and coordinated service interfaces.',
+          'Plan AI features for device or cloud processing, with data paths chosen for each product.',
       },
       {
         eyebrow: 'WEB & MOBILE PRODUCTS',
-        title: 'Build dependable digital products.',
+        title: 'Build web and mobile products.',
         description:
-          'Engineer secure web and mobile products with maintainable architecture, clear integrations, and dependable cloud-connected services.',
+          'Create websites and mobile apps with clear service boundaries and the integrations they need.',
       },
       {
         eyebrow: 'BLOCKCHAIN & INTEGRATIONS',
-        title: 'Connect distributed systems with care.',
+        title: 'Connect blockchain and fintech systems.',
         description:
-          'Support blockchain and fintech products with secure API boundaries, smart-contract integrations, and considered operational controls.',
+          'Support blockchain and fintech products with API and smart-contract integrations.',
       },
     ],
   },
@@ -100,39 +103,42 @@ const translations = {
     sectionLabel: '۰۴ / توانایی‌های تخنیکی',
     heading: ['مهندسی هوش مصنوعی،', 'برای محصولات واقعی.'],
     introduction:
-      'سیستم‌های امن و تحت حاکمیت هوش مصنوعی را برای محصولات وب و موبایل طراحی می‌کنیم؛ از هماهنگی روی دستگاه تا خدمات متصل به ابر و معماری پیرامون آن.',
-    connected: 'سیستم‌های امن و تحت حاکمیت برای وب و موبایل',
+      'قابلیت‌های هوش مصنوعی و محصولات وب و موبایل می‌سازیم و محل پردازش را بر پایهٔ کاربرد انتخاب می‌کنیم.',
+    connected: 'وب، موبایل و خدمات متصل',
     architecture: '۰۱ / معماری محصول هوش مصنوعی',
     structureFlowScale: 'روی دستگاه / وب / موبایل / ابر',
     foundationEyebrow: 'هوش مصنوعی با جای‌گذاری سنجیده',
     foundationHeading: ['روی دستگاه، هرجا مناسب است.', 'متصل، هرجا سودمند است.'],
     foundationDescription:
-      'قابلیت‌های هوش مصنوعی را بر پایه نیاز محصول معماری می‌کنیم: استنتاج روی دستگاه، مرزهای روشن داده، کنترل‌های سیاستی و هماهنگی خدمات وب و موبایل. خدمات ابری هرجا ارزش بیفزایند، به سیستم می‌پیوندند.',
-    principles: ['استنتاج روی دستگاه', 'جریان داده تحت حاکمیت', 'اتصال اختیاری به ابر'],
-    architectureTagline: 'هماهنگی با توجه به حریم خصوصی',
-    architectureStatus: 'هوش مصنوعی / وب / موبایل / حاکمیت',
+      'محل اجرای قابلیت هوش مصنوعی را بر پایهٔ هدف و اطلاعات مورد نیاز آن انتخاب می‌کنیم. بعضی کارها روی دستگاه انجام می‌شوند و بعضی دیگر ممکن است به خدمت ابری نیاز داشته باشند.',
+    exampleLabel: 'نمونه‌ای از کاربرد محصول',
+    example:
+      'برای نمونه، یک برنامهٔ یادداشت می‌تواند یادداشت را روی دستگاه خلاصه کند، بی‌آن‌که آن را به سرور بفرستد.',
+    principles: ['هوش مصنوعی روی دستگاه، هرجا مناسب است', 'مرزهای روشن خدمات', 'خدمات ابری، هرجا مفید است'],
+    architectureTagline: 'پردازش را بر پایهٔ وظیفه انتخاب کنید',
+    architectureStatus: 'هوش مصنوعی / وب / موبایل / ابر',
     moreCapabilities: 'راه‌های بیشتر برای مهندسی ارزش',
     capabilityLabel: 'توانایی‌ها',
-    transition: 'هوش مصنوعی در هسته؛ مهندسی در سراسر محصول.',
+    transition: 'فناوری محصول را بر پایهٔ کاری که باید انجام دهد انتخاب کنید.',
     built: 'با هدف مهندسی‌شده',
     cards: [
       {
         eyebrow: 'مهندسی هوش مصنوعی',
-        title: 'هماهنگی هوش مصنوعی در نزدیکی کاربر.',
+        title: 'هوش مصنوعی در جای مناسب.',
         description:
-          'استنتاج روی دستگاه و تجربه‌های هوش مصنوعی در وب و موبایل را با مرزهای روشن داده، کنترل‌های سیاستی و رابط‌های هماهنگ خدمات برنامه‌ریزی می‌کنیم.',
+          'قابلیت‌های هوش مصنوعی را برای پردازش روی دستگاه یا ابر برنامه‌ریزی می‌کنیم و مسیر داده را برای هر محصول برمی‌گزینیم.',
       },
       {
         eyebrow: 'محصولات وب و موبایل',
-        title: 'محصولات دیجیتال قابل اعتماد بسازید.',
+        title: 'محصولات وب و موبایل بسازید.',
         description:
-          'محصولات امن وب و موبایل را با معماری نگهداشت‌پذیر، یکپارچه‌سازی روشن و خدمات ابری قابل اعتماد مهندسی می‌کنیم.',
+          'وب‌سایت‌ها و اپلیکیشن‌های موبایل را با مرزهای روشن خدمات و یکپارچه‌سازی‌های مورد نیاز می‌سازیم.',
       },
       {
         eyebrow: 'بلاک‌چین و یکپارچه‌سازی',
-        title: 'سیستم‌های توزیع‌شده را سنجیده پیوند دهید.',
+        title: 'سیستم‌های بلاک‌چین و فناوری مالی را پیوند دهید.',
         description:
-          'از محصولات بلاک‌چین و فناوری مالی با مرزهای امن API، یکپارچه‌سازی قراردادهای هوشمند و کنترل‌های عملیاتی سنجیده پشتیبانی می‌کنیم.',
+          'از محصولات بلاک‌چین و فناوری مالی با یکپارچه‌سازی API و قراردادهای هوشمند پشتیبانی می‌کنیم.',
       },
     ],
   },
@@ -140,39 +146,42 @@ const translations = {
     sectionLabel: '۰۴ / تخنیکي وړتیاوې',
     heading: ['د مصنوعي ځیرکتیا انجینري،', 'د محصولاتو لپاره.'],
     introduction:
-      'موږ د وېب او موبایل محصولاتو لپاره خوندي او د اصولو له مخې اداره کېدونکي د مصنوعي ځیرکتیا سیسټمونه طرحه کوو؛ له وسیلې دننه همغږۍ تر کلاوډ خدمتونو او شاوخوا جوړښت پورې.',
-    connected: 'د وېب او موبایل لپاره خوندي، اداره شوي سیسټمونه',
+      'موږ د ځیرکتیا ځانګړنې او وېب او موبایل محصولات جوړوو او پروسس د کارونې له مخې ټاکو.',
+    connected: 'وېب، موبایل او نښلول شوي خدمتونه',
     architecture: '۰۱ / د ځیرک محصول جوړښت',
     structureFlowScale: 'پر وسیله / وېب / موبایل / کلاوډ',
     foundationEyebrow: 'ځیرکتیا په مناسب ځای کې',
     foundationHeading: ['پر وسیله، چې مناسب وي.', 'نښلول شوې، چې ګټوره وي.'],
     foundationDescription:
-      'د محصول د اړتیاوو له مخې د مصنوعي ځیرکتیا ځانګړنې جوړوو: پر وسیله استنتاج، د معلوماتو روښانه پولې، د تګلارو کنټرولونه او همغږي شوي وېب او موبایل خدمتونه. کلاوډ خدمتونه هغه وخت ورګډېږي چې ارزښت زیات کړي.',
-    principles: ['پر وسیله استنتاج', 'د معلوماتو اداره شوی بهیر', 'د اړتیا پر مهال کلاوډ'],
-    architectureTagline: 'د محرمیت په پام کې نیولو سره همغږي',
-    architectureStatus: 'ځیرکتیا / وېب / موبایل / حاکمیت',
+      'د ځیرکتیا د ځانګړنې ځای د هغې د موخې او اړینو معلوماتو له مخې ټاکو. ځینې کارونه پر وسیله کېدای شي او نور ښايي کلاوډ خدمت وکاروي.',
+    exampleLabel: 'د محصول یوه بېلګه',
+    example:
+      'د بېلګې په توګه، د یادښتونو اپلېکېشن کولی شي یادښت پر وسیله لنډ کړي، پرته له دې چې سرور ته یې ولېږي.',
+    principles: ['پر وسیله ځیرکتیا، چې مناسبه وي', 'د خدمتونو روښانه پولې', 'کلاوډ خدمتونه، چې ګټور وي'],
+    architectureTagline: 'پروسس د دندې له مخې وټاکئ',
+    architectureStatus: 'ځیرکتیا / وېب / موبایل / کلاوډ',
     moreCapabilities: 'د ارزښت د جوړولو نورې لارې',
     capabilityLabel: 'وړتیاوې',
-    transition: 'ځیرکتیا په هسته کې؛ د محصول په ټولو برخو کې انجینري.',
+    transition: 'د محصول ټکنالوژي د هغه د اړتیا له مخې وټاکئ.',
     built: 'په موخه انجینري شوی',
     cards: [
       {
         eyebrow: 'د مصنوعي ځیرکتیا انجینري',
-        title: 'کارن ته نږدې د ځیرکتیا همغږي.',
+        title: 'ځیرکتیا په مناسب ځای کې.',
         description:
-          'پر وسیله استنتاج او د وېب او موبایل ځیرکې تجربې د معلوماتو په روښانه پولو، د تګلارو کنټرولونو او همغږي شويو خدمتونو طرحه کوو.',
+          'د ځیرکتیا ځانګړنې پر وسیله یا کلاوډ د پروسس لپاره پلان کوو او د هر محصول لپاره د معلوماتو لاره ټاکو.',
       },
       {
         eyebrow: 'وېب او موبایل محصولات',
-        title: 'باوري ډیجیټلي محصولات جوړ کړئ.',
+        title: 'وېب او موبایل محصولات جوړ کړئ.',
         description:
-          'خوندي وېب او موبایل محصولات د ساتنې وړ جوړښت، روښانه نښلونې او باوري کلاوډ خدمتونو سره انجینري کوو.',
+          'وېبپاڼې او موبایل اپلېکېشنونه د خدمتونو په روښانه پولو او اړینو نښلونې سره جوړوو.',
       },
       {
         eyebrow: 'بلاکچېن او نښلونې',
-        title: 'وېشل شوي سیسټمونه په پام کې ونښلوئ.',
+        title: 'بلاکچېن او مالي سیسټمونه ونښلوئ.',
         description:
-          'د بلاکچېن او مالي ټکنالوژۍ د محصولاتو ملاتړ د خوندي API پولو، سمارټ قراردادونو د نښلولو او سنجول شويو عملیاتي کنټرولونو له لارې کوو.',
+          'د بلاکچېن او مالي ټکنالوژۍ د محصولاتو ملاتړ د API او سمارټ قراردادونو د نښلولو له لارې کوو.',
       },
     ],
   },
@@ -188,6 +197,8 @@ const translations = {
     foundationEyebrow: string;
     foundationHeading: [string, string];
     foundationDescription: string;
+    exampleLabel: string;
+    example: string;
     principles: string[];
     architectureTagline: string;
     architectureStatus: string;
@@ -518,6 +529,13 @@ export default function CapabilitiesSection({
 
               <p className="mt-5 max-w-lg text-sm leading-7 text-slate-400 sm:leading-8">
                 {copy.foundationDescription}
+              </p>
+
+              <p className="mt-4 max-w-lg border-s-2 border-[#28D9A0]/45 bg-white/[0.025] px-3 py-2.5 text-xs leading-6 text-slate-300 sm:text-[13px]">
+                <span className="mb-1 block font-semibold text-[#28D9A0]">
+                  {copy.exampleLabel}
+                </span>
+                {copy.example}
               </p>
 
               <ul

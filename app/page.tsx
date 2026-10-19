@@ -47,7 +47,6 @@ import {
 import type { LucideIcon } from 'lucide-react';
 import SiteNavbar from "@/components/site-navbar";
 import ComputerScene from "@/components/ComputerScene";
-import SplitText from "@/components/SplitText";
 import LaserFlow from "@/components/LaserFlow";
 import EngineeringSection from '@/components/EngineeringSection';
 import CapabilitiesSection from '@/components/capabilities/CapabilitiesSection';
@@ -306,15 +305,15 @@ const heroTranslations: Record<
   }
 > = {
   en: {
-    eyebrow: 'Enterprise AI engineering for web and mobile',
-    headline: ['AI, engineered for', 'web, mobile & on-device.'],
+    eyebrow: 'Software and AI for web and mobile',
+    headline: ['Software and AI for', 'web, mobile & devices.'],
     description:
-      'We engineer secure, governed AI into web and mobile products—from on-device inference and orchestration to cloud-connected services.',
+      'We build digital products and add practical AI features for web and mobile, choosing on-device or cloud processing to fit the task.',
     startProject: 'Start a project',
     exploreServices: 'Explore our services',
     buildHeading: 'AI for real products',
     capabilities: ['AI Engineering', 'On-Device AI', 'Web & Mobile'],
-    signature: 'Secure by design. Useful at scale.',
+    signature: 'AI engineering · web & mobile · product support',
     engineering: 'Engineering',
     engineeringTagline: 'AI across web, mobile & device',
     systemsOnline: 'Systems online',
@@ -322,15 +321,15 @@ const heroTranslations: Record<
     workflow: ['Design', 'Build', 'Evolve'],
   },
   'fa-AF': {
-    eyebrow: 'مهندسی هوش مصنوعی برای وب و موبایل',
-    headline: ['مهندسی هوش مصنوعی', 'برای وب، موبایل و دستگاه'],
+    eyebrow: 'نرم‌افزار و هوش مصنوعی برای وب و موبایل',
+    headline: ['نرم‌افزار و هوش مصنوعی', 'برای وب، موبایل و دستگاه'],
     description:
-      'هوش مصنوعی امن و قابل‌کنترول را در محصولات وب و موبایل ادغام می‌کنیم؛ از استنتاج و هماهنگی روی دستگاه تا خدمات متصل به ابر.',
+      'محصولات دیجیتال می‌سازیم و قابلیت‌های کاربردی هوش مصنوعی را به وب و موبایل می‌افزاییم؛ پردازش روی دستگاه یا ابر را بر پایهٔ نیاز انتخاب می‌کنیم.',
     startProject: 'آغاز یک پروژه',
     exploreServices: 'دیدن خدمات ما',
     buildHeading: 'هوش مصنوعی برای محصولات واقعی',
     capabilities: ['مهندسی هوش مصنوعی', 'هوش مصنوعی روی دستگاه', 'وب و موبایل'],
-    signature: 'امنیت از طراحی آغاز می‌شود؛ هوشمندی در خدمت محصول.',
+    signature: 'مهندسی هوش مصنوعی · وب و موبایل · پشتیبانی محصول',
     engineering: 'انجنیری',
     engineeringTagline: 'هوش مصنوعی در وب، موبایل و دستگاه',
     systemsOnline: 'سیستم‌ها فعال‌اند',
@@ -338,15 +337,15 @@ const heroTranslations: Record<
     workflow: ['طراحی', 'ساخت', 'پیشرفت'],
   },
   ps: {
-    eyebrow: 'د وېب او موبایل لپاره د مصنوعي ځیرکتیا انجینري',
-    headline: ['د مصنوعي ځیرکتیا انجینري', 'د وېب، موبایل او وسیلې لپاره'],
+    eyebrow: 'د وېب او موبایل لپاره سافټویر او ځیرکتیا',
+    headline: ['سافټویر او ځیرکتیا', 'د وېب، موبایل او وسیلې لپاره'],
     description:
-      'موږ خوندي او د اصولو له مخې اداره کېدونکې مصنوعي ځیرکتیا د وېب او موبایل محصولاتو کې ورګډوو؛ له پر وسیله استنتاج او همغږۍ څخه تر کلاوډ سره نښلول شویو خدمتونو پورې.',
+      'موږ ډیجیټلي محصولات جوړوو او د وېب او موبایل لپاره ګټورې ځیرکې ځانګړنې ورزیاتوو؛ د اړتیا له مخې پر وسیله یا کلاوډ کې پروسس ټاکو.',
     startProject: 'یوه پروژه پیل کړئ',
     exploreServices: 'زموږ خدمتونه وګورئ',
     buildHeading: 'د واقعي محصولاتو لپاره مصنوعي ځیرکتیا',
     capabilities: ['د مصنوعي ځیرکتیا انجینري', 'پر وسیله مصنوعي ځیرکتیا', 'وېب او موبایل'],
-    signature: 'امنیت په طرحه کې؛ هوښیارتیا د محصول لپاره.',
+    signature: 'د ځیرکتیا انجینري · وېب او موبایل · د محصول ملاتړ',
     engineering: 'انجینري',
     engineeringTagline: 'په وېب، موبایل او وسیله کې مصنوعي ځیرکتیا',
     systemsOnline: 'سیسټمونه فعال دي',
@@ -374,135 +373,135 @@ const technologyTranslations: Record<
   }
 > = {
   en: {
-    eyebrow: 'Enterprise AI Engineering',
-    heading: ['AI for', 'products,', 'from device', 'to cloud.'],
+    eyebrow: 'Software & AI engineering',
+    heading: ['Software for', 'real products,', 'from device', 'to cloud.'],
     description:
-      'We build secure, governed AI into web and mobile products, coordinating on-device inference with cloud services, integrations, and the controls production systems need.',
+      'We build AI features, web and mobile products, and connected services. The right setup depends on the product and how people will use it.',
     cards: [
       {
         label: 'AI engineering',
-        title: 'On-Device AI & Product Orchestration',
+        title: 'AI features, placed where they fit',
         description:
-          'Design AI features for web and mobile products, with on-device inference, deliberate orchestration, and cloud-connected options where they fit.',
-        tags: ['On-Device Inference', 'AI Orchestration', 'Governance'],
-        footer: 'Intelligence, thoughtfully placed',
+          'Plan AI features for web and mobile, using on-device or cloud processing based on the job.',
+        tags: ['On-device AI', 'Cloud AI', 'Product workflows'],
+        footer: 'Choose a useful place for processing.',
       },
       {
         label: 'Product engineering',
-        title: 'Secure Web & Mobile Platforms',
+        title: 'Web and mobile products',
         description:
-          'Engineer dependable web and mobile experiences with clear service boundaries, secure integrations, and architecture designed to evolve.',
-        tags: ['Web Platforms', 'Mobile Apps', 'Secure APIs', 'Cloud Services'],
-        footer: 'Designed for real-world use',
+          'Build websites, mobile apps, and the services they rely on with clear APIs and maintainable architecture.',
+        tags: ['Web apps', 'Mobile apps', 'APIs', 'Product services'],
+        footer: 'Connect the parts people use.',
       },
       {
-        label: 'Supporting capability',
-        title: 'Digital Operations & Product Support',
+        label: 'Product support',
+        title: 'Tools for product operations',
         description:
-          'Build the systems, automations, and operational support that keep complex digital products running smoothly as teams scale.',
-        tags: ['Business Systems', 'Automation', 'Operations'],
-        footer: 'Built to support scale',
+          'Add integrations and automation to help teams manage the everyday work around a digital product.',
+        tags: ['Business systems', 'Workflow automation', 'Operations'],
+        footer: 'Support day-to-day product work.',
       },
       {
-        label: 'Enterprise foundations',
-        title: 'Cloud, Security & System Governance',
+        label: 'Connected systems',
+        title: 'Cloud, security & integrations',
         description:
-          'Connect services with clear access boundaries, operational visibility, and resilient foundations built to support changing product needs.',
-        tags: ['Backend & APIs', 'Cloud Systems', 'Security Controls'],
-        footer: 'Governed to grow',
+          'Connect cloud services and APIs with clear access rules, deployment, and operational visibility.',
+        tags: ['Cloud services', 'Access controls', 'System integrations'],
+        footer: 'Keep system connections understandable.',
       },
     ],
-    footerHeading: 'AI at the core. Engineering across the stack.',
+    footerHeading: 'Practical AI. Thoughtful product engineering.',
     footerDescription:
-      'From on-device intelligence to cloud-connected platforms, we shape the architecture around your product and its operating needs.',
+      'We choose the parts that fit the product, from on-device processing to cloud services.',
     footerCta: 'Discuss your project',
   },
   'fa-AF': {
-    eyebrow: 'مهندسی سازمانی هوش مصنوعی',
-    heading: ['هوش مصنوعی', 'برای محصولات،', 'از دستگاه', 'تا ابر.'],
+    eyebrow: 'مهندسی نرم‌افزار و هوش مصنوعی',
+    heading: ['نرم‌افزار برای', 'محصولات واقعی،', 'از دستگاه', 'تا ابر.'],
     description:
-      'هوش مصنوعی امن و تحت حاکمیت را در محصولات وب و موبایل می‌سازیم؛ با هماهنگی استنتاج روی دستگاه، خدمات ابری، یکپارچه‌سازی‌ها و کنترل‌های لازم برای سیستم‌های تولیدی.',
+      'قابلیت‌های هوش مصنوعی، محصولات وب و موبایل و خدمات متصل می‌سازیم. ساختار مناسب به محصول و شیوهٔ استفادهٔ مردم بستگی دارد.',
     cards: [
       {
         label: 'مهندسی هوش مصنوعی',
-        title: 'هوش مصنوعی روی دستگاه و هماهنگی محصول',
+        title: 'قابلیت‌های هوش مصنوعی در جای مناسب',
         description:
-          'قابلیت‌های هوش مصنوعی را برای محصولات وب و موبایل طراحی می‌کنیم؛ با استنتاج روی دستگاه، هماهنگی سنجیده و گزینه‌های متصل به ابر در جای مناسب.',
-        tags: ['استنتاج روی دستگاه', 'هماهنگی هوش مصنوعی', 'حاکمیت'],
-        footer: 'هوشمندی با جای‌گذاری سنجیده',
+          'قابلیت‌های هوش مصنوعی را برای وب و موبایل برنامه‌ریزی می‌کنیم و پردازش روی دستگاه یا ابر را بر پایهٔ وظیفه انتخاب می‌کنیم.',
+        tags: ['هوش مصنوعی روی دستگاه', 'هوش مصنوعی ابری', 'جریان کار محصول'],
+        footer: 'جای مناسب برای پردازش را انتخاب کنید.',
       },
       {
         label: 'مهندسی محصول',
-        title: 'پلتفرم‌های امن وب و موبایل',
+        title: 'محصولات وب و موبایل',
         description:
-          'تجربه‌های قابل اعتماد وب و موبایل را با مرزهای روشن خدمات، یکپارچه‌سازی امن و معماری تکامل‌پذیر مهندسی می‌کنیم.',
-        tags: ['پلتفرم‌های وب', 'اپلیکیشن‌های موبایل', 'APIهای امن', 'خدمات ابری'],
-        footer: 'طراحی‌شده برای کاربرد واقعی',
+          'وب‌سایت‌ها، اپلیکیشن‌های موبایل و خدمات مورد نیاز آن‌ها را با APIهای روشن و معماری نگهداشت‌پذیر می‌سازیم.',
+        tags: ['اپلیکیشن وب', 'اپلیکیشن موبایل', 'APIها', 'خدمات محصول'],
+        footer: 'بخش‌هایی را که مردم استفاده می‌کنند پیوند دهید.',
       },
       {
-        label: 'توانایی مکمل',
-        title: 'بلاک‌چین و فناوری مالی',
+        label: 'پشتیبانی محصول',
+        title: 'ابزارهای عملیات محصول',
         description:
-          'نرم‌افزارهای پیوسته بلاک‌چین و فناوری مالی را با توجه به قراردادهای هوشمند، یکپارچه‌سازی، امنیت و نیازهای عملیاتی می‌سازیم.',
-        tags: ['بلاک‌چین', 'قراردادهای هوشمند', 'فناوری مالی'],
-        footer: 'پیوستگی در طراحی',
+          'یکپارچه‌سازی و خودکارسازی را برای کمک به تیم‌ها در کارهای روزمرهٔ پیرامون یک محصول دیجیتال می‌افزاییم.',
+        tags: ['سیستم‌های تجاری', 'خودکارسازی کارها', 'عملیات'],
+        footer: 'از کار روزمرهٔ محصول پشتیبانی کنید.',
       },
       {
-        label: 'پایه‌های سازمانی',
-        title: 'ابر، امنیت و حاکمیت سیستم',
+        label: 'سیستم‌های متصل',
+        title: 'ابر، امنیت و یکپارچه‌سازی',
         description:
-          'خدمات را با مرزهای روشن دسترسی، دید عملیاتی و پایه‌های پایدار برای نیازهای در حال تغییر محصول به‌هم وصل می‌کنیم.',
-        tags: ['بخش پشتی و APIها', 'سیستم‌های ابری', 'کنترول‌های امنیتی'],
-        footer: 'حاکمیت برای رشد',
+          'خدمات ابری و APIها را با قواعد روشن دسترسی، استقرار و دید عملیاتی پیوند می‌دهیم.',
+        tags: ['خدمات ابری', 'کنترول دسترسی', 'یکپارچه‌سازی سیستم'],
+        footer: 'ارتباط میان سیستم‌ها را روشن نگه دارید.',
       },
     ],
-    footerHeading: 'هوش مصنوعی در هسته؛ مهندسی در سراسر پشته.',
+    footerHeading: 'هوش مصنوعی کاربردی؛ مهندسی سنجیدهٔ محصول.',
     footerDescription:
-      'از هوشمندی روی دستگاه تا پلتفرم‌های متصل به ابر، معماری را بر پایه محصول و نیازهای عملیاتی آن شکل می‌دهیم.',
+      'بخش‌های مناسب برای هر محصول را انتخاب می‌کنیم؛ از پردازش روی دستگاه تا خدمات ابری.',
     footerCta: 'درباره پروژه‌تان گفت‌وگو کنیم',
   },
   ps: {
-    eyebrow: 'د تصدۍ کچې مصنوعي ځیرکتیا انجینري',
-    heading: ['مصنوعي ځیرکتیا', 'د محصولاتو لپاره،', 'له وسیلې', 'تر کلاوډ پورې.'],
+    eyebrow: 'د سافټویر او مصنوعي ځیرکتیا انجینري',
+    heading: ['د واقعي محصولاتو', 'لپاره سافټویر،', 'له وسیلې', 'تر کلاوډ پورې.'],
     description:
-      'موږ خوندي او د اصولو له مخې اداره کېدونکې مصنوعي ځیرکتیا د وېب او موبایل محصولاتو کې جوړوو؛ د وسیلې دننه استنتاج، کلاوډ خدمتونه، نښلونې او د تولیدي سیسټمونو اړین کنټرولونه همغږي کوو.',
+      'موږ د ځیرکتیا ځانګړنې، وېب او موبایل محصولات او نښلول شوي خدمتونه جوړوو. مناسب جوړښت د محصول او د خلکو د کارونې له طریقې سره تړاو لري.',
     cards: [
       {
         label: 'د مصنوعي ځیرکتیا انجینري',
-        title: 'پر وسیله مصنوعي ځیرکتیا او د محصول همغږي',
+        title: 'د ځیرکتیا ځانګړنې په مناسب ځای کې',
         description:
-          'د وېب او موبایل محصولاتو لپاره د مصنوعي ځیرکتیا ځانګړنې طرحه کوو؛ د وسیلې دننه استنتاج، سنجول شوې همغږي او د اړتیا پر مهال له کلاوډ سره نښلېدونکي انتخابونه.',
-        tags: ['د وسیلې دننه استنتاج', 'د ځیرکتیا همغږي', 'حاکمیت'],
-        footer: 'ځیرکتیا په سنجول شوي ځای کې',
+          'د وېب او موبایل لپاره د ځیرکتیا ځانګړنې پلان کوو او د دندې له مخې پر وسیله یا کلاوډ پروسس ټاکو.',
+        tags: ['پر وسیله ځیرکتیا', 'کلاوډ ځیرکتیا', 'د محصول کاري بهیر'],
+        footer: 'د پروسس لپاره مناسب ځای وټاکئ.',
       },
       {
         label: 'د محصول انجینري',
-        title: 'خوندي وېب او موبایل پلېټفارمونه',
+        title: 'وېب او موبایل محصولات',
         description:
-          'د روښانه خدمت‌پولو، خوندي نښلونې او د ودې وړ جوړښت په مټ باوري وېب او موبایل تجربې انجینري کوو.',
-        tags: ['وېب پلېټفارمونه', 'موبایل اپلېکېشنونه', 'خوندي APIګانې', 'کلاوډ خدمتونه'],
-        footer: 'د واقعي کارونې لپاره طرحه شوی',
+          'وېبپاڼې، موبایل اپلېکېشنونه او اړوند خدمتونه د روښانه APIګانو او د ساتنې وړ جوړښت سره جوړوو.',
+        tags: ['وېب اپلېکېشنونه', 'موبایل اپلېکېشنونه', 'APIګانې', 'د محصول خدمتونه'],
+        footer: 'هغه برخې ونښلوئ چې خلک یې کاروي.',
       },
       {
-        label: 'ملاتړې وړتیا',
-        title: 'بلاکچېن او مالي ټکنالوژي',
+        label: 'د محصول ملاتړ',
+        title: 'د محصول د عملیاتو وسایل',
         description:
-          'د سمارټ قراردادونو، نښلونې، امنیت او عملیاتي اړتیاوو په پام کې نیولو سره تړلی بلاکچېن او مالي سافټویر جوړوو.',
-        tags: ['بلاکچېن', 'سمارټ قراردادونه', 'مالي ټکنالوژي'],
-        footer: 'له پیله نښلول شوی',
+          'د ډیجیټلي محصول د ورځنیو کارونو لپاره د ټیمونو په مرسته نښلونې او اتومات بهیرونه ورزیاتوو.',
+        tags: ['سوداګریز سیسټمونه', 'د کاري بهیر اتومات', 'عملیات'],
+        footer: 'د محصول د ورځني کار ملاتړ وکړئ.',
       },
       {
-        label: 'د تصدۍ بنسټونه',
-        title: 'کلاوډ، امنیت او د سیسټم حاکمیت',
+        label: 'نښلول شوي سیسټمونه',
+        title: 'کلاوډ، امنیت او نښلونې',
         description:
-          'خدمتونه د لاسرسي په روښانه پولو، عملیاتي لید او پیاوړو بنسټونو نښلوو، څو د محصول له بدلېدونکو اړتیاوو سره مرسته وکړي.',
-        tags: ['شاتني سیسټمونه او APIګانې', 'کلاوډ سیسټمونه', 'امنیتي کنټرولونه'],
-        footer: 'د ودې لپاره اداره شوی',
+          'کلاوډ خدمتونه او APIګانې د لاسرسي، خپرولو او عملیاتي لید په روښانه اصولو سره نښلوو.',
+        tags: ['کلاوډ خدمتونه', 'د لاسرسي کنټرول', 'د سیسټم نښلونې'],
+        footer: 'د سیسټمونو اړیکې روښانه وساتئ.',
       },
     ],
-    footerHeading: 'ځیرکتیا په هسته کې؛ په ټول سافټویر کې انجینري.',
+    footerHeading: 'ګټوره ځیرکتیا؛ د محصول سنجول شوې انجینري.',
     footerDescription:
-      'له وسیلې دننه ځیرکتیا څخه تر کلاوډ سره نښلول شویو پلېټفارمونو پورې، جوړښت ستاسو د محصول او عملیاتي اړتیاوو له مخې طرحه کوو.',
+      'د هر محصول لپاره مناسبې برخې ټاکو؛ له پر وسیله پروسس څخه تر کلاوډ خدمتونو پورې.',
     footerCta: 'د خپلې پروژې په اړه خبرې وکړئ',
   },
 };
@@ -3586,23 +3585,13 @@ useLayoutEffect(() => {
           className="h-1.5 w-1.5 shrink-0 rounded-full bg-[#28D9A0] shadow-[0_0_10px_rgba(40,217,160,0.35)]"
         />
 
-        <SplitText
-          key={`hero-eyebrow-${heroLanguage}`}
-          text={heroText.eyebrow}
-          tag="span"
+        <span
           className={`text-[10px] font-semibold text-[#A9B8CB] sm:text-[11px] ${
             isHeroRtl ? "" : "uppercase tracking-[0.16em] sm:tracking-[0.2em]"
           }`}
-          splitType={isHeroRtl ? "none" : "words"}
-          hideUntilReady
-          delay={25}
-          duration={0.45}
-          from={{ opacity: 0, y: 7 }}
-          to={{ opacity: 1, y: 0 }}
-          threshold={0}
-          rootMargin="0px"
-          textAlign={isHeroRtl ? "right" : "left"}
-        />
+        >
+          {heroText.eyebrow}
+        </span>
 
         <span
           aria-hidden="true"
@@ -3619,59 +3608,18 @@ useLayoutEffect(() => {
             : "text-left text-[clamp(1.75rem,7.5vw,3rem)] tracking-[-0.03em]"
         }`}
       >
-        <SplitText
-          key={`hero-headline-first-${heroLanguage}`}
-          text={heroText.headline[0]}
-          tag="span"
-          className="block text-[#E3EAF3]"
-          splitType={isHeroRtl ? "none" : "words"}
-          hideUntilReady
-          delay={35}
-          duration={0.48}
-          from={{ opacity: 0, y: 10 }}
-          to={{ opacity: 1, y: 0 }}
-          threshold={0}
-          rootMargin="0px"
-          textAlign={isHeroRtl ? "right" : "left"}
-        />
-
-        <SplitText
-          key={`hero-headline-second-${heroLanguage}`}
-          text={heroText.headline[1]}
-          tag="span"
-          className="hero-gradient-text block"
-          splitType={isHeroRtl ? "none" : "words"}
-          hideUntilReady
-          delay={35}
-          duration={0.48}
-          startDelay={100}
-          from={{ opacity: 0, y: 10 }}
-          to={{ opacity: 1, y: 0 }}
-          threshold={0}
-          rootMargin="0px"
-          textAlign={isHeroRtl ? "right" : "left"}
-        />
+        <span className="block text-[#E3EAF3]">{heroText.headline[0]}</span>
+        <span className="hero-gradient-text block">{heroText.headline[1]}</span>
       </h1>
 
       {/* Supporting copy */}
-      <SplitText
-        key={`hero-description-${heroLanguage}`}
-        text={heroText.description}
-        tag="p"
+      <p
         className={`mt-6 max-w-[470px] text-[14px] leading-7 text-[#A9B7C8] sm:mt-7 sm:text-[15px] sm:leading-[1.9] ${
           isHeroRtl ? "font-normal" : ""
         }`}
-        splitType={isHeroRtl ? "none" : "words"}
-        hideUntilReady
-        delay={15}
-        startDelay={180}
-        duration={0.4}
-        from={{ opacity: 0, y: 6 }}
-        to={{ opacity: 1, y: 0 }}
-        threshold={0}
-        rootMargin="0px"
-        textAlign={isHeroRtl ? "right" : "left"}
-      />
+      >
+        {heroText.description}
+      </p>
 
       {/* PRIMARY AND SECONDARY ACTIONS */}
       <div className="mt-8 flex flex-col gap-3 min-[440px]:flex-row min-[440px]:flex-wrap min-[440px]:items-center sm:mt-9">
@@ -4158,16 +4106,6 @@ useLayoutEffect(() => {
                       {card.footer}
                     </span>
 
-                    <span
-                      aria-hidden="true"
-                      className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-white/[0.1] bg-white/[0.025] text-slate-300 transition-colors duration-300 group-hover:border-white/20 group-hover:text-white"
-                    >
-                      <ArrowUpRight
-                        className={`h-4 w-4 ${
-                          isHeroRtl ? "-scale-x-100" : ""
-                        }`}
-                      />
-                    </span>
                   </div>
                 </div>
               </div>

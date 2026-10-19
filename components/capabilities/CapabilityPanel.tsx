@@ -32,64 +32,61 @@ interface CapabilityPanelProps {
 
 const artworkCopy = {
   en: {
-    engineering: "On-device AI engineering for web and mobile products",
-    integration: "Governed cloud and blockchain integrations across services",
-    automation: "On-device AI orchestration with cloud-connected workflows",
+    engineering: "AI features for web and mobile products",
+    integration: "Cloud and API connections across application services",
+    automation: "Example flow from input through processing to output",
     components: "ON-DEVICE AI / WEB + MOBILE",
-    ready: "POLICY CONTROLS",
-    synchronized: "GOVERNED SERVICES / SYNCHRONIZED",
-    linked: "LINKED",
-    workflow: "AI ORCHESTRATION",
-    integrationLabel: "NETWORK / 02",
-    workflowLabel: "ORCHESTRATION / 03",
+    ready: "SERVICE BOUNDARIES",
+    synchronized: "SERVICE CONNECTIONS",
+    linked: "CONNECTED",
+    workflow: "PROCESSING FLOW",
+    integrationLabel: "SYSTEM LINKS / 02",
+    workflowLabel: "EXAMPLE FLOW / 03",
     inputLabel: "INPUT",
     logicLabel: "AI LOGIC",
     outputLabel: "OUTPUT",
     processing: "ON-DEVICE",
     inputInsightAction: "INPUT → ON-DEVICE AI → ACTION",
-    active: "POLICY READY",
-    engineered: "GOVERNED",
-    realWorld: "Secure, governed AI for products",
+    active: "PROCESSING",
+    engineered: "PRODUCT PATTERN",
   },
   "fa-AF": {
-    engineering: "مهندسی هوش مصنوعی روی دستگاه برای محصولات وب و موبایل",
-    integration: "یکپارچه‌سازی‌های تحت حاکمیت ابر و بلاک‌چین میان خدمات",
-    automation: "هماهنگی هوش مصنوعی روی دستگاه با روندهای متصل به ابر",
+    engineering: "قابلیت‌های هوش مصنوعی برای محصولات وب و موبایل",
+    integration: "اتصال ابر و API میان خدمات اپلیکیشن",
+    automation: "نمونه‌ای از جریان ورودی، پردازش و خروجی",
     components: "هوش مصنوعی روی دستگاه / وب و موبایل",
-    ready: "کنترول‌های سیاستی",
-    synchronized: "خدمات تحت حاکمیت / هماهنگ",
-    linked: "پیوسته",
-    workflow: "هماهنگی هوش مصنوعی",
-    integrationLabel: "شبکه / ۰۲",
-    workflowLabel: "هماهنگی / ۰۳",
+    ready: "مرزهای خدمات",
+    synchronized: "اتصال میان خدمات",
+    linked: "متصل",
+    workflow: "جریان پردازش",
+    integrationLabel: "پیوندهای سیستم / ۰۲",
+    workflowLabel: "نمونهٔ جریان / ۰۳",
     inputLabel: "ورودی",
     logicLabel: "منطق هوش مصنوعی",
     outputLabel: "خروجی",
     processing: "روی دستگاه",
     inputInsightAction: "ورودی ← هوش مصنوعی روی دستگاه ← اقدام",
-    active: "کنترول‌های سیاستی آماده",
-    engineered: "تحت حاکمیت",
-    realWorld: "هوش مصنوعی امن و تحت حاکمیت برای محصولات",
+    active: "در حال پردازش",
+    engineered: "الگوی محصول",
   },
   ps: {
-    engineering: "د وېب او موبایل محصولاتو لپاره د وسیلې دننه د ځیرکتیا انجینري",
-    integration: "د کلاوډ او بلاکچېن د اداره شویو خدمتونو نښلونې",
-    automation: "د کلاوډ له نښلول شويو کاري بهیرونو سره د وسیلې دننه همغږي",
+    engineering: "د وېب او موبایل محصولاتو لپاره د ځیرکتیا ځانګړنې",
+    integration: "د کلاوډ او API د اپلېکېشن خدمتونو نښلونې",
+    automation: "د ننوتنې، پروسس او پایلې د بهیر یوه بېلګه",
     components: "پر وسیله ځیرکتیا / وېب او موبایل",
-    ready: "د تګلارې کنټرولونه",
-    synchronized: "اداره شوي خدمتونه / همغږي",
+    ready: "د خدمتونو پولې",
+    synchronized: "د خدمتونو نښلونې",
     linked: "نښلول شوی",
-    workflow: "د مصنوعي ځیرکتیا همغږي",
-    integrationLabel: "شبکه / ۰۲",
-    workflowLabel: "همغږي / ۰۳",
+    workflow: "د پروسس بهیر",
+    integrationLabel: "د سیسټم اړیکې / ۰۲",
+    workflowLabel: "د بهیر بېلګه / ۰۳",
     inputLabel: "ننوتنه",
     logicLabel: "د ځیرکتیا منطق",
     outputLabel: "وتنه",
     processing: "پر وسیله",
     inputInsightAction: "ننوتنه ← پر وسیله ځیرکتیا ← عمل",
-    active: "تګلاره چمتو ده",
-    engineered: "اداره شوی",
-    realWorld: "د محصولاتو لپاره خوندي او اداره شوې ځیرکتیا",
+    active: "پروسس",
+    engineered: "د محصول بېلګه",
   },
 } satisfies Record<SiteLanguage, Record<string, string>>;
 
@@ -300,7 +297,7 @@ function EngineeringVisual({
             <span className="h-1.5 w-1.5 rounded-full bg-emerald-300/70" />
           </div>
 
-          <span className="font-mono text-[8px] text-slate-500">
+          <span dir="ltr" className="font-mono text-[8px] text-slate-500">
             system.ts
           </span>
 
@@ -888,19 +885,6 @@ export default function CapabilityPanel({
             {description}
           </p>
 
-          {/* Informational footer, not a fake navigation affordance */}
-          <div
-            className={`mt-5 flex items-center gap-2 border-t border-white/[0.08] pt-4 text-[9px] text-slate-500 sm:mt-6 ${
-              isRtl ? "flex-row-reverse" : ""
-            }`}
-          >
-            <span
-              className="h-1.5 w-1.5 shrink-0 rounded-full"
-              style={{ background: accent }}
-            />
-
-            <span>{copy.realWorld}</span>
-          </div>
         </div>
       </article>
     </>

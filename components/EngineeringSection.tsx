@@ -1,6 +1,7 @@
 
 "use client";
 
+import { Component, useEffect, useRef, useState, type ReactNode } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import {
@@ -42,6 +43,7 @@ type EngineeringCopy = {
   architecture: string;
   designedToConnect: string;
   connectedComponents: string;
+  architectureAlternative: string;
 };
 
 const engineeringTranslations: Record<SiteLanguage, EngineeringCopy> = {
@@ -50,29 +52,31 @@ const engineeringTranslations: Record<SiteLanguage, EngineeringCopy> = {
     heading: ["Thoughtful by", "design.", "Engineered", "to scale."],
     description:
       "We turn ambitious ideas into dependable digital products through thoughtful architecture, connected systems, and engineering built around real-world needs.",
-    primaryCta: "Let's build something",
-    secondaryCta: "Explore our capabilities",
+    primaryCta: "Talk through a technical approach",
+    secondaryCta: "View the system architecture",
     capabilities: [
       {
         title: "Architecture first",
         description:
-          "Reliable foundations. Systems designed to grow with your ambitions.",
+          "Set service boundaries and data ownership before implementation starts.",
       },
       {
         title: "Connected by design",
         description:
-          "Applications, services, and data working as one coherent system.",
+          "Define API contracts so web and mobile clients use the same service rules.",
       },
       {
         title: "Technology with purpose",
         description:
-          "The right tools, solving real problems without unnecessary complexity.",
+          "Choose on-device or cloud processing to suit the task, not the trend.",
       },
     ],
     signature: "Clear thinking. Solid engineering.",
     architecture: "System architecture",
     designedToConnect: "Designed to connect",
     connectedComponents: "Connected components",
+    architectureAlternative:
+      "Conceptual software system diagram with connected modules around a central core.",
   },
 
   "fa-AF": {
@@ -80,29 +84,31 @@ const engineeringTranslations: Record<SiteLanguage, EngineeringCopy> = {
     heading: ["با اندیشه", "طراحی‌شده.", "مهندسی‌شده", "برای رشد."],
     description:
       "ایده‌های بزرگ را با معماری سنجیده، سیستم‌های پیوسته و مهندسی بر پایهٔ نیازهای واقعی به محصولات دیجیتال قابل‌اعتماد تبدیل می‌کنیم.",
-    primaryCta: "بیایید چیزی بسازیم",
-    secondaryCta: "توانمندی‌های ما را ببینید",
+    primaryCta: "دربارهٔ رویکرد فنی گفت‌وگو کنیم",
+    secondaryCta: "معماری سیستم را ببینید",
     capabilities: [
       {
         title: "معماری در اولویت",
         description:
-          "زیربناهای پایدار؛ سیستم‌هایی که همراه با آرزوهای شما رشد می‌کنند.",
+          "پیش از پیاده‌سازی، مرز خدمات و مالکیت داده را مشخص می‌کنیم.",
       },
       {
         title: "پیوند از آغاز طراحی",
         description:
-          "اپلیکیشن‌ها، خدمات و داده‌ها در قالب یک سیستم هماهنگ کار می‌کنند.",
+          "قراردادهای API را تعریف می‌کنیم تا نسخه‌های وب و موبایل از قواعد یکسان استفاده کنند.",
       },
       {
         title: "فناوری هدفمند",
         description:
-          "ابزارهای درست برای حل مسائل واقعی، بدون پیچیدگی غیرضروری.",
+          "پردازش روی دستگاه یا ابر را بر پایهٔ وظیفه انتخاب می‌کنیم، نه مُد روز.",
       },
     ],
     signature: "اندیشهٔ روشن. مهندسیِ استوار.",
     architecture: "معماری سیستم",
     designedToConnect: "طراحی‌شده برای پیوند",
     connectedComponents: "اجزای متصل",
+    architectureAlternative:
+      "نمای مفهومی سیستم نرم‌افزاری با ماژول‌های پیوسته در اطراف یک هسته.",
   },
 
   ps: {
@@ -110,33 +116,62 @@ const engineeringTranslations: Record<SiteLanguage, EngineeringCopy> = {
     heading: ["په پاملرنه طرحه", "شوې ده.", "د ودې لپاره", "انجینري شوې."],
     description:
       "لویې مفکورې د سنجول شوې معمارۍ، نښتو سیسټمونو او د واقعي اړتیاوو پر بنسټ انجینرۍ له لارې پر باوري ډیجیټلي محصولاتو بدلوو.",
-    primaryCta: "راځئ یو څه جوړ کړو",
-    secondaryCta: "زموږ وړتیاوې وګورئ",
+    primaryCta: "د تخنیکي لارې په اړه خبرې وکړو",
+    secondaryCta: "د سیسټم جوړښت وګورئ",
     capabilities: [
       {
         title: "معماري لومړی",
         description:
-          "باوري بنسټونه؛ داسې سیسټمونه چې ستاسو له هیلو سره وده کوي.",
+          "له پلي کولو مخکې د خدمتونو پولې او د معلوماتو مالکیت ټاکو.",
       },
       {
         title: "له ډیزاین سره نښلول",
         description:
-          "اپلېکېشنونه، خدمتونه او معلومات د یوه همغږي سیسټم په توګه کار کوي.",
+          "د API تړونونه ټاکو، څو وېب او موبایل یو شان خدمت اصول وکاروي.",
       },
       {
         title: "موخه‌لرونکې ټکنالوژي",
         description:
-          "د واقعي ستونزو د حل لپاره سمې وسیلې، بې له غیرضروري پېچلتیا.",
+          "د دندې له مخې پر وسیله یا کلاوډ پروسس ټاکو، نه د لنډمهاله دود له مخې.",
       },
     ],
     signature: "روښانه فکر. پیاوړې انجینري.",
     architecture: "د سیسټم معمارۍ",
     designedToConnect: "د نښلېدو لپاره طرحه شوی",
     connectedComponents: "نښتي برخې",
+    architectureAlternative:
+      "د سافټویر سیسټم مفهومي انځور چې ماډیولونه یې د مرکزي هستې شاوخوا نښتي دي.",
   },
 };
 
 const capabilityIcons = [Layers3, Workflow, Cpu];
+
+function EngineeringSceneFallback() {
+  return (
+    <div aria-hidden="true" className="absolute inset-0">
+      <div className="absolute left-1/2 top-1/2 h-44 w-44 -translate-x-1/2 -translate-y-1/2 rounded-full border border-[#6686A8]/20" />
+      <div className="absolute left-1/2 top-1/2 h-32 w-32 -translate-x-1/2 -translate-y-1/2 rounded-full border border-dashed border-[#28D9A0]/20" />
+      <div className="absolute left-1/2 top-1/2 h-10 w-10 -translate-x-1/2 -translate-y-1/2 border border-[#28D9A0]/40 bg-[#102847]/70" />
+      <div className="absolute left-[28%] top-[32%] h-2 w-2 rounded-full bg-[#60A5FA]" />
+      <div className="absolute right-[26%] bottom-[31%] h-2 w-2 rounded-full bg-[#28D9A0]" />
+    </div>
+  );
+}
+
+class EngineeringSceneBoundary extends Component<
+  { children: ReactNode },
+  { hasError: boolean }
+> {
+  state = { hasError: false };
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  render() {
+    return this.state.hasError ? <EngineeringSceneFallback /> : this.props.children;
+  }
+}
 
 export default function EngineeringSection({
   language,
@@ -145,6 +180,24 @@ export default function EngineeringSection({
 }) {
   const text = engineeringTranslations[language];
   const isRtl = language !== "en";
+  const sceneViewportRef = useRef<HTMLDivElement>(null);
+  const [sceneNearViewport, setSceneNearViewport] = useState(false);
+
+  useEffect(() => {
+    const element = sceneViewportRef.current;
+    if (!element) return;
+    if (!("IntersectionObserver" in window)) {
+      setSceneNearViewport(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setSceneNearViewport(entry.isIntersecting),
+      { rootMargin: "240px 0px", threshold: 0 },
+    );
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section
@@ -304,7 +357,7 @@ export default function EngineeringSection({
                 return (
                   <div
                     key={number}
-                    className="group flex items-start gap-3.5 border-b border-white/[0.08] py-4 transition-colors duration-300 hover:border-[#28D9A0]/25 sm:gap-4 sm:py-5"
+                    className="flex items-start gap-3.5 border-b border-white/[0.08] py-4 sm:gap-4 sm:py-5"
                   >
                     <span className="min-w-6 pt-1 font-mono text-[10px] tracking-wider text-[#71899F]">
                       {number}
@@ -329,13 +382,6 @@ export default function EngineeringSection({
                       </p>
                     </div>
 
-                    <ArrowRight
-                      size={14}
-                      aria-hidden="true"
-                      className={`mt-2 shrink-0 text-[#28D9A0] opacity-0 transition-[opacity,transform] duration-300 group-hover:translate-x-0.5 group-hover:opacity-100 ${
-                        isRtl ? "rotate-180" : ""
-                      }`}
-                    />
                   </div>
                 );
               })}
@@ -373,12 +419,23 @@ export default function EngineeringSection({
             />
 
             {/* SCENE */}
-            <div className="relative h-[350px] w-full sm:h-[440px] md:h-[500px] lg:h-[min(560px,52vw)] xl:h-[620px]">
-              <EngineeringScene />
+            <div
+              ref={sceneViewportRef}
+              role="img"
+              aria-label={text.architectureAlternative}
+              className="relative h-[350px] w-full sm:h-[440px] md:h-[500px] lg:h-[min(560px,52vw)] xl:h-[620px]"
+            >
+              {sceneNearViewport ? (
+                <EngineeringSceneBoundary>
+                  <EngineeringScene />
+                </EngineeringSceneBoundary>
+              ) : (
+                <EngineeringSceneFallback />
+              )}
             </div>
 
             {/* TOP TECHNICAL ANNOTATION */}
-            <div className="pointer-events-none absolute inset-x-2 top-3 flex items-start justify-between sm:inset-x-5 sm:top-5">
+            <div aria-hidden="true" className="pointer-events-none absolute inset-x-2 top-3 flex items-start justify-between sm:inset-x-5 sm:top-5">
               <div
                 className={`min-w-0 border-[#28D9A0]/45 ${
                   isRtl ? "border-r pr-3" : "border-l pl-3"
@@ -406,7 +463,7 @@ export default function EngineeringSection({
             </div>
 
             {/* BOTTOM STATUS */}
-            <div className="pointer-events-none absolute inset-x-2 bottom-3 flex items-center justify-between gap-3 border-t border-white/[0.09] pt-4 sm:inset-x-5 sm:bottom-5">
+            <div aria-hidden="true" className="pointer-events-none absolute inset-x-2 bottom-3 flex items-center justify-between gap-3 border-t border-white/[0.09] pt-4 sm:inset-x-5 sm:bottom-5">
               <div className="flex min-w-0 items-center gap-2.5">
                 <span className="relative flex h-2 w-2 shrink-0">
                   <span className="absolute inset-0 rounded-full bg-[#28D9A0]/35 motion-safe:animate-ping motion-reduce:animate-none" />
