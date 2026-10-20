@@ -1,7 +1,12 @@
 
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import {
+  useEffect,
+  useRef,
+  useState,
+  type PointerEvent as ReactPointerEvent,
+} from 'react';
 import {
   ArrowDownRight,
   ArrowUpRight,
