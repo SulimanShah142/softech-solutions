@@ -263,7 +263,7 @@ function EngineeringSystem({ reducedMotion }: { reducedMotion: boolean }) {
   );
 }
 
-export default function EngineeringScene() {
+export default function EngineeringScene({ onReady }: { onReady: () => void }) {
   const [reducedMotion, setReducedMotion] = useState(true);
 
   useEffect(() => {
@@ -279,9 +279,10 @@ export default function EngineeringScene() {
   return (
     <Canvas
       camera={{ position: [0, 0, 5.3], fov: 38 }}
-      dpr={[1, 1.5]}
+      dpr={typeof window === "undefined" || window.matchMedia("(max-width: 640px)").matches ? [1, 1.2] : [1, 1.5]}
       gl={{ alpha: true, antialias: true }}
       frameloop={reducedMotion ? "demand" : "always"}
+      onCreated={onReady}
     >
       <ambientLight intensity={0.7} />
 

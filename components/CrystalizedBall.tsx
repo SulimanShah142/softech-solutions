@@ -1244,7 +1244,11 @@ const CrystalizedBall = ({
     const resize = () => {
       width = Math.max(1, container.clientWidth);
       height = Math.max(1, container.clientHeight);
-      renderer.dpr = Math.min(window.devicePixelRatio || 1, 2, Math.sqrt(PIXEL_BUDGET / (width * height)));
+      const deviceDpr = Math.min(
+        window.devicePixelRatio || 1,
+        window.matchMedia("(max-width: 640px)").matches ? 1.35 : 1.75,
+      );
+      renderer.dpr = Math.min(deviceDpr, Math.sqrt(PIXEL_BUDGET / (width * height)));
       renderer.setSize(width, height);
       sceneTarget.setSize(gl.canvas.width, gl.canvas.height);
       start();
@@ -1449,7 +1453,7 @@ const CrystalizedBall = ({
     };
 
     const start = () => {
-      if (raf || !visible || !alive) return;
+      if (raf || !visible || !alive || document.hidden) return;
       last = performance.now();
       raf = requestAnimationFrame(frame);
     };
@@ -1506,7 +1510,12 @@ const CrystalizedBall = ({
     };
 
     const onVisibility = () => {
-      if (!document.hidden) start();
+      if (document.hidden) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+        return;
+      }
+      start();
     };
 
     window.addEventListener('pointermove', onPointerMove, { passive: true });

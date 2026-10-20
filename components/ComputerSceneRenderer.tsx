@@ -4,7 +4,8 @@ import { Canvas } from "@react-three/fiber";
 import { Float, Line, OrbitControls, RoundedBox } from "@react-three/drei";
 import type { OrbitControls as OrbitControlsImpl } from "three-stdlib";
 import * as THREE from "three";
-import type { RefObject } from "react";
+import { useRef, type RefObject } from "react";
+import { useFrame } from "@react-three/fiber";
 import type { SceneMode } from "./ComputerScene";
 
 const colors = {
@@ -21,6 +22,18 @@ const layers = [
 ] as const;
 
 const modulePositions = [-1.42, 0, 1.42] as const;
+
+function FirstRenderedFrame({ onReady }: { onReady: () => void }) {
+  const hasRendered = useRef(false);
+
+  useFrame(() => {
+    if (hasRendered.current) return;
+    hasRendered.current = true;
+    onReady();
+  });
+
+  return null;
+}
 
 function ArchitectureModel({ mode, reducedMotion }: {
   mode: SceneMode;
@@ -117,10 +130,12 @@ export default function ComputerSceneRenderer({
   mode,
   reducedMotion,
   controlsRef,
+  onReady,
 }: {
   mode: SceneMode;
   reducedMotion: boolean;
   controlsRef: RefObject<OrbitControlsImpl | null>;
+  onReady: () => void;
 }) {
   return (
     <Canvas
@@ -131,6 +146,7 @@ export default function ComputerSceneRenderer({
       onCreated={({ gl }) => {
         gl.setClearColor(colors.background, 0);
         gl.outputColorSpace = THREE.SRGBColorSpace;
+        onReady();
       }}
     >
       <ambientLight intensity={1.05} />
@@ -138,6 +154,7 @@ export default function ComputerSceneRenderer({
       <pointLight position={[-3, 1.5, 3]} intensity={5} distance={9} color={colors.blue} />
       <pointLight position={[3, -0.5, -1]} intensity={2.2} distance={7} color={colors.cyan} />
       <ArchitectureModel mode={mode} reducedMotion={reducedMotion} />
+      <FirstRenderedFrame onReady={onReady} />
       <OrbitControls
         ref={controlsRef}
         makeDefault
