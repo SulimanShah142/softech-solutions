@@ -36,8 +36,9 @@ const languages: Language[] = ["en", "fa-AF", "ps"];
 
 type Translation = {
   home: string;
-  work: string;
-  about: string;
+  technology: string;
+  "engineering-section": string;
+  "how-we-work": string;
   capabilities: string;
   contact: string;
   startProject: string;
@@ -53,8 +54,9 @@ type Translation = {
 const translations: Record<Language, Translation> = {
   en: {
     home: "Home",
-    work: "Work",
-    about: "About",
+    technology: "Technology",
+    "engineering-section": "Engineering",
+    "how-we-work": "How we work",
     capabilities: "Services",
     contact: "Contact",
     startProject: "Discuss a project",
@@ -68,8 +70,9 @@ const translations: Record<Language, Translation> = {
   },
   "fa-AF": {
     home: "خانه",
-    work: "کارها",
-    about: "درباره",
+    technology: "فناوری",
+    "engineering-section": "انجنیری",
+    "how-we-work": "روش کار ما",
     capabilities: "خدمات",
     contact: "تماس",
     startProject: "گفتگو درباره پروژه",
@@ -83,8 +86,9 @@ const translations: Record<Language, Translation> = {
   },
   ps: {
     home: "کور",
-    work: "کارونه",
-    about: "زموږ په اړه",
+    technology: "ټکنالوژي",
+    "engineering-section": "انجینري",
+    "how-we-work": "زموږ د کار طریقه",
     capabilities: "خدمتونه",
     contact: "اړیکه",
     startProject: "د پروژې په اړه خبرې",
@@ -98,13 +102,21 @@ const translations: Record<Language, Translation> = {
   },
 };
 
-type NavId = "work" | "about" | "capabilities" | "contact";
+type NavId =
+  | "home"
+  | "technology"
+  | "engineering-section"
+  | "capabilities"
+  | "how-we-work"
+  | "contact";
 
 /** `id` must match the `id` attribute of the matching page section. */
 const navLinks: { id: NavId; href: string }[] = [
-  { id: "work", href: "/#work" },
-  { id: "about", href: "/#about" },
+  { id: "home", href: "/#home" },
+  { id: "technology", href: "/#technology" },
+  { id: "engineering-section", href: "/#engineering-section" },
   { id: "capabilities", href: "/#capabilities" },
+  { id: "how-we-work", href: "/#how-we-work" },
   { id: "contact", href: "/#contact" },
 ];
 
@@ -319,12 +331,11 @@ function DesktopNav({
               onFocus={() => setHoverId(link.id)}
               onBlur={() => setHoverId(null)}
               className={[
-                "relative inline-flex h-9 items-center rounded-lg px-3.5",
-                "whitespace-nowrap text-[13px] font-medium",
-                "transition-colors duration-200",
+                "relative inline-flex h-9 items-center rounded-lg px-2 text-[11px]",
+                "whitespace-nowrap font-medium transition-colors duration-200 xl:px-3 xl:text-[13px]",
                 isActive || hoverId === link.id
                   ? "text-white"
-                  : "text-slate-400",
+                  : "text-slate-300",
                 focusRing,
               ].join(" ")}
             >
@@ -624,7 +635,7 @@ export default function SiteNavbar() {
       }
     }
 
-    const desktop = window.matchMedia("(min-width: 768px)");
+    const desktop = window.matchMedia("(min-width: 1280px)");
     function onBreakpoint(event: MediaQueryListEvent) {
       if (event.matches) setMenuOpen(false);
     }
@@ -670,7 +681,7 @@ export default function SiteNavbar() {
           <div
             className={[
               "relative grid h-14 grid-cols-[1fr_auto] items-center gap-3 rounded-2xl border",
-              "ps-4 pe-2 md:grid-cols-[1fr_auto_1fr] md:pe-2.5 lg:h-16 lg:ps-5",
+              "ps-4 pe-2 lg:grid-cols-[auto_1fr] lg:pe-2.5 xl:grid-cols-[1fr_auto_1fr] xl:h-16 xl:ps-5",
               "transition-[background-color,border-color,box-shadow,backdrop-filter] duration-300",
               "motion-reduce:transition-none",
               solid
@@ -726,7 +737,7 @@ export default function SiteNavbar() {
             </Link>
 
             {/* Desktop links (centred) */}
-            <nav aria-label={text.navigation} className="hidden md:block">
+            <nav aria-label={text.navigation} className="hidden justify-self-end lg:block">
               <DesktopNav
                 activeId={activeId}
                 text={text}
@@ -735,7 +746,7 @@ export default function SiteNavbar() {
             </nav>
 
             {/* Desktop actions */}
-            <div className="hidden items-center gap-2.5 justify-self-end md:flex">
+            <div className="hidden items-center gap-2.5 justify-self-end xl:flex">
               <LanguageMenu
                 language={language}
                 onChange={changeLanguage}
@@ -753,7 +764,7 @@ export default function SiteNavbar() {
               aria-expanded={menuOpen}
               aria-controls={menuId}
               className={[
-                "inline-flex h-10 w-10 items-center justify-center rounded-xl border md:hidden",
+                "inline-flex h-10 w-10 items-center justify-center rounded-xl border lg:hidden",
                 "text-slate-200 transition-colors duration-200",
                 menuOpen
                   ? "border-white/20 bg-white/[0.08]"
@@ -775,7 +786,7 @@ export default function SiteNavbar() {
               ref={sheetRef}
               id={menuId}
               className={[
-                "sf-nav-pop absolute inset-x-0 top-[calc(100%+8px)] md:hidden",
+                "sf-nav-pop absolute inset-x-0 top-[calc(100%+8px)] lg:hidden",
                 "max-h-[calc(100dvh-5.5rem)] overflow-y-auto overscroll-contain",
                 "rounded-2xl border border-white/10 bg-[#080F1D]/[0.97] p-3",
                 "shadow-[0_28px_80px_-10px_rgba(0,0,0,0.8)]",

@@ -24,8 +24,8 @@ const translations = {
   en: {
     badge: "LET'S BUILD SOMETHING MEANINGFUL",
     heading: ['Have a project', 'in mind?', "Let's make it real."],
-    introduction: 'We engineer secure, governed AI for web and mobile products—from on-device intelligence to cloud-connected systems.',
-    tagline: 'AI and software built around your product.',
+    introduction: 'We develop web and mobile software around business requirements, applying AI where it serves the product.',
+    tagline: 'Software and applied AI for business products.',
     formEyebrow: 'Start a conversation',
     formHeading: "Tell us what you're building.",
     formHelp: 'Share a few details and our team will get back to you.',
@@ -59,8 +59,8 @@ const translations = {
   'fa-AF': {
     badge: 'بیایید چیزی معنادار بسازیم',
     heading: ['پروژه‌ای در', 'ذهن دارید؟', 'بیایید آن را واقعی کنیم.'],
-    introduction: 'هوش مصنوعی امن و تحت حاکمیت را برای محصولات وب و موبایل مهندسی می‌کنیم؛ از هوشمندی روی دستگاه تا سیستم‌های متصل به ابر.',
-    tagline: 'هوش مصنوعی و نرم‌افزار بر پایه محصول شما.',
+    introduction: 'نرم‌افزار وب و موبایل را بر پایهٔ نیازهای کسب‌وکار توسعه می‌دهیم و هرجا برای محصول مفید باشد از هوش مصنوعی استفاده می‌کنیم.',
+    tagline: 'نرم‌افزار و هوش مصنوعی کاربردی برای محصولات کسب‌وکار.',
     formEyebrow: 'گفتگو را آغاز کنید',
     formHeading: 'بگویید چه چیزی می‌سازید.',
     formHelp: 'چند جزئیات را با ما در میان بگذارید تا تیم ما با شما تماس بگیرد.',
@@ -94,8 +94,8 @@ const translations = {
   ps: {
     badge: 'راځئ مانادار څه جوړ کړو',
     heading: ['پروژه مو په', 'ذهن کې ده؟', 'راځئ عملي یې کړو.'],
-    introduction: 'موږ د وېب او موبایل محصولاتو لپاره خوندي او اداره شوې مصنوعي ځیرکتیا انجینري کوو؛ له وسیلې دننه ځیرکتیا تر کلاوډ سره نښلول شويو سیسټمونو پورې.',
-    tagline: 'مصنوعي ځیرکتیا او سافټویر ستاسو د محصول لپاره.',
+    introduction: 'موږ د سوداګرۍ اړتیاوو ته په کتو وېب او موبایل سافټویر جوړوو او چېرته چې د محصول لپاره ګټوره وي، مصنوعي ځیرکتیا کاروو.',
+    tagline: 'د سوداګریزو محصولاتو لپاره سافټویر او عملي مصنوعي ځیرکتیا.',
     formEyebrow: 'خبرې پیل کړئ',
     formHeading: 'ووایاست چې څه جوړوئ.',
     formHelp: 'یو څو جزیات راسره شریک کړئ، زموږ ډله به بېرته درسره اړیکه ونیسي.',

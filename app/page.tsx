@@ -308,11 +308,11 @@ const heroTranslations: Record<
   }
 > = {
   en: {
-    eyebrow: 'Software and AI for web and mobile',
-    headline: ['Software and AI for', 'web, mobile & devices.'],
+    eyebrow: 'AI engineering for digital products',
+    headline: ['AI engineering for', 'web & mobile.'],
     description:
-      'We turn ideas into useful web and mobile products, adding AI when it helps.',
-    trustLine: 'Client stories are pending verification.',
+      'We integrate AI into web and mobile products, aligning each solution with your business requirements.',
+    trustLine: 'Weekly demos · fixed-scope quotes · client-owned code · staging before launch · NDAs by default.',
     startProject: 'Start a project',
     exploreServices: 'Explore our services',
     buildHeading: 'AI for real products',
@@ -325,11 +325,11 @@ const heroTranslations: Record<
     workflow: ['Design', 'Build', 'Evolve'],
   },
   'fa-AF': {
-    eyebrow: 'نرم‌افزار و هوش مصنوعی برای وب و موبایل',
-    headline: ['نرم‌افزار و هوش مصنوعی', 'برای وب، موبایل و دستگاه'],
+    eyebrow: 'مهندسی هوش مصنوعی برای محصولات دیجیتال',
+    headline: ['مهندسی هوش مصنوعی برای', 'وب و موبایل'],
     description:
-      'ایده‌ها را به محصولات کاربردی وب و موبایل تبدیل می‌کنیم و هرجا سودمند باشد، هوش مصنوعی می‌افزاییم.',
-    trustLine: 'داستان‌های مشتریان در انتظار تأیید هستند.',
+      'هوش مصنوعی را در محصولات وب و موبایل ادغام می‌کنیم و هر راهکار را با نیازهای کسب‌وکار شما هماهنگ می‌سازیم.',
+    trustLine: 'نمایش هفتگی · پیشنهاد با محدودهٔ ثابت · مالکیت کد برای مشتری · محیط آزمایشی پیش از راه‌اندازی · توافق‌نامهٔ محرمانگی به‌طور پیش‌فرض.',
     startProject: 'آغاز یک پروژه',
     exploreServices: 'دیدن خدمات ما',
     buildHeading: 'هوش مصنوعی برای محصولات واقعی',
@@ -342,11 +342,11 @@ const heroTranslations: Record<
     workflow: ['طراحی', 'ساخت', 'پیشرفت'],
   },
   ps: {
-    eyebrow: 'د وېب او موبایل لپاره سافټویر او ځیرکتیا',
-    headline: ['سافټویر او ځیرکتیا', 'د وېب، موبایل او وسیلې لپاره'],
+    eyebrow: 'د ډیجیټلي محصولاتو لپاره د مصنوعي ځیرکتیا انجینري',
+    headline: ['د مصنوعي ځیرکتیا انجینري', 'د وېب او موبایل لپاره'],
     description:
-      'موږ نظریې په ګټورو وېب او موبایل محصولاتو بدلوو او چېرته چې ګټور وي، ځیرکتیا ورزیاتوو.',
-    trustLine: 'د پېرودونکو کیسې د تایید په تمه دي.',
+      'موږ مصنوعي ځیرکتیا د وېب او موبایل محصولاتو سره یوځای کوو او هر حل ستاسو د سوداګرۍ اړتیاوو سره برابروو.',
+    trustLine: 'اونیزې نندارې · د ثابتې کچې بیې · د کوډ مالکیت د پېرودونکي دی · له خپرېدو مخکې ازمایښتي چاپېریال · د محرميت تړونونه د تګلارې له مخې.',
     startProject: 'یوه پروژه پیل کړئ',
     exploreServices: 'زموږ خدمتونه وګورئ',
     buildHeading: 'د واقعي محصولاتو لپاره مصنوعي ځیرکتیا',
@@ -2335,9 +2335,11 @@ const navMegaItems: NavDropdownItem[] = [
 ];
 
 const navLinks = [
+  { label: 'home', href: '#home' },
+  { label: 'technology', href: '#technology' },
+  { label: 'engineering', href: '#engineering-section' },
   { label: 'services', href: '#capabilities' },
-  { label: 'work', href: '#work' },
-  { label: 'about', href: '#about' },
+  { label: 'how we work', href: '#how-we-work' },
   { label: 'contact', href: '#contact' },
 ];
 
@@ -2682,18 +2684,17 @@ const footerLinks = [
   {
     title: "Services",
     links: [
+      { label: "Website Development", href: "/#capabilities" },
+      { label: "Mobile Applications", href: "/#capabilities" },
       { label: "Custom Software", href: "/#capabilities" },
-      { label: "Web & Mobile", href: "/#capabilities" },
       { label: "AI & Automation", href: "/#capabilities" },
-      { label: "Cloud & Data", href: "/#engineering-section" },
-      { label: "Support & Partnership", href: "/#contact" },
+      { label: "UI/UX Design", href: "/#capabilities" },
     ],
   },
   {
     title: "Company",
     links: [
-      { label: "About Us", href: "/#about" },
-      { label: "Our Work", href: "/#work" },
+      { label: "How We Work", href: "/#how-we-work" },
       { label: "Our Approach", href: "/#engineering-section" },
     ],
   },
@@ -2704,6 +2705,10 @@ const footerLinks = [
       {
         label: "Email Us",
         href: "mailto:info@softechsoftwaresystems.com",
+      },
+      {
+        label: "Instagram",
+        href: "https://www.instagram.com/softech_software_solutions?obrf=cHc1bzQyMm9udHd2",
       },
     ],
   },
@@ -2732,8 +2737,8 @@ const footerTranslations: Record<
     homeLabel: 'SofTech Solutions home',
     groups: [
       { title: 'Services', links: ['Website Development', 'Mobile Applications', 'Custom Software', 'AI & Automation', 'UI/UX Design'] },
-      { title: 'Company', links: ['About Us', 'Our Work', 'Our Approach'] },
-      { title: 'Get in Touch', links: ['Start a Project', 'info@softechsolutions.com'] },
+      { title: 'Company', links: ['How We Work', 'Our Approach'] },
+      { title: 'Get in Touch', links: ['Start a Project', 'info@softechsolutions.com', 'Instagram'] },
       { title: 'Policies', links: ['Privacy', 'Terms'] },
     ],
     copyright: 'All rights reserved.',
@@ -2745,8 +2750,8 @@ const footerTranslations: Record<
     homeLabel: 'صفحه اصلی SofTech Solutions',
     groups: [
       { title: 'خدمات', links: ['ساخت وب‌سایت', 'اپلیکیشن‌های موبایل', 'نرم‌افزار سفارشی', 'هوش مصنوعی و خودکارسازی', 'طراحی رابط و تجربه کاربری'] },
-      { title: 'شرکت', links: ['درباره ما', 'کارهای ما', 'رویکرد کاری'] },
-      { title: 'تماس با ما', links: ['آغاز یک پروژه', 'info@softechsolutions.com'] },
+      { title: 'شرکت', links: ['روش کار ما', 'رویکرد کاری'] },
+      { title: 'تماس با ما', links: ['آغاز یک پروژه', 'info@softechsolutions.com', 'اینستاگرام'] },
       { title: 'سیاست‌ها', links: ['حریم خصوصی', 'شرایط'] },
     ],
     copyright: 'تمام حقوق محفوظ است.',
@@ -2758,8 +2763,8 @@ const footerTranslations: Record<
     homeLabel: 'د SofTech Solutions کورپاڼه',
     groups: [
       { title: 'خدمتونه', links: ['د وېب‌پاڼې جوړول', 'د موبایل اپلېکېشنونه', 'ځانګړی سافټویر', 'مصنوعي ځیرکتیا او اتومات', 'د کارن‌مخ او تجربې طرحه'] },
-      { title: 'شرکت', links: ['زموږ په اړه', 'زموږ کارونه', 'زموږ تګلاره'] },
-      { title: 'اړیکه ونیسئ', links: ['یوه پروژه پیل کړئ', 'info@softechsolutions.com'] },
+      { title: 'شرکت', links: ['زموږ د کار طریقه', 'زموږ تګلاره'] },
+      { title: 'اړیکه ونیسئ', links: ['یوه پروژه پیل کړئ', 'info@softechsolutions.com', 'انسټاګرام'] },
       { title: 'تګلارې', links: ['محرمیت', 'شرایط'] },
     ],
     copyright: 'ټول حقونه خوندي دي.',
@@ -2846,6 +2851,8 @@ function Footer({ language }: { language: SiteLanguage }) {
                     <li key={item.label}>
                       <Link
                         href={item.href}
+                        target={item.label === "Instagram" ? "_blank" : undefined}
+                        rel={item.label === "Instagram" ? "noreferrer" : undefined}
                         className="inline-flex min-h-6 items-center break-words text-xs leading-5 text-slate-300 transition-colors duration-200 hover:text-[#5AE8B7] focus-visible:rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#28D9A0] focus-visible:ring-offset-2 focus-visible:ring-offset-[#050914] sm:text-[13px]"
                       >
                         {copy.groups[groupIndex].links[linkIndex]}
@@ -3309,6 +3316,7 @@ useLayoutEffect(() => {
 <CapabilitiesSection language={heroLanguage} />
 </div>
 
+<WorkAboutSections language={heroLanguage} />
 
 {/* ═══════════════════════════════════════════════════════════════════════
     SECTION 5 — SECURITY
@@ -3319,7 +3327,6 @@ useLayoutEffect(() => {
 >
   {/* SECTION 6 — CONTACT CTA */}
 <ContactSection language={heroLanguage} />
-
 </section>
 
 

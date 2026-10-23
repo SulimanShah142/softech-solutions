@@ -8,7 +8,7 @@ import LaserFlow from "@/components/LaserFlow";
 import type { SiteLanguage } from "@/lib/site-language";
 
 /* ───────────────────────── COPY ───────────────────────── */
-type CardCopy = { label: string; title: string; description: string; footer: string; tags?: string[] };
+type CardCopy = { label: string; title: string; description: string; footer: string };
 type Copy = {
   eyebrow: string;
   heading: [string, string];
@@ -23,12 +23,12 @@ const copy: Record<SiteLanguage, Copy> = {
   en: {
     eyebrow: "The technology studio",
     heading: ["Engineering depth,", "built for enterprise scale."],
-    description: "Four disciplines, one accountable team. We take responsibility for the whole system, from the first screen to the last server.",
+    description: "Product engineering, applied AI, blockchain, and cloud services shaped around each project's needs.",
     cards: [
-      { label: "Product engineering", title: "Web, mobile and custom software", description: "Fast, secure products designed around your workflows and built to last.", footer: "Web · iOS · Android · Internal tools", tags: ["Cross-Platform Systems", "Legacy Modernization", "High-Availability Architecture"] },
-      { label: "Applied AI", title: "AI, ML and data analytics", description: "Models and dashboards that turn raw data into decisions you can act on.", footer: "Custom models · Dashboards · Reports" },
-      { label: "Web3", title: "Blockchain and smart contracts", description: "Audited Smart Contracts & Cryptographic Ledgers for Enterprise Networks.", footer: "dApps · Contracts · Tokens" },
-      { label: "Cloud and security", title: "Cloud, DevOps and protection", description: "Scalable infrastructure, automated releases and security that stays on.", footer: "Cloud · CI/CD · Monitoring", tags: ["Zero-Trust Architecture", "Automated CI/CD Pipelines", "Disaster Recovery"] },
+      { label: "Product engineering", title: "Web, mobile and custom software", description: "Web, mobile, and custom software built around your product and workflows.", footer: "Web · iOS · Android · Internal tools" },
+      { label: "Applied AI", title: "AI, ML and data analytics", description: "AI, machine learning, and data analytics for product and operational use cases.", footer: "Custom models · Dashboards · Reports" },
+      { label: "Web3", title: "Blockchain and smart contracts", description: "Blockchain and smart contract development for use cases that benefit from distributed ledgers.", footer: "dApps · Contracts · Tokens" },
+      { label: "Cloud and security", title: "Cloud, DevOps and protection", description: "Cloud infrastructure, DevOps workflows, and security practices tailored to your environment.", footer: "Cloud · CI/CD · Monitoring" },
     ],
     footerHeading: "Not sure which discipline you need?",
     footerDescription: "Tell us what you are building. We will map the right team and plan in one conversation.",
@@ -37,12 +37,12 @@ const copy: Record<SiteLanguage, Copy> = {
   "fa-AF": {
     eyebrow: "استودیوی فناوری",
     heading: ["عمق مهندسی،", "ساخته‌شده برای مقیاس سازمانی."],
-    description: "چهار تخصص، یک تیم پاسخ‌گو. ما مسئولیت کل سیستم را می‌پذیریم؛ از اولین صفحه تا آخرین سرور.",
+    description: "مهندسی محصول، هوش مصنوعی کاربردی، بلاکچین و خدمات ابری بر پایهٔ نیازهای هر پروژه.",
     cards: [
-      { label: "مهندسی محصول", title: "وب، موبایل و نرم‌افزار سفارشی", description: "محصولات سریع و امن که بر اساس روند کاری شما طراحی و برای ماندگاری ساخته می‌شوند.", footer: "وب · iOS · Android · ابزارهای داخلی", tags: ["سامانه‌های چندسکویی", "نوسازی سامانه‌های قدیمی", "معماری با دسترس‌پذیری بالا"] },
-      { label: "هوش مصنوعی کاربردی", title: "هوش مصنوعی، یادگیری ماشین و تحلیل داده", description: "مدل‌ها و داشبوردهایی که داده خام را به تصمیم قابل اجرا تبدیل می‌کنند.", footer: "مدل‌های سفارشی · داشبورد · گزارش" },
-      { label: "وب۳", title: "بلاکچین و قراردادهای هوشمند", description: "قراردادهای هوشمندِ تفتیش‌شده و دفترکل‌های رمزنگاری‌شده برای شبکه‌های سازمانی.", footer: "dApp · قرارداد هوشمند · توکن" },
-      { label: "ابر و امنیت", title: "زیرساخت ابری، دواپس و حفاظت", description: "زیرساخت مقیاس‌پذیر، انتشار خودکار و امنیتی که همیشه فعال است.", footer: "ابر · CI/CD · پایش", tags: ["معماری اعتماد صفر", "خطوط CI/CD خودکار", "بازیابی پس از فاجعه"] },
+      { label: "مهندسی محصول", title: "وب، موبایل و نرم‌افزار سفارشی", description: "نرم‌افزار وب، موبایل و سفارشی بر پایهٔ محصول و روندهای کاری شما.", footer: "وب · iOS · Android · ابزارهای داخلی" },
+      { label: "هوش مصنوعی کاربردی", title: "هوش مصنوعی، یادگیری ماشین و تحلیل داده", description: "هوش مصنوعی، یادگیری ماشین و تحلیل داده برای کاربردهای محصول و عملیات.", footer: "مدل‌های سفارشی · داشبورد · گزارش" },
+      { label: "وب۳", title: "بلاکچین و قراردادهای هوشمند", description: "توسعهٔ بلاکچین و قرارداد هوشمند برای مواردی که از دفترکل توزیع‌شده بهره می‌برند.", footer: "dApp · قرارداد هوشمند · توکن" },
+      { label: "ابر و امنیت", title: "زیرساخت ابری، دواپس و حفاظت", description: "زیرساخت ابری، روندهای دواپس و شیوه‌های امنیتی متناسب با محیط شما.", footer: "ابر · CI/CD · پایش" },
     ],
     footerHeading: "مطمئن نیستید به کدام تخصص نیاز دارید؟",
     footerDescription: "بگویید چه می‌سازید. در یک گفتگو تیم و برنامه مناسب را مشخص می‌کنیم.",
@@ -51,12 +51,12 @@ const copy: Record<SiteLanguage, Copy> = {
   ps: {
     eyebrow: "د ټکنالوژۍ سټوډیو",
     heading: ["د انجینرۍ ژوروالی،", "د سازمان کچې لپاره جوړ شوی."],
-    description: "څلور تخصصونه، یو ځواب ویونکی ټیم. موږ د ټول سیسټم مسولیت پر غاړه اخلو، له لومړي پاڼې تر وروستي سرور پورې.",
+    description: "د محصول انجینري، عملي مصنوعي ځیرکتیا، بلاکچین او کلاوډ خدمتونه د هرې پروژې له اړتیاوو سره سم.",
     cards: [
-      { label: "د محصول انجینري", title: "وېب، موبایل او دودیز سافټویر", description: "چټک او خوندي محصولات چې ستاسو د کاري بهیر پر بنسټ جوړېږي.", footer: "وېب · iOS · Android · کورني وسایل", tags: ["د څو پلېټفارمونو سیسټمونه", "د زړو سیسټمونو عصري کول", "د لوړې لاسرسي‌وړتیا جوړښت"] },
-      { label: "کارېدونکې مصنوعي ځیرکتیا", title: "مصنوعي ځیرکتیا، ماشیني زده کړه او ډاټا تحلیل", description: "ماډلونه او ډش بورډونه چې خام ډاټا په کړنې پرېکړو بدلوي.", footer: "دودیز ماډلونه · ډش بورډ · راپورونه" },
-      { label: "ویب۳", title: "بلاکچین او هوښيار قراردادونه", description: "د تصدیو شبکو لپاره تفتیش شوي هوښیار قراردادونه او کریپټوګرافیک لیجرونه.", footer: "dApp · هوښيار قرارداد · ټوکن" },
-      { label: "کلاوډ او امنیت", title: "کلاوډ، DevOps او ساتنه", description: "پراخېدونکې زیربنا، اتومات خپرونه او تل فعاله امنیت.", footer: "کلاوډ · CI/CD · څارنه", tags: ["د صفر باور جوړښت", "اتومات CI/CD پایپ‌لاینونه", "له ناورین وروسته بېرته رغونه"] },
+      { label: "د محصول انجینري", title: "وېب، موبایل او دودیز سافټویر", description: "د وېب، موبایل او دودیز سافټویر حللارې ستاسو د محصول او کاري بهیر له مخې جوړېږي.", footer: "وېب · iOS · Android · کورني وسایل" },
+      { label: "کارېدونکې مصنوعي ځیرکتیا", title: "مصنوعي ځیرکتیا، ماشیني زده کړه او ډاټا تحلیل", description: "د محصول او ورځنیو چارو لپاره د مصنوعي ځیرکتیا، ماشیني زده کړې او ډاټا تحلیل.", footer: "دودیز ماډلونه · ډش بورډ · راپورونه" },
+      { label: "ویب۳", title: "بلاکچین او هوښيار قراردادونه", description: "د هغو اړتیاوو لپاره د بلاکچین او هوښیار قراردادونو جوړول چې وېشل شوي لیجرونه ورته ګټور وي.", footer: "dApp · هوښيار قرارداد · ټوکن" },
+      { label: "کلاوډ او امنیت", title: "کلاوډ، DevOps او ساتنه", description: "ستاسو د چاپېریال له اړتیاوو سره سم کلاوډ زیربنا، د DevOps بهیرونه او امنیتي کړنلارې.", footer: "کلاوډ · CI/CD · څارنه" },
     ],
     footerHeading: "نه پوهېږئ کوم تخصص ته اړتیا لرئ؟",
     footerDescription: "راته ووایاست څه جوړوئ. په یوه خبرو کې به سم ټیم او پلان وټاکو.",
@@ -120,11 +120,11 @@ function PipelineVisual() {
   );
 }
 
-const META: { icon: typeof Code2; rgb: string; tags: string[]; Visual: () => ReactNode }[] = [
-  { icon: Code2, rgb: "125,203,255", tags: ["React", "Next.js", "Flutter"], Visual: EditorVisual },
-  { icon: Cpu, rgb: "139,140,255", tags: ["Python", "TensorFlow", "SQL"], Visual: ChartVisual },
-  { icon: Boxes, rgb: "40,217,160", tags: ["Solidity", "Rust", "Ethers"], Visual: ChainVisual },
-  { icon: ShieldCheck, rgb: "76,159,255", tags: ["AWS", "Kubernetes", "Docker"], Visual: PipelineVisual },
+const META: { icon: typeof Code2; rgb: string; Visual: () => ReactNode }[] = [
+  { icon: Code2, rgb: "125,203,255", Visual: EditorVisual },
+  { icon: Cpu, rgb: "139,140,255", Visual: ChartVisual },
+  { icon: Boxes, rgb: "40,217,160", Visual: ChainVisual },
+  { icon: ShieldCheck, rgb: "76,159,255", Visual: PipelineVisual },
 ];
 
 /* ───────────────────────── HOOKS ───────────────────────── */
@@ -271,7 +271,6 @@ export default function TechnologyLaserSection({ language }: { language: SiteLan
                 <span className="relative flex size-2 shrink-0"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan-300 opacity-30 motion-reduce:animate-none" /><span className="relative size-2 rounded-full bg-cyan-200" /></span>
                 <span className={`text-[11px] font-semibold text-cyan-100 ${rtl ? "" : "tracking-[0.12em]"}`}>{t.eyebrow}</span>
                 <span className="h-3 w-px bg-white/15" />
-                <span className="font-mono text-[10px] tracking-wider text-slate-400">02 / 04</span>
               </div>
             </div>
 
@@ -329,12 +328,6 @@ export default function TechnologyLaserSection({ language }: { language: SiteLan
                         <p className="mt-3 text-sm leading-7 text-slate-300">{c.description}</p>
 
                         <div className="mt-5"><Visual /></div>
-
-                        <div dir="ltr" className="mt-4 flex flex-wrap gap-1.5">
-                          {(c.tags ?? m.tags).map((tag) => (
-                            <span key={tag} className="rounded-md border border-white/[0.09] bg-white/[0.03] px-2.5 py-1 font-mono text-[10px] text-slate-300 transition-colors group-hover:border-white/20 group-hover:text-white">{tag}</span>
-                          ))}
-                        </div>
 
                         <p className="mt-auto border-t border-white/[0.08] pt-4 text-xs leading-5 text-slate-400 [margin-top:1.5rem]">{c.footer}</p>
                       </div>
